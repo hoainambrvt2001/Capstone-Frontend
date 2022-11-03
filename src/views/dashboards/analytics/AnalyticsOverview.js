@@ -4,6 +4,7 @@ import Card from '@mui/material/Card'
 import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
+import { Circle } from 'mdi-material-ui'
 
 // ** Custom Components Imports
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
@@ -25,9 +26,8 @@ const AnalyticsOverview = () => {
       radialBar: {
         hollow: { size: '55%' },
         dataLabels: {
-          name: { show: false },
           value: {
-            offsetY: 5
+            offsetY: 15
           }
         }
       }
@@ -44,22 +44,47 @@ const AnalyticsOverview = () => {
       active: {
         filter: { type: 'none' }
       }
-    }
+    },
+    labels: ['People']
   }
 
   return (
     <Card>
-      <CardContent sx={{ '& .apexcharts-canvas .apexcharts-text': { fontWeight: 600, fontSize: '1rem' } }}>
+      <CardContent sx={{ '& .apexcharts-canvas .apexcharts-text': { fontWeight: 600, fontSize: '1.5rem' } }}>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
           <Typography variant='h6' sx={{ mr: 1.5 }}>
-            $67.1k
-          </Typography>
-          <Typography variant='subtitle2' sx={{ color: 'success.main' }}>
-            +49%
+            Room Available
           </Typography>
         </Box>
-        <Typography variant='body2'>Overview</Typography>
-        <ReactApexcharts type='radialBar' height={119} series={[64]} options={options} />
+        <ReactApexcharts type='radialBar' height={300} series={[70]} options={options} />
+        <Box sx={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Circle sx={{ color: 'primary.main' }} />
+              <Typography variant='subtitle1' sx={{ ml: 2, color: 'text.secondary' }}>
+                In room
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Typography variant='subtitle1' sx={{ color: 'text.primary' }}>
+                80 people
+              </Typography>
+            </Box>
+          </Box>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Circle sx={{ color: 'grey.200' }} />
+              <Typography variant='subtitle1' sx={{ ml: 2, color: 'text.secondary' }}>
+                Available
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+              <Typography variant='subtitle1' sx={{ color: 'text.primary' }}>
+                40 people
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
       </CardContent>
     </Card>
   )
