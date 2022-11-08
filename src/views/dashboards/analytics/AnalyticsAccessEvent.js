@@ -13,45 +13,32 @@ import { DataGrid } from '@mui/x-data-grid'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
+import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 // ** Icons Imports
-import Laptop from 'mdi-material-ui/Laptop'
-import ChartDonut from 'mdi-material-ui/ChartDonut'
-import CogOutline from 'mdi-material-ui/CogOutline'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import DotsVertical from 'mdi-material-ui/DotsVertical'
 import PencilOutline from 'mdi-material-ui/PencilOutline'
-import DeleteOutline from 'mdi-material-ui/DeleteOutline'
-import AccountOutline from 'mdi-material-ui/AccountOutline'
+import PlayCircle from 'mdi-material-ui/PlayCircle'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Custom Components Imports
-import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Actions Imports
-import { fetchData, deleteUser } from 'src/store/apps/user'
-
-// ** Vars
-const userRoleObj = {
-  admin: <Laptop sx={{ mr: 2, color: 'error.main' }} />,
-  author: <CogOutline sx={{ mr: 2, color: 'warning.main' }} />,
-  editor: <PencilOutline sx={{ mr: 2, color: 'info.main' }} />,
-  maintainer: <ChartDonut sx={{ mr: 2, color: 'success.main' }} />,
-  subscriber: <AccountOutline sx={{ mr: 2, color: 'primary.main' }} />
-}
-
-const userStatusObj = {
-  active: 'success',
-  pending: 'warning',
-  inactive: 'secondary'
-}
+import { fetchAccessEvents } from 'src/store/apps/access-event'
+import Image from 'next/image'
 
 // ** Styled component for the link for the avatar with image
 const AvatarWithImageLink = styled(Link)(({ theme }) => ({
@@ -98,9 +85,6 @@ const MenuItemLink = styled('a')(({ theme }) => ({
 }))
 
 const RowOptions = ({ id }) => {
-  // ** Hooks
-  const dispatch = useDispatch()
-
   // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
@@ -111,11 +95,6 @@ const RowOptions = ({ id }) => {
 
   const handleRowOptionsClose = () => {
     setAnchorEl(null)
-  }
-
-  const handleDelete = () => {
-    dispatch(deleteUser(id))
-    handleRowOptionsClose()
   }
 
   return (
@@ -150,160 +129,224 @@ const RowOptions = ({ id }) => {
           <PencilOutline fontSize='small' sx={{ mr: 2 }} />
           Edit
         </MenuItem>
-        <MenuItem onClick={handleDelete}>
-          <DeleteOutline fontSize='small' sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
       </Menu>
     </>
   )
 }
 
-const columns = [
-  {
-    flex: 0.2,
-    minWidth: 230,
-    field: 'fullName',
-    headerName: 'User',
-    renderCell: ({ row }) => {
-      const { id, fullName, username } = row
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Link href={`/apps/user/view/${id}`} passHref>
-              <Typography
-                noWrap
-                component='a'
-                variant='subtitle2'
-                sx={{ color: 'text.primary', textDecoration: 'none' }}
-              >
-                {fullName}
-              </Typography>
-            </Link>
-            <Link href={`/apps/user/view/${id}`} passHref>
-              <Typography noWrap component='a' variant='caption' sx={{ textDecoration: 'none' }}>
-                @{username}
-              </Typography>
-            </Link>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.2,
-    minWidth: 250,
-    field: 'email',
-    headerName: 'Email',
-    renderCell: ({ row }) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {row.email}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    field: 'role',
-    minWidth: 150,
-    headerName: 'Role',
-    renderCell: ({ row }) => {
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {userRoleObj[row.role]}
-          <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-            {row.role}
-          </Typography>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    minWidth: 120,
-    headerName: 'Plan',
-    field: 'currentPlan',
-    renderCell: ({ row }) => {
-      return (
-        <Typography variant='subtitle1' noWrap sx={{ textTransform: 'capitalize' }}>
-          {row.currentPlan}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 110,
-    field: 'status',
-    headerName: 'Status',
-    renderCell: ({ row }) => {
-      return (
-        <CustomChip
-          skin='light'
-          size='small'
-          label={row.status}
-          color={userStatusObj[row.status]}
-          sx={{ textTransform: 'capitalize', '& .MuiChip-label': { lineHeight: '18px' } }}
+const CameraModel = ({ handleCloseModel, cameraModel }) => {
+  return (
+    <Dialog
+      open={cameraModel.showModel}
+      onClose={handleCloseModel}
+      aria-labelledby='alert-dialog-title'
+      aria-describedby='alert-dialog-description'
+    >
+      <DialogTitle id='alert-dialog-title'>{`Check-in/out images of ${cameraModel.userName}`}</DialogTitle>
+      <DialogContent>
+        <Image
+          src={cameraModel.imgUrl ? cameraModel.imgUrl : '/images/stickers/access-event.png'}
+          width={1080}
+          height={720}
         />
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 90,
-    sortable: false,
-    field: 'actions',
-    headerName: 'Actions',
-    renderCell: ({ row }) => <RowOptions id={row.id} />
-  }
-]
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseModel}>Close</Button>
+        <Button onClick={handleCloseModel} variant='contained'>
+          Confirm
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
+}
 
 const AnalyticsAccessEvent = () => {
   // ** State
   const [pageSize, setPageSize] = useState(10)
+  const [cameraModel, setCameraModel] = useState({
+    imgUrl: '',
+    showModel: false,
+    userName: ''
+  })
 
   // ** Hooks
   const dispatch = useDispatch()
-  const store = useSelector(state => state.user)
+  const store = useSelector(state => state.access_event)
   useEffect(() => {
-    dispatch(
-      fetchData({
-        role: '',
-        status: '',
-        q: '',
-        currentPlan: ''
-      })
-    )
+    dispatch(fetchAccessEvents({}))
   }, [dispatch])
 
-  return (
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <Card>
-          <Box
-            sx={{
-              p: 5,
-              pb: 3
-            }}
-          >
-            <Typography variant='h6'>Room Access Activity</Typography>
+  // ** Handle interact with model
+  const handleOpenModel = (imgUrl, userName) => {
+    setCameraModel({
+      imgUrl,
+      showModel: true,
+      userName
+    })
+  }
+
+  const handleCloseModel = () => {
+    setCameraModel({
+      imgUrl: '',
+      showModel: false,
+      userName: ''
+    })
+  }
+
+  const columns = [
+    {
+      flex: 0.2,
+      minWidth: 230,
+      field: 'fullName',
+      headerName: 'User',
+      renderCell: ({ row }) => {
+        const { id, fullName, email } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderClient(row)}
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Link href={`/apps/user/view/${id}`} passHref>
+                <Typography
+                  noWrap
+                  component='a'
+                  variant='subtitle2'
+                  sx={{ color: 'text.primary', textDecoration: 'none' }}
+                >
+                  {fullName}
+                </Typography>
+              </Link>
+              <Link href={`/apps/user/view/${id}`} passHref>
+                <Typography noWrap component='a' variant='caption' sx={{ textDecoration: 'none' }}>
+                  {email}
+                </Typography>
+              </Link>
+            </Box>
           </Box>
-          <DataGrid
-            autoHeight
-            rows={store.data}
-            columns={columns}
-            pageSize={pageSize}
-            disableSelectionOnClick
-            rowsPerPageOptions={[10, 25, 50]}
-            sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
-            onPageSizeChange={newPageSize => setPageSize(newPageSize)}
-          />
-        </Card>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 160,
+      field: 'contact',
+      headerName: 'Mobile',
+      renderCell: ({ row }) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {row.contact}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 100,
+      field: 'accessImg',
+      headerName: 'Camera',
+      renderCell: ({ row }) => {
+        return (
+          <IconButton size='small' onClick={() => handleOpenModel(row.accessImg, row.fullName)}>
+            <PlayCircle sx={{ color: 'primary.main', fontSize: '2.5rem' }} />
+          </IconButton>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 180,
+      field: 'credential',
+      headerName: 'Credential',
+      renderCell: ({ row }) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {row.credential}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 120,
+      field: 'result',
+      headerName: 'Result',
+      renderCell: ({ row }) => {
+        return (
+          <Typography
+            noWrap
+            variant='body2'
+            fontWeight={600}
+            sx={{ color: row.result === 'Granted' ? 'success.main' : 'error.main' }}
+          >
+            {row.result}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 100,
+      field: 'time',
+      headerName: 'Time',
+      renderCell: ({ row }) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {row.time}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.2,
+      minWidth: 150,
+      field: 'date',
+      headerName: 'Date',
+      renderCell: ({ row }) => {
+        return (
+          <Typography noWrap variant='body2'>
+            {row.date}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 90,
+      sortable: false,
+      field: 'actions',
+      headerName: 'Actions',
+      renderCell: ({ row }) => <RowOptions id={row.id} />
+    }
+  ]
+
+  return (
+    <Box>
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
+          <Card>
+            <Box
+              sx={{
+                p: 5,
+                pb: 3
+              }}
+            >
+              <Typography variant='h6'>Room Access Activity</Typography>
+            </Box>
+            <DataGrid
+              autoHeight
+              rows={store.data}
+              columns={columns}
+              pageSize={pageSize}
+              disableSelectionOnClick
+              rowsPerPageOptions={[10, 25, 50]}
+              sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
+              onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+            />
+          </Card>
+        </Grid>
       </Grid>
-    </Grid>
+      <CameraModel handleCloseModel={handleCloseModel} cameraModel={cameraModel} />
+    </Box>
   )
 }
 
