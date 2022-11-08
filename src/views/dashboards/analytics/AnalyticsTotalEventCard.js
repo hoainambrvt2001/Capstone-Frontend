@@ -7,7 +7,7 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 
-const TotalEventCard = ({ eventNumber, eventName, eventImg, imgWidth }) => {
+const AnalyticsTotalEventCard = ({ eventNumber, eventName, eventImg, imgWidth }) => {
   return (
     <Card>
       <CardContent>
@@ -29,4 +29,4 @@ const TotalEventCard = ({ eventNumber, eventName, eventImg, imgWidth }) => {
   )
 }
 
-export default TotalEventCard
+export default AnalyticsTotalEventCard

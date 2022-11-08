@@ -6,21 +6,26 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import RechartsWrapper from 'src/@core/styles/libs/recharts'
 
 // ** Demo Components Imports
-import AnalyticsOverview from 'src/views/dashboards/analytics/AnalyticsOverview'
-import AnalyticsVisitsByDay from 'src/views/dashboards/analytics/AnalyticsVisitsByDay'
 import AnalyticsAbnormalEvents from 'src/views/dashboards/analytics/AnalyticsAbnormalEvent'
-import TotalEventCard from 'src/views/dashboards/analytics/AnalyticsTotalEventCard'
 import AnalyticsAccessEvent from 'src/views/dashboards/analytics/AnalyticsAccessEvent'
+import AnalyticsOverview from 'src/views/dashboards/analytics/AnalyticsOverview'
+import AnalyticsTotalEventCard from 'src/views/dashboards/analytics/AnalyticsTotalEventCard'
+import AnalyticsVisitsByDay from 'src/views/dashboards/analytics/AnalyticsVisitsByDay'
 
 const AnalyticsDashboard = () => {
   return (
     <ApexChartWrapper>
       <Grid container spacing={6} className='match-height'>
         <Grid item xs={12} sm={6} md={6}>
-          <TotalEventCard eventName={'Total Visitors'} eventNumber={1000} eventImg={'total-visitor'} imgWidth={250} />
+          <AnalyticsTotalEventCard
+            eventName={'Total Visitors'}
+            eventNumber={1000}
+            eventImg={'total-visitor'}
+            imgWidth={250}
+          />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <TotalEventCard
+          <AnalyticsTotalEventCard
             eventName={'Total Abnormal Events'}
             eventNumber={50}
             eventImg={'total-abnormal'}

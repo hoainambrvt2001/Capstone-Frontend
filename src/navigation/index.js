@@ -25,25 +25,29 @@ const navigation = () => {
     {
       title: 'Dashboards',
       icon: HomeOutline,
-      badgeContent: 'new',
-      badgeColor: 'error',
       children: [
-        {
-          title: 'CRM',
-          path: '/dashboards/crm'
-        },
         {
           title: 'Analytics',
           path: '/dashboards/analytics'
-        },
-        {
-          title: 'eCommerce',
-          path: '/dashboards/ecommerce'
         }
       ]
     },
     {
       sectionTitle: 'Apps & Pages'
+    },
+    {
+      title: 'User',
+      icon: AccountOutline,
+      children: [
+        {
+          title: 'List',
+          path: '/apps/user/list'
+        },
+        {
+          title: 'View',
+          path: '/apps/user/view'
+        }
+      ]
     },
     {
       title: 'Email',
@@ -82,20 +86,7 @@ const navigation = () => {
         }
       ]
     },
-    {
-      title: 'User',
-      icon: AccountOutline,
-      children: [
-        {
-          title: 'List',
-          path: '/apps/user/list'
-        },
-        {
-          title: 'View',
-          path: '/apps/user/view'
-        }
-      ]
-    },
+
     {
       title: 'Roles & Permissions',
       icon: LockOutline,
@@ -361,7 +352,7 @@ const navigation = () => {
         {
           title: 'More',
           path: '/components/more'
-        },
+        }
       ]
     },
     {
@@ -418,7 +409,7 @@ const navigation = () => {
         {
           title: 'Input Mask',
           path: '/forms/form-elements/input-mask'
-        },
+        }
       ]
     },
     {
