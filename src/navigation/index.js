@@ -44,6 +44,14 @@ const navigation = () => {
           path: '/apps/user/list'
         },
         {
+          title: 'Add User',
+          path: '/apps/user/add'
+        },
+        {
+          title: 'Edit User',
+          path: '/apps/user/edit'
+        },
+        {
           title: 'View',
           path: '/apps/user/view'
         }

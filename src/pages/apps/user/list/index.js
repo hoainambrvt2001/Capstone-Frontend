@@ -50,16 +50,8 @@ import AddUserDrawer from 'src/views/apps/user/list/AddUserDrawer'
 // ** Vars
 const userRoleObj = {
   admin: <Laptop sx={{ mr: 2, color: 'error.main' }} />,
-  author: <CogOutline sx={{ mr: 2, color: 'warning.main' }} />,
-  editor: <PencilOutline sx={{ mr: 2, color: 'info.main' }} />,
-  maintainer: <ChartDonut sx={{ mr: 2, color: 'success.main' }} />,
+  manager: <CogOutline sx={{ mr: 2, color: 'warning.main' }} />,
   subscriber: <AccountOutline sx={{ mr: 2, color: 'primary.main' }} />
-}
-
-const userStatusObj = {
-  active: 'success',
-  pending: 'warning',
-  inactive: 'secondary'
 }
 
 // ** Styled component for the link for the avatar with image
@@ -215,6 +207,32 @@ const columns = [
     }
   },
   {
+    flex: 0.2,
+    minWidth: 150,
+    field: 'contact',
+    headerName: 'Mobile',
+    renderCell: ({ row }) => {
+      return (
+        <Typography noWrap variant='body2'>
+          {row.contact}
+        </Typography>
+      )
+    }
+  },
+  {
+    flex: 0.2,
+    minWidth: 250,
+    field: 'address',
+    headerName: 'Address',
+    renderCell: ({ row }) => {
+      return (
+        <Typography noWrap variant='body2'>
+          {row.address}
+        </Typography>
+      )
+    }
+  },
+  {
     flex: 0.15,
     field: 'role',
     minWidth: 150,
@@ -231,36 +249,6 @@ const columns = [
     }
   },
   {
-    flex: 0.15,
-    minWidth: 120,
-    headerName: 'Plan',
-    field: 'currentPlan',
-    renderCell: ({ row }) => {
-      return (
-        <Typography variant='subtitle1' noWrap sx={{ textTransform: 'capitalize' }}>
-          {row.currentPlan}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 110,
-    field: 'status',
-    headerName: 'Status',
-    renderCell: ({ row }) => {
-      return (
-        <CustomChip
-          skin='light'
-          size='small'
-          label={row.status}
-          color={userStatusObj[row.status]}
-          sx={{ textTransform: 'capitalize', '& .MuiChip-label': { lineHeight: '18px' } }}
-        />
-      )
-    }
-  },
-  {
     flex: 0.1,
     minWidth: 90,
     sortable: false,
@@ -273,9 +261,7 @@ const columns = [
 const UserList = () => {
   // ** State
   const [role, setRole] = useState('')
-  const [plan, setPlan] = useState('')
   const [value, setValue] = useState('')
-  const [status, setStatus] = useState('')
   const [pageSize, setPageSize] = useState(10)
   const [addUserOpen, setAddUserOpen] = useState(false)
 
@@ -286,12 +272,10 @@ const UserList = () => {
     dispatch(
       fetchData({
         role,
-        status,
-        q: value,
-        currentPlan: plan
+        q: value
       })
     )
-  }, [dispatch, plan, role, status, value])
+  }, [dispatch, role, value])
 
   const handleFilter = useCallback(val => {
     setValue(val)
@@ -301,13 +285,6 @@ const UserList = () => {
     setRole(e.target.value)
   }, [])
 
-  const handlePlanChange = useCallback(e => {
-    setPlan(e.target.value)
-  }, [])
-
-  const handleStatusChange = useCallback(e => {
-    setStatus(e.target.value)
-  }, [])
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
   return (
@@ -317,7 +294,7 @@ const UserList = () => {
           <CardHeader title='Search Filters' sx={{ pb: 4, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
           <CardContent>
             <Grid container spacing={6}>
-              <Grid item sm={4} xs={12}>
+              <Grid item sm={6} xs={12}>
                 <FormControl fullWidth>
                   <InputLabel id='role-select'>Select Role</InputLabel>
                   <Select
@@ -331,49 +308,8 @@ const UserList = () => {
                   >
                     <MenuItem value=''>Select Role</MenuItem>
                     <MenuItem value='admin'>Admin</MenuItem>
-                    <MenuItem value='author'>Author</MenuItem>
-                    <MenuItem value='editor'>Editor</MenuItem>
-                    <MenuItem value='maintainer'>Maintainer</MenuItem>
+                    <MenuItem value='manager'>Manager</MenuItem>
                     <MenuItem value='subscriber'>Subscriber</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item sm={4} xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel id='plan-select'>Select Plan</InputLabel>
-                  <Select
-                    fullWidth
-                    value={plan}
-                    id='select-plan'
-                    label='Select Plan'
-                    labelId='plan-select'
-                    onChange={handlePlanChange}
-                    inputProps={{ placeholder: 'Select Plan' }}
-                  >
-                    <MenuItem value=''>Select Plan</MenuItem>
-                    <MenuItem value='basic'>Basic</MenuItem>
-                    <MenuItem value='company'>Company</MenuItem>
-                    <MenuItem value='enterprise'>Enterprise</MenuItem>
-                    <MenuItem value='team'>Team</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item sm={4} xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel id='status-select'>Select Status</InputLabel>
-                  <Select
-                    fullWidth
-                    value={status}
-                    id='select-status'
-                    label='Select Status'
-                    labelId='status-select'
-                    onChange={handleStatusChange}
-                    inputProps={{ placeholder: 'Select Role' }}
-                  >
-                    <MenuItem value=''>Select Role</MenuItem>
-                    <MenuItem value='pending'>Pending</MenuItem>
-                    <MenuItem value='active'>Active</MenuItem>
-                    <MenuItem value='inactive'>Inactive</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>

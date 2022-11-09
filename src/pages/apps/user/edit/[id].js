@@ -2,10 +2,10 @@
 import axios from 'axios'
 
 // ** Demo Components Imports
-import UserViewPage from 'src/views/apps/user/view/UserViewPage'
+import EditUserView from 'src/views/apps/user/edit/EditUserView'
 
-const UserView = ({ id, userData, accessData }) => {
-  return <UserViewPage id={id} userData={userData} accessData={accessData} />
+const EditUser = ({ id, userData }) => {
+  return <EditUserView id={id} userData={userData} />
 }
 
 export const getStaticPaths = async () => {
@@ -27,16 +27,12 @@ export const getStaticProps = async ({ params }) => {
   const userData = await axios.get('/apps/user', { params: { id } }).then(response => {
     return response.data
   })
-  const accessData = await axios.get('/apps/access-event/user', { params: { userId: id } }).then(response => {
-    return response.data
-  })
   return {
     props: {
       userData,
-      accessData,
       id: params?.id
     }
   }
 }
 
-export default UserView
+export default EditUser

@@ -4,17 +4,23 @@ import axios from 'axios'
 // ** Demo Components Imports
 import UserViewPage from 'src/views/apps/user/view/UserViewPage'
 
-const UserView = ({ invoiceData }) => {
-  return <UserViewPage id='1' invoiceData={invoiceData} />
+const UserView = ({ id, userData, accessData }) => {
+  return <UserViewPage id={id} userData={userData} accessData={accessData} />
 }
 
 export const getStaticProps = async () => {
-  const res = await axios.get('/apps/invoice/invoices')
-  const invoiceData = res.data.allData
-
+  const id = '1'
+  const userData = await axios.get('/apps/user', { params: { id } }).then(response => {
+    return response.data
+  })
+  const accessData = await axios.get('/apps/access-event/user', { params: { userId: id } }).then(response => {
+    return response.data
+  })
   return {
     props: {
-      invoiceData
+      userData,
+      accessData,
+      id: id
     }
   }
 }

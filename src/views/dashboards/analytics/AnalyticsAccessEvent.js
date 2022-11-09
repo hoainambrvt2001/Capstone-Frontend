@@ -18,7 +18,6 @@ import Typography from '@mui/material/Typography'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 
 // ** Icons Imports
@@ -145,8 +144,8 @@ const CameraModel = ({ handleCloseModel, cameraModel }) => {
       <DialogTitle id='alert-dialog-title'>{`Check-in/out images of ${cameraModel.userName}`}</DialogTitle>
       <DialogContent>
         <Image
-          src={cameraModel.imgUrl ? cameraModel.imgUrl : '/images/stickers/access-event.png'}
-          width={1080}
+          src={cameraModel.imgUrl ? cameraModel.imgUrl : '/images/stickers/access-event.jpg'}
+          width={1280}
           height={720}
         />
       </DialogContent>
