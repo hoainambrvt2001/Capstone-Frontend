@@ -19,6 +19,7 @@ import CalendarBlankOutline from 'mdi-material-ui/CalendarBlankOutline'
 import PackageVariantClosed from 'mdi-material-ui/PackageVariantClosed'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
 import CheckboxMarkedCircleOutline from 'mdi-material-ui/CheckboxMarkedCircleOutline'
+import DoorOpen from 'mdi-material-ui/DoorOpen'
 
 const navigation = () => {
   return [
@@ -54,6 +55,28 @@ const navigation = () => {
         {
           title: 'View',
           path: '/apps/user/view'
+        }
+      ]
+    },
+    {
+      title: 'Room',
+      icon: DoorOpen,
+      children: [
+        {
+          title: 'List',
+          path: '/apps/room/list'
+        },
+        {
+          title: 'Add Room',
+          path: '/apps/room/add'
+        },
+        {
+          title: 'Edit User',
+          path: '/apps/room/edit'
+        },
+        {
+          title: 'View',
+          path: '/apps/room/view'
         }
       ]
     },

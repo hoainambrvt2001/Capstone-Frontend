@@ -9,6 +9,7 @@ import invoice from 'src/store/apps/invoice'
 import calendar from 'src/store/apps/calendar'
 import permissions from 'src/store/apps/permissions'
 import access_event from 'src/store/apps/access-event'
+import room from 'src/store/apps/room'
 
 export const store = configureStore({
   reducer: {
@@ -18,7 +19,8 @@ export const store = configureStore({
     invoice,
     calendar,
     permissions,
-    access_event
+    access_event,
+    room
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

@@ -1,0 +1,353 @@
+// ** React Imports
+import { useState, useEffect, useCallback } from 'react'
+
+// ** Next Import
+import Link from 'next/link'
+
+// ** MUI Imports
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import Menu from '@mui/material/Menu'
+import Grid from '@mui/material/Grid'
+import { DataGrid } from '@mui/x-data-grid'
+import MenuItem from '@mui/material/MenuItem'
+import { styled } from '@mui/material/styles'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import CardHeader from '@mui/material/CardHeader'
+import InputLabel from '@mui/material/InputLabel'
+import FormControl from '@mui/material/FormControl'
+import CardContent from '@mui/material/CardContent'
+import Select from '@mui/material/Select'
+
+// ** Icons Imports
+import EyeOutline from 'mdi-material-ui/EyeOutline'
+import DotsVertical from 'mdi-material-ui/DotsVertical'
+import PencilOutline from 'mdi-material-ui/PencilOutline'
+import DeleteOutline from 'mdi-material-ui/DeleteOutline'
+
+// ** Store Imports
+import { useDispatch, useSelector } from 'react-redux'
+
+// ** Custom Components Imports
+import CustomChip from 'src/@core/components/mui/chip'
+
+// ** Actions Imports
+import { fetchData, deleteRoom } from 'src/store/apps/room'
+
+// ** Custom Components Imports
+import TableHeader from 'src/views/apps/room/list/TableHeader'
+
+// ** Vars
+const roomStatusObj = {
+  available: 'success',
+  maintenance: 'warning',
+  unavailable: 'secondary'
+}
+
+const roomTypeObj = {
+  public: 'primary.light',
+  private: 'error.light'
+}
+
+// ** Styled component for the link inside menu
+const MenuItemLink = styled('a')(({ theme }) => ({
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  textDecoration: 'none',
+  padding: theme.spacing(1.5, 4),
+  color: theme.palette.text.primary
+}))
+
+// ** Customize modification text:
+const capitalizeFirstLetter = string => {
+  return string.charAt(0).toUpperCase() + string.slice(1)
+}
+
+const RowOptions = ({ id }) => {
+  // ** Hooks
+  const dispatch = useDispatch()
+
+  // ** State
+  const [anchorEl, setAnchorEl] = useState(null)
+  const rowOptionsOpen = Boolean(anchorEl)
+
+  const handleRowOptionsClick = event => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleRowOptionsClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleDelete = () => {
+    dispatch(deleteRoom(id))
+    handleRowOptionsClose()
+  }
+
+  return (
+    <>
+      <IconButton size='small' onClick={handleRowOptionsClick}>
+        <DotsVertical />
+      </IconButton>
+      <Menu
+        keepMounted
+        anchorEl={anchorEl}
+        open={rowOptionsOpen}
+        onClose={handleRowOptionsClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+        PaperProps={{ style: { minWidth: '8rem' } }}
+      >
+        <MenuItem sx={{ p: 0 }}>
+          <Link href={`/apps/room/view/${id}`} passHref>
+            <MenuItemLink>
+              <EyeOutline fontSize='small' sx={{ mr: 2 }} />
+              View
+            </MenuItemLink>
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={handleRowOptionsClose}>
+          <PencilOutline fontSize='small' sx={{ mr: 2 }} />
+          Edit
+        </MenuItem>
+        <MenuItem onClick={handleDelete}>
+          <DeleteOutline fontSize='small' sx={{ mr: 2 }} />
+          Delete
+        </MenuItem>
+      </Menu>
+    </>
+  )
+}
+
+const columns = [
+  {
+    flex: 0.2,
+    minWidth: 120,
+    field: 'code',
+    headerName: 'Room code',
+    renderCell: ({ row }) => {
+      return (
+        <Typography noWrap variant='body2'>
+          {row.code}
+        </Typography>
+      )
+    }
+  },
+  {
+    flex: 0.2,
+    minWidth: 120,
+    field: 'name',
+    headerName: 'Room name',
+    renderCell: ({ row }) => {
+      return (
+        <Typography noWrap variant='body2'>
+          {row.name}
+        </Typography>
+      )
+    }
+  },
+  {
+    flex: 0.2,
+    minWidth: 120,
+    field: 'building',
+    headerName: 'Building name',
+    renderCell: ({ row }) => {
+      return (
+        <Typography noWrap variant='body2'>
+          {row.building}
+        </Typography>
+      )
+    }
+  },
+  {
+    flex: 0.2,
+    minWidth: 150,
+    field: 'capacity',
+    headerName: 'Capacity (Person)',
+    renderCell: ({ row }) => {
+      return (
+        <Typography noWrap variant='body2'>
+          {row.capacity}
+        </Typography>
+      )
+    }
+  },
+  {
+    flex: 0.2,
+    minWidth: 100,
+    field: 'type',
+    headerName: 'Type',
+    renderCell: ({ row }) => {
+      return (
+        <Typography noWrap variant='body2' color={roomTypeObj[row.type]} fontWeight={700}>
+          {capitalizeFirstLetter(row.type)}
+        </Typography>
+      )
+    }
+  },
+  {
+    flex: 0.1,
+    minWidth: 140,
+    field: 'status',
+    headerName: 'Status',
+    renderCell: ({ row }) => {
+      return (
+        <CustomChip
+          skin='light'
+          size='small'
+          label={row.status}
+          color={roomStatusObj[row.status]}
+          sx={{ textTransform: 'capitalize', '& .MuiChip-label': { lineHeight: '18px' } }}
+        />
+      )
+    }
+  },
+  {
+    flex: 0.1,
+    minWidth: 90,
+    sortable: false,
+    field: 'actions',
+    headerName: 'Actions',
+    renderCell: ({ row }) => <RowOptions id={row.id} />
+  }
+]
+
+const RoomList = () => {
+  // ** State
+  const [building, setBuilding] = useState('')
+  const [type, setType] = useState('')
+  const [value, setValue] = useState('')
+  const [status, setStatus] = useState('')
+  const [pageSize, setPageSize] = useState(10)
+
+  // ** Hooks
+  const dispatch = useDispatch()
+  const store = useSelector(state => state.room)
+
+  useEffect(() => {
+    dispatch(
+      fetchData({
+        building,
+        type,
+        status,
+        q: value
+      })
+    )
+  }, [dispatch, building, type, status, value])
+
+  const handleFilter = useCallback(val => {
+    setValue(val)
+  }, [])
+
+  const handleBuildingChange = useCallback(e => {
+    setBuilding(e.target.value)
+  }, [])
+
+  const handleTypeChange = useCallback(e => {
+    setType(e.target.value)
+  }, [])
+
+  const handleStatusChange = useCallback(e => {
+    setStatus(e.target.value)
+  }, [])
+
+  return (
+    <Grid container spacing={6}>
+      <Grid item xs={12}>
+        <Card>
+          <CardHeader title='Search Filters' sx={{ pb: 4, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
+          <CardContent>
+            <Grid container spacing={6}>
+              <Grid item sm={4} xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel id='building-select'>Select Building</InputLabel>
+                  <Select
+                    fullWidth
+                    value={building}
+                    id='select-building'
+                    label='Select Building'
+                    labelId='building-select'
+                    onChange={handleBuildingChange}
+                    inputProps={{ placeholder: 'Select Building' }}
+                  >
+                    <MenuItem value=''>Select Building</MenuItem>
+                    {store.allBuildings.map((building, idx) => {
+                      return (
+                        <MenuItem value={building} key={idx}>
+                          {building}
+                        </MenuItem>
+                      )
+                    })}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={4} xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel id='type-select'>Select Type</InputLabel>
+                  <Select
+                    fullWidth
+                    value={type}
+                    id='select-type'
+                    label='Select Type'
+                    labelId='type-select'
+                    onChange={handleTypeChange}
+                    inputProps={{ placeholder: 'Select Type' }}
+                  >
+                    <MenuItem value=''>Select Type</MenuItem>
+                    <MenuItem value='public'>Public</MenuItem>
+                    <MenuItem value='private'>Private</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={4} xs={12}>
+                <FormControl fullWidth>
+                  <InputLabel id='status-select'>Select Status</InputLabel>
+                  <Select
+                    fullWidth
+                    value={status}
+                    id='select-status'
+                    label='Select Status'
+                    labelId='status-select'
+                    onChange={handleStatusChange}
+                    inputProps={{ placeholder: 'Select Status' }}
+                  >
+                    <MenuItem value=''>Select Status</MenuItem>
+                    <MenuItem value='available'>Available</MenuItem>
+                    <MenuItem value='maintenance'>Maintenance</MenuItem>
+                    <MenuItem value='unavailable'>Unavailable</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12}>
+        <Card>
+          <TableHeader value={value} handleFilter={handleFilter} />
+          <DataGrid
+            autoHeight
+            rows={store.data}
+            columns={columns}
+            checkboxSelection
+            pageSize={pageSize}
+            disableSelectionOnClick
+            rowsPerPageOptions={[10, 25, 50]}
+            sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
+            onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+          />
+        </Card>
+      </Grid>
+    </Grid>
+  )
+}
+
+export default RoomList
