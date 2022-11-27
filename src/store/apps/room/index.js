@@ -5,11 +5,16 @@ import axios from 'axios'
 
 // ** Fetch Rooms
 export const fetchData = createAsyncThunk('appRooms/fetchData', async params => {
-  const response = await axios.get('/apps/rooms/list', {
-    params
-  })
-
-  return response.data
+  const roomData = await axios
+    .get('/apps/rooms/list', {
+      params
+    })
+    .then(res => res.data)
+  const buildingData = await axios.get('apps/rooms/list-building').then(res => res.data)
+  return {
+    roomData,
+    buildingData
+  }
 })
 
 // ** Add Room
@@ -44,13 +49,11 @@ export const appRoomsSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.data = action.payload.rooms
-      state.total = action.payload.total
-      state.params = action.payload.params
-      state.allData = action.payload.allData
-      const buildings = new Set()
-      action.payload.allData.forEach(element => buildings.add(element.building))
-      state.allBuildings = Array.from(buildings)
+      state.data = action.payload.roomData.rooms
+      state.total = action.payload.roomData.total
+      state.params = action.payload.roomData.params
+      state.allData = action.payload.roomData.allData
+      state.allBuildings = action.payload.buildingData.all_buildings
     })
   }
 })

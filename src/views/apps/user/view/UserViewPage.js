@@ -31,7 +31,7 @@ const CameraModel = ({ handleCloseModel, cameraModel }) => {
       <DialogTitle id='alert-dialog-title'>{`Check-in/out images of ${cameraModel.userName}`}</DialogTitle>
       <DialogContent>
         <Image
-          src={cameraModel.imgUrl ? cameraModel.imgUrl : '/images/stickers/access-event.jpg'}
+          src={cameraModel.imgUrl ? cameraModel.imgUrl : '/images/stickers/access-event.png'}
           width={1280}
           height={720}
         />

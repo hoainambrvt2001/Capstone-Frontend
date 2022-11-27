@@ -20,6 +20,7 @@ import PackageVariantClosed from 'mdi-material-ui/PackageVariantClosed'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
 import CheckboxMarkedCircleOutline from 'mdi-material-ui/CheckboxMarkedCircleOutline'
 import DoorOpen from 'mdi-material-ui/DoorOpen'
+import CalendarRemoveOutline from 'mdi-material-ui/CalendarRemoveOutline'
 
 const navigation = () => {
   return [
@@ -45,11 +46,11 @@ const navigation = () => {
           path: '/apps/user/list'
         },
         {
-          title: 'Add User',
+          title: 'Add',
           path: '/apps/user/add'
         },
         {
-          title: 'Edit User',
+          title: 'Edit',
           path: '/apps/user/edit'
         },
         {
@@ -67,11 +68,11 @@ const navigation = () => {
           path: '/apps/room/list'
         },
         {
-          title: 'Add Room',
+          title: 'Add',
           path: '/apps/room/add'
         },
         {
-          title: 'Edit User',
+          title: 'Edit',
           path: '/apps/room/edit'
         },
         {
@@ -81,178 +82,33 @@ const navigation = () => {
       ]
     },
     {
-      title: 'Email',
-      icon: EmailOutline,
-      path: '/apps/email'
+      title: 'Abnormal Event',
+      icon: CalendarRemoveOutline,
+      children: [
+        {
+          title: 'List',
+          path: '/apps/abnormal-event/list'
+        },
+
+        {
+          title: 'Edit',
+          path: '/apps/abnormal-event/edit'
+        },
+        {
+          title: 'View',
+          path: '/apps/abnormal-event/view'
+        }
+      ]
     },
     {
-      title: 'Chat',
-      icon: MessageOutline,
-      path: '/apps/chat'
+      title: 'Roles',
+      icon: LockOutline,
+      path: '/apps/roles'
     },
     {
       title: 'Calendar',
       icon: CalendarBlankOutline,
       path: '/apps/calendar'
-    },
-    {
-      title: 'Invoice',
-      icon: FileDocumentOutline,
-      children: [
-        {
-          title: 'List',
-          path: '/apps/invoice/list'
-        },
-        {
-          title: 'Preview',
-          path: '/apps/invoice/preview'
-        },
-        {
-          title: 'Edit',
-          path: '/apps/invoice/edit'
-        },
-        {
-          title: 'Add',
-          path: '/apps/invoice/add'
-        }
-      ]
-    },
-
-    {
-      title: 'Roles & Permissions',
-      icon: LockOutline,
-      children: [
-        {
-          title: 'Roles',
-          path: '/apps/roles'
-        },
-        {
-          title: 'Permissions',
-          path: '/apps/permissions'
-        }
-      ]
-    },
-    {
-      title: 'Pages',
-      icon: FileDocumentOutline,
-      children: [
-        {
-          title: 'Authentication',
-          children: [
-            {
-              title: 'Login',
-              children: [
-                {
-                  openInNewTab: true,
-                  title: 'Login v1',
-                  path: '/pages/auth/login-v1'
-                },
-                {
-                  openInNewTab: true,
-                  title: 'Login v2',
-                  path: '/pages/auth/login-v2'
-                },
-                {
-                  openInNewTab: true,
-                  title: 'Login With AppBar',
-                  path: '/pages/auth/login-with-appbar'
-                }
-              ]
-            },
-            {
-              title: 'Register',
-              children: [
-                {
-                  openInNewTab: true,
-                  title: 'Register v1',
-                  path: '/pages/auth/register-v1'
-                },
-                {
-                  openInNewTab: true,
-                  title: 'Register v2',
-                  path: '/pages/auth/register-v2'
-                }
-              ]
-            },
-            {
-              title: 'Forgot Password',
-              children: [
-                {
-                  openInNewTab: true,
-                  title: 'Forgot Password v1',
-                  path: '/pages/auth/forgot-password-v1'
-                },
-                {
-                  openInNewTab: true,
-                  title: 'Forgot Password v2',
-                  path: '/pages/auth/forgot-password-v2'
-                }
-              ]
-            },
-            {
-              title: 'Reset Password',
-              children: [
-                {
-                  openInNewTab: true,
-                  title: 'Reset Password v1',
-                  path: '/pages/auth/reset-password-v1'
-                },
-                {
-                  openInNewTab: true,
-                  title: 'Reset Password v2',
-                  path: '/pages/auth/reset-password-v2'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          title: 'Account Settings',
-          path: '/pages/account-settings'
-        },
-        {
-          title: 'Pricing',
-          path: '/pages/pricing'
-        },
-        {
-          title: 'FAQ',
-          path: '/pages/faq'
-        },
-        {
-          title: 'Knowledge Base',
-          path: '/pages/knowledge-base'
-        },
-        {
-          title: 'Miscellaneous',
-          children: [
-            {
-              openInNewTab: true,
-              title: 'Coming Soon',
-              path: '/pages/misc/coming-soon'
-            },
-            {
-              openInNewTab: true,
-              title: 'Under Maintenance',
-              path: '/pages/misc/under-maintenance'
-            },
-            {
-              openInNewTab: true,
-              title: 'Page Not Found - 404',
-              path: '/pages/misc/404-not-found'
-            },
-            {
-              openInNewTab: true,
-              title: 'Not Authorized - 401',
-              path: '/pages/misc/401-not-authorized'
-            },
-            {
-              openInNewTab: true,
-              title: 'Server Error - 500',
-              path: '/pages/misc/500-server-error'
-            }
-          ]
-        }
-      ]
     },
     {
       icon: VectorArrangeBelow,

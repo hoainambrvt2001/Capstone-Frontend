@@ -11,7 +11,7 @@ const users = [
     password: 'admin',
     fullName: 'John Doe',
     username: 'johndoe',
-    email: 'admin@materialize.com'
+    email: 'admin@example.com'
   },
   {
     id: 2,

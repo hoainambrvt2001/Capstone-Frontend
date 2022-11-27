@@ -38,6 +38,7 @@ import { getInitials } from 'src/@core/utils/get-initials'
 // ** Actions Imports
 import { fetchAccessEvents } from 'src/store/apps/access-event'
 import Image from 'next/image'
+import { customizeRenderDateTime } from 'src/functions'
 
 // ** Styled component for the link for the avatar with image
 const AvatarWithImageLink = styled(Link)(({ theme }) => ({
@@ -144,7 +145,7 @@ const CameraModel = ({ handleCloseModel, cameraModel }) => {
       <DialogTitle id='alert-dialog-title'>{`Check-in/out images of ${cameraModel.userName}`}</DialogTitle>
       <DialogContent>
         <Image
-          src={cameraModel.imgUrl ? cameraModel.imgUrl : '/images/stickers/access-event.jpg'}
+          src={cameraModel.imgUrl ? cameraModel.imgUrl : '/images/stickers/access-event.png'}
           width={1280}
           height={720}
         />
@@ -284,26 +285,13 @@ const AnalyticsAccessEvent = () => {
     },
     {
       flex: 0.2,
-      minWidth: 100,
+      minWidth: 200,
       field: 'time',
       headerName: 'Time',
       renderCell: ({ row }) => {
         return (
           <Typography noWrap variant='body2'>
-            {row.time}
-          </Typography>
-        )
-      }
-    },
-    {
-      flex: 0.2,
-      minWidth: 150,
-      field: 'date',
-      headerName: 'Date',
-      renderCell: ({ row }) => {
-        return (
-          <Typography noWrap variant='body2'>
-            {row.date}
+            {customizeRenderDateTime(row.time)}
           </Typography>
         )
       }

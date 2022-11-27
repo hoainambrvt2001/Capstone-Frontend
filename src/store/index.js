@@ -10,6 +10,7 @@ import calendar from 'src/store/apps/calendar'
 import permissions from 'src/store/apps/permissions'
 import access_event from 'src/store/apps/access-event'
 import room from 'src/store/apps/room'
+import abnormal_event from 'src/store/apps/abnormal-event'
 
 export const store = configureStore({
   reducer: {
@@ -20,7 +21,8 @@ export const store = configureStore({
     calendar,
     permissions,
     access_event,
-    room
+    room,
+    abnormal_event
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

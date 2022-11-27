@@ -2,10 +2,10 @@
 import axios from 'axios'
 
 // ** Demo Components Imports
-import RoomView from 'src/views/apps/room/utils/RoomView'
+import EditRoomView from 'src/views/apps/room/edit/EditRoomView'
 
-const ViewRoom = ({ id, roomData }) => {
-  return <RoomView id={id} isAdded={false} isEdited={false} roomData={roomData} />
+const EditRoom = ({ id, roomData }) => {
+  return <EditRoomView id={id} roomData={roomData} />
 }
 
 export const getStaticPaths = async () => {
@@ -35,4 +35,4 @@ export const getStaticProps = async ({ params }) => {
   }
 }
 
-export default ViewRoom
+export default EditRoom

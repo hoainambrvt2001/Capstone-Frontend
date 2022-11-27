@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -10,10 +10,6 @@ import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
 
 // ** Icons Imports
 
@@ -21,7 +17,7 @@ import PlayCircle from 'mdi-material-ui/PlayCircle'
 import ChevronDown from 'mdi-material-ui/ChevronDown'
 
 // ** Actions Imports
-import Image from 'next/image'
+import { customizeRenderDateTime } from 'src/functions'
 
 const UsersRoomAccessTable = ({ accessData, handleOpenModel }) => {
   // ** State
@@ -113,26 +109,13 @@ const UsersRoomAccessTable = ({ accessData, handleOpenModel }) => {
     },
     {
       flex: 0.2,
-      minWidth: 100,
+      minWidth: 200,
       field: 'time',
       headerName: 'Time',
       renderCell: ({ row }) => {
         return (
           <Typography noWrap variant='body2'>
-            {row.time}
-          </Typography>
-        )
-      }
-    },
-    {
-      flex: 0.2,
-      minWidth: 120,
-      field: 'date',
-      headerName: 'Date',
-      renderCell: ({ row }) => {
-        return (
-          <Typography noWrap variant='body2'>
-            {row.date}
+            {customizeRenderDateTime(row.time)}
           </Typography>
         )
       }

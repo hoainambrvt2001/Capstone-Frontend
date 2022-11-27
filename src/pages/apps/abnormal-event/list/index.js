@@ -9,50 +9,58 @@ import Grid from '@mui/material/Grid'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Actions Imports
-import { fetchData } from 'src/store/apps/room'
+import { fetchData as fetchEventData } from 'src/store/apps/abnormal-event'
+import { fetchData as fetchRoomData } from 'src/store/apps/room'
 
 // ** Custom Components Imports
-import TableHeader from 'src/views/apps/room/list/TableHeader'
-import TableBody from 'src/views/apps/room/list/TableBody'
-import FilterHeader from 'src/views/apps/room/list/FilterHeader'
+import TableHeader from 'src/views/apps/abnormal-event/list/TableHeaders'
+import TableBody from 'src/views/apps/abnormal-event/list/TableBody'
+import FilterHeader from 'src/views/apps/abnormal-event/list/FilterHeader'
 
-const RoomListPage = () => {
+const PageList = () => {
   // ** State
   const [building, setBuilding] = useState('')
+  const [room, setRoom] = useState('')
   const [type, setType] = useState('')
   const [value, setValue] = useState('')
-  const [status, setStatus] = useState('')
   const [pageSize, setPageSize] = useState(10)
 
   // ** Hooks
   const dispatch = useDispatch()
-  const store = useSelector(state => state.room)
+  const eventSlice = useSelector(state => state.abnormal_event)
+  const roomSlice = useSelector(state => state.room)
 
   useEffect(() => {
     dispatch(
-      fetchData({
+      fetchEventData({
         building,
+        room,
         type,
-        status,
         q: value
       })
     )
-  }, [dispatch, building, type, status, value])
 
-  const handleBuildingChange = useCallback(e => {
-    setBuilding(e.target.value)
-  }, [])
+    dispatch(
+      fetchRoomData({
+        building
+      })
+    )
+  }, [dispatch, building, room, type, value])
 
   const handleFilter = useCallback(val => {
     setValue(val)
+  }, [])
+
+  const handleBuildingChange = useCallback(e => {
+    setBuilding(e.target.value)
   }, [])
 
   const handleTypeChange = useCallback(e => {
     setType(e.target.value)
   }, [])
 
-  const handleStatusChange = useCallback(e => {
-    setStatus(e.target.value)
+  const handleRoomChange = useCallback(e => {
+    setRoom(e.target.value)
   }, [])
 
   return (
@@ -61,21 +69,22 @@ const RoomListPage = () => {
         <FilterHeader
           handleBuildingChange={handleBuildingChange}
           handleTypeChange={handleTypeChange}
-          handleStatusChange={handleStatusChange}
+          handleRoomChange={handleRoomChange}
           building={building}
           type={type}
-          status={status}
-          allBuildings={store.allBuildings}
+          room={room}
+          allBuildings={roomSlice.allBuildings}
+          allRooms={roomSlice.data}
         />
       </Grid>
       <Grid item xs={12}>
         <Card>
           <TableHeader value={value} handleFilter={handleFilter} />
-          <TableBody rowsData={store.data} pageSize={pageSize} setPageSize={setPageSize} />
+          <TableBody rowsData={eventSlice.data} pageSize={pageSize} setPageSize={setPageSize} />
         </Card>
       </Grid>
     </Grid>
   )
 }
 
-export default RoomListPage
+export default PageList

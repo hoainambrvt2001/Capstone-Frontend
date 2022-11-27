@@ -121,6 +121,20 @@ mock.onPost('/apps/rooms/add-room').reply(config => {
   return [201, { room }]
 })
 
+// GET: All Buidings:
+mock.onGet('apps/rooms/list-building').reply(config => {
+  const buildings = new Set()
+  data.rooms.forEach(room => buildings.add(room.building))
+  const filteredData = Array.from(buildings)
+  return [
+    200,
+    {
+      all_buildings: filteredData,
+      total_buildings: filteredData.length
+    }
+  ]
+})
+
 // GET: Updated DATA
 mock.onGet('/apps/rooms/list').reply(config => {
   const { q = '', building = null, type = null, status = null } = config.params ?? ''

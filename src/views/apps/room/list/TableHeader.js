@@ -1,3 +1,6 @@
+// ** Next Imports
+import Link from 'next/link'
+
 // ** MUI Imports
 import { InputAdornment } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -33,9 +36,11 @@ const TableHeader = props => {
           }}
         />
 
-        <Button sx={{ mb: 2 }} onClick={() => {}} variant='contained'>
-          Add Room
-        </Button>
+        <Link passHref href='/apps/room/add'>
+          <Button sx={{ mb: 2 }} variant='contained'>
+            Add Room
+          </Button>
+        </Link>
       </Box>
     </Box>
   )

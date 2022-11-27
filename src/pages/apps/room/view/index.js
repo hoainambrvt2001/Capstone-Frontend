@@ -2,10 +2,10 @@
 import axios from 'axios'
 
 // ** Demo Components Imports
-import RoomView from 'src/views/apps/room/view/RoomView'
+import RoomView from 'src/views/apps/room/utils/RoomView'
 
 const ViewRoom = ({ id, roomData }) => {
-  return <RoomView id={id} roomData={roomData} />
+  return <RoomView id={id} isAdded={false} isEdited={false} roomData={roomData} />
 }
 
 export const getStaticProps = async () => {
