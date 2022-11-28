@@ -6,74 +6,106 @@ const data = {
     {
       id: 1,
       type: 'stranger',
-      images: ['/images/stickers/access-event.png', '/images/stickers/access-event.png'],
+      images: [
+        { id: 101, url: '/images/stickers/access-event.png', name: 'access-event-1' },
+        { id: 102, url: '/images/stickers/access-event.png', name: 'access-event-2' }
+      ],
       room: '402',
       building: 'B4',
       occurTime: 1665533700000,
-      solveTime: 1665534600000
+      solveTime: 1665534600000,
+      note: ''
     },
     {
       id: 2,
       type: 'stranger',
-      images: ['/images/stickers/access-event.png', '/images/stickers/access-event.png'],
+      images: [
+        { id: 101, url: '/images/stickers/access-event.png', name: 'access-event-1' },
+        { id: 102, url: '/images/stickers/access-event.png', name: 'access-event-2' }
+      ],
       room: '402',
       building: 'B4',
       occurTime: 1665476100000,
-      solveTime: 1665476700000
+      solveTime: 1665476700000,
+      note: ''
     },
     {
       id: 3,
       type: 'stranger',
-      images: ['/images/stickers/access-event.png', '/images/stickers/access-event.png'],
+      images: [
+        { id: 101, url: '/images/stickers/access-event.png', name: 'access-event-1' },
+        { id: 102, url: '/images/stickers/access-event.png', name: 'access-event-2' }
+      ],
       room: '304',
       building: 'A4',
       occurTime: 1665292500000,
-      solveTime: 1665293400000
+      solveTime: 1665293400000,
+      note: ''
     },
     {
       id: 4,
       type: 'overload',
-      images: ['/images/stickers/access-event.png', '/images/stickers/access-event.png'],
+      images: [
+        { id: 101, url: '/images/stickers/access-event.png', name: 'access-event-1' },
+        { id: 102, url: '/images/stickers/access-event.png', name: 'access-event-2' }
+      ],
       room: '201',
       building: 'A4',
       occurTime: 1665213000000,
-      solveTime: 1665213600000
+      solveTime: 1665213600000,
+      note: ''
     },
     {
       id: 5,
       type: 'overload',
-      images: ['/images/stickers/access-event.png', '/images/stickers/access-event.png'],
+      images: [
+        { id: 101, url: '/images/stickers/access-event.png', name: 'access-event-1' },
+        { id: 102, url: '/images/stickers/access-event.png', name: 'access-event-2' }
+      ],
       room: '302',
       building: 'B6',
       occurTime: 1665228600000,
-      solveTime: 1665229200000
+      solveTime: 1665229200000,
+      note: ''
     },
     {
       id: 6,
       type: 'overload',
-      images: ['/images/stickers/access-event.png', '/images/stickers/access-event.png'],
+      images: [
+        { id: 101, url: '/images/stickers/access-event.png', name: 'access-event-1' },
+        { id: 102, url: '/images/stickers/access-event.png', name: 'access-event-2' }
+      ],
       room: '501',
       building: 'B6',
       occurTime: 1665110400000,
-      solveTime: 1665111000000
+      solveTime: 1665111000000,
+      note: ''
     },
     {
       id: 7,
       type: 'overload',
-      images: ['/images/stickers/access-event.png', '/images/stickers/access-event.png'],
+      images: [
+        { id: 101, url: '/images/stickers/access-event.png', name: 'access-event-1' },
+        { id: 102, url: '/images/stickers/access-event.png', name: 'access-event-2' }
+      ],
       room: '304',
       building: 'B1',
       occurTime: 1665110700000,
-      solveTime: 1665111300000
+      solveTime: 1665111300000,
+      note: ''
     },
     {
       id: 8,
       type: 'fire',
-      images: ['/images/stickers/access-event.png', '/images/stickers/access-event.png'],
+      images: [
+        { id: 101, url: '/images/stickers/access-event.png', name: 'access-event-1' },
+        { id: 102, url: '/images/stickers/access-event.png', name: 'access-event-2' }
+      ],
       room: '301',
       building: 'B1',
       occurTime: 1665049800000,
-      solveTime: 1665053400000
+      solveTime: 1665053400000,
+      note: ''
     }
   ]
 }

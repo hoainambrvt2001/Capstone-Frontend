@@ -36,7 +36,7 @@ const TabName = styled('span')(({ theme }) => ({
   }
 }))
 
-const EventView = ({ id, isAdded, isEdited, eventData = null }) => {
+const EventView = ({ id, isEdited, eventData = null, listBuildings, listRooms }) => {
   // ** State
   const [error, setError] = useState(false)
 
@@ -63,7 +63,13 @@ const EventView = ({ id, isAdded, isEdited, eventData = null }) => {
             />
           </TabList>
           <TabPanel sx={{ p: 0 }} value='event'>
-            <EventForm id={id} isAdded={isAdded} isEdited={isEdited} eventData={eventData} />
+            <EventForm
+              id={id}
+              isEdited={isEdited}
+              eventData={eventData}
+              listBuildings={listBuildings}
+              listRooms={listRooms}
+            />
           </TabPanel>
         </TabContext>
       </Card>

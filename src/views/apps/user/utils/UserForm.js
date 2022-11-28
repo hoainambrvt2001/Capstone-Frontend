@@ -23,7 +23,7 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 
 // ** MUI Lab Imports
-import DatePicker from '@mui/lab/DatePicker'
+import MobileDatePicker from '@mui/lab/MobileDatePicker'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
 
@@ -50,9 +50,8 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
   }
 }))
 
-const EditUserForm = ({ userData }) => {
+const UserForm = ({ userData, isAdded }) => {
   // ** State
-  const [openAlert, setOpenAlert] = useState(true)
   const [avatarSrc, setAvatarSrc] = useState(userData.avatar)
   const [avatarColor, setAvatarColor] = useState(userData.avatarColor)
 
@@ -117,7 +116,7 @@ const EditUserForm = ({ userData }) => {
           lastName: userData.lastName,
           contact: userData.contact,
           email: userData.email,
-          birthdate: userData.birthdate ? userData.birthdate : new Date(),
+          birthdate: userData.birthdate ? userData.birthdate : new Date().getTime(),
           company: userData.company,
           address: userData.address,
           country: userData.country,
@@ -239,20 +238,15 @@ const EditUserForm = ({ userData }) => {
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DatePicker
+                    <MobileDatePicker
                       fullWidth
+                      disableFuture
                       name='birthdate'
                       label='Birthdate'
                       value={values.birthdate}
-                      onChange={value => setFieldValue('birthdate', Date.parse(value))}
+                      onChange={newValue => setFieldValue('birthdate', new Date(newValue).getTime())}
                       onBlur={handleBlur}
-                      renderInput={params => (
-                        <TextField
-                          {...params}
-                          error={touched.birthdate && Boolean(errors.birthdate)}
-                          helperText={touched.birthdate && errors.birthdate}
-                        />
-                      )}
+                      renderInput={params => <TextField {...params} />}
                     />
                   </LocalizationProvider>
                 </FormControl>
@@ -308,28 +302,9 @@ const EditUserForm = ({ userData }) => {
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              {/* {openAlert ? (
-                <Grid item xs={12}>
-                  <Alert
-                    severity='warning'
-                    sx={{ '& a': { fontWeight: 400 } }}
-                    action={
-                      <IconButton size='small' color='inherit' aria-label='close' onClick={() => setOpenAlert(false)}>
-                        <Close fontSize='inherit' />
-                      </IconButton>
-                    }
-                  >
-                    <AlertTitle sx={{ mb: '.15rem' }}>Your email is not confirmed. Please check your inbox.</AlertTitle>
-                    <Link href='/' onClick={e => e.preventDefault()}>
-                      Resend Confirmation
-                    </Link>
-                  </Alert>
-                </Grid>
-              ) : null} */}
-
               <Grid item xs={12}>
                 <Button type='submit' variant='contained' sx={{ mr: 4 }}>
-                  Update User
+                  {isAdded ? 'Add User' : 'Update User'}
                 </Button>
                 <Button type='reset' variant='outlined' color='secondary' onClick={resetForm}>
                   Reset
@@ -343,4 +318,4 @@ const EditUserForm = ({ userData }) => {
   )
 }
 
-export default EditUserForm
+export default UserForm

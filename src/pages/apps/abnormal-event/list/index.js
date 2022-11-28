@@ -16,9 +16,14 @@ import { fetchData as fetchRoomData } from 'src/store/apps/room'
 import TableHeader from 'src/views/apps/abnormal-event/list/TableHeaders'
 import TableBody from 'src/views/apps/abnormal-event/list/TableBody'
 import FilterHeader from 'src/views/apps/abnormal-event/list/FilterHeader'
+import { CameraModel } from 'src/views/utils'
 
 const PageList = () => {
   // ** State
+  const [cameraModel, setCameraModel] = useState({
+    imgUrl: '',
+    showModel: false
+  })
   const [building, setBuilding] = useState('')
   const [room, setRoom] = useState('')
   const [type, setType] = useState('')
@@ -63,27 +68,50 @@ const PageList = () => {
     setRoom(e.target.value)
   }, [])
 
+  // ** Handle interact with model
+  const handleOpenModel = imgUrl => {
+    setCameraModel({
+      imgUrl,
+      showModel: true
+    })
+  }
+
+  const handleCloseModel = () => {
+    setCameraModel({
+      imgUrl: '',
+      showModel: false
+    })
+  }
+
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <FilterHeader
-          handleBuildingChange={handleBuildingChange}
-          handleTypeChange={handleTypeChange}
-          handleRoomChange={handleRoomChange}
-          building={building}
-          type={type}
-          room={room}
-          allBuildings={roomSlice.allBuildings}
-          allRooms={roomSlice.data}
-        />
+    <>
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
+          <FilterHeader
+            handleBuildingChange={handleBuildingChange}
+            handleTypeChange={handleTypeChange}
+            handleRoomChange={handleRoomChange}
+            building={building}
+            type={type}
+            room={room}
+            allBuildings={roomSlice.allBuildings}
+            allRooms={roomSlice.data}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Card>
+            <TableHeader value={value} handleFilter={handleFilter} />
+            <TableBody
+              rowsData={eventSlice.data}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
+              handleOpenModel={handleOpenModel}
+            />
+          </Card>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Card>
-          <TableHeader value={value} handleFilter={handleFilter} />
-          <TableBody rowsData={eventSlice.data} pageSize={pageSize} setPageSize={setPageSize} />
-        </Card>
-      </Grid>
-    </Grid>
+      <CameraModel handleCloseModel={handleCloseModel} cameraModel={cameraModel} isAccessEvent={false} />
+    </>
   )
 }
 

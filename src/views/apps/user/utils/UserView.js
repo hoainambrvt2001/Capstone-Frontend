@@ -19,7 +19,7 @@ import Grid from '@mui/material/Grid'
 import AccountEditOutline from 'mdi-material-ui/AccountEditOutline'
 
 // ** Demo Tabs Imports
-import EditUserForm from './EditUserForm'
+import UserForm from './UserForm'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
@@ -41,7 +41,7 @@ const TabName = styled('span')(({ theme }) => ({
   }
 }))
 
-const EditUserView = ({ id, userData = null }) => {
+const UserView = ({ id, isAdded, userData = null }) => {
   // ** State
   const [error, setError] = useState(false)
 
@@ -68,7 +68,7 @@ const EditUserView = ({ id, userData = null }) => {
             />
           </TabList>
           <TabPanel sx={{ p: 0 }} value='account'>
-            <EditUserForm userData={userData} />
+            <UserForm userData={userData} isAdded={isAdded} />
           </TabPanel>
         </TabContext>
       </Card>
@@ -89,4 +89,4 @@ const EditUserView = ({ id, userData = null }) => {
   }
 }
 
-export default EditUserView
+export default UserView

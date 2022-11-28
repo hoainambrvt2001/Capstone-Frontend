@@ -11,6 +11,7 @@ const data = {
       birthday: '',
       company: 'Yotz PVT LTD',
       role: 'admin',
+      assignRoleDate: 1665216660000,
       username: 'gslixby0',
       contact: '(479) 232-9151',
       email: 'gslixby0@abc.net.au',
@@ -28,6 +29,7 @@ const data = {
       birthday: '',
       company: 'Skinder PVT LTD',
       role: 'manager',
+      assignRoleDate: 1665216660000,
       username: 'hredmore1',
       contact: '(472) 607-9137',
       email: 'hredmore1@imgur.com',
@@ -44,6 +46,7 @@ const data = {
       birthday: '',
       company: 'Oozz PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'msicely2',
       contact: '(321) 264-4599',
       email: 'msicely2@who.int',
@@ -60,6 +63,7 @@ const data = {
       birthday: '',
       company: 'Oozz PVT LTD',
       role: 'admin',
+      assignRoleDate: 1665216660000,
       username: 'crisby3',
       contact: '(923) 690-6806',
       email: 'crisby3@wordpress.com',
@@ -76,6 +80,7 @@ const data = {
       birthday: '',
       company: 'Aimbo PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'mhurran4',
       contact: '(669) 914-1078',
       email: 'mhurran4@yahoo.co.jp',
@@ -92,6 +97,7 @@ const data = {
       birthday: '',
       company: 'Jaxbean PVT LTD',
       role: 'manager',
+      assignRoleDate: 1665216660000,
       username: 'shalstead5',
       contact: '(958) 973-3093',
       email: 'shalstead5@shinystat.com',
@@ -109,6 +115,7 @@ const data = {
       birthday: '',
       company: 'Jazzy PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'bgallemore6',
       contact: '(825) 977-8152',
       email: 'bgallemore6@boston.com',
@@ -126,6 +133,7 @@ const data = {
       birthday: '',
       company: 'Pixoboo PVT LTD',
       role: 'manager',
+      assignRoleDate: 1665216660000,
       username: 'kliger7',
       contact: '(187) 440-0934',
       email: 'kliger7@vinaora.com',
@@ -142,6 +150,7 @@ const data = {
       birthday: '',
       company: 'Tekfly PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'fscotfurth8',
       contact: '(978) 146-5443',
       email: 'fscotfurth8@dailymotion.com',
@@ -158,6 +167,7 @@ const data = {
       birthday: '',
       company: 'Gigashots PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'jbellany9',
       contact: '(589) 284-6732',
       email: 'jbellany9@kickstarter.com',
@@ -174,6 +184,7 @@ const data = {
       birthday: '',
       company: 'Eare PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'jwharltona',
       contact: '(176) 532-6824',
       email: 'jwharltona@oakley.com',
@@ -190,6 +201,7 @@ const data = {
       birthday: '',
       company: 'Yakitri PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'shallamb',
       contact: '(234) 464-0600',
       email: 'shallamb@hugedomains.com',
@@ -206,6 +218,7 @@ const data = {
       birthday: '',
       company: 'Leenti PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'ypottiec',
       contact: '(907) 284-5083',
       email: 'ypottiec@privacy.gov.au',
@@ -222,6 +235,7 @@ const data = {
       birthday: '',
       company: 'Digitube PVT LTD',
       role: 'manager',
+      assignRoleDate: 1665216660000,
       username: 'mkraused',
       contact: '(167) 135-7392',
       email: 'mkraused@stanford.edu',
@@ -238,6 +252,7 @@ const data = {
       birthday: '',
       company: 'Kaymbo PVT LTD',
       role: 'admin',
+      assignRoleDate: 1665216660000,
       username: 'zmcclevertye',
       contact: '(317) 409-6565',
       email: 'zmcclevertye@soundcloud.com',
@@ -254,6 +269,7 @@ const data = {
       birthday: '',
       company: 'Yambee PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'bemblinf',
       contact: '(590) 606-1056',
       email: 'bemblinf@wired.com',
@@ -270,6 +286,7 @@ const data = {
       birthday: '',
       company: 'Wikivu PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'bmylesg',
       contact: '(553) 225-9905',
       email: 'bmylesg@amazon.com',
@@ -287,6 +304,7 @@ const data = {
       birthday: '',
       company: 'Twinte PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'bbinerh',
       contact: '(901) 916-9287',
       email: 'bbinerh@mozilla.com',
@@ -303,6 +321,7 @@ const data = {
       birthday: '',
       company: 'Cogidoo PVT LTD',
       role: 'admin',
+      assignRoleDate: 1665216660000,
       username: 'tbruntjeni',
       contact: '(524) 586-6057',
       email: 'tbruntjeni@sitemeter.com',
@@ -320,6 +339,7 @@ const data = {
       birthday: '',
       company: 'Bubblemix PVT LTD',
       role: 'manager',
+      assignRoleDate: 1665216660000,
       username: 'wburlandj',
       contact: '(569) 683-1292',
       email: 'wburlandj@uiuc.edu',
@@ -336,6 +356,7 @@ const data = {
       birthday: '',
       company: 'Wayne Enterprises',
       role: 'admin',
+      assignRoleDate: 1665216660000,
       username: 'catwomen1940',
       contact: '(829) 537-0057',
       email: 'irena.dubrovna@wayne.com',
@@ -352,6 +373,7 @@ const data = {
       birthday: '',
       company: 'Quaxo PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'jlysterl',
       contact: '(593) 624-0222',
       email: 'jlysterl@guardian.co.uk',
@@ -368,6 +390,7 @@ const data = {
       birthday: '',
       company: 'Ainyx PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'kskitterelm',
       contact: '(254) 845-4107',
       email: 'kskitterelm@ainyx.com',
@@ -384,6 +407,7 @@ const data = {
       birthday: '',
       company: 'Flipopia PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'chatherleighn',
       contact: '(700) 783-7498',
       email: 'chatherleighn@washington.edu',
@@ -400,6 +424,7 @@ const data = {
       birthday: '',
       company: 'Topicware PVT LTD',
       role: 'admin',
+      assignRoleDate: 1665216660000,
       username: 'amiccoo',
       contact: '(227) 598-1841',
       email: 'amiccoo@whitehouse.gov',
@@ -417,6 +442,7 @@ const data = {
       birthday: '',
       company: 'Skinix PVT LTD',
       role: 'admin',
+      assignRoleDate: 1665216660000,
       username: 'hhassonp',
       contact: '(582) 516-1324',
       email: 'hhassonp@bizjournals.com',
@@ -433,6 +459,7 @@ const data = {
       birthday: '',
       company: 'Youopia PVT LTD',
       role: 'manager',
+      assignRoleDate: 1665216660000,
       username: 'gjacombsq',
       contact: '(137) 467-5393',
       email: 'gjacombsq@jigsy.com',
@@ -449,6 +476,7 @@ const data = {
       birthday: '',
       company: 'Jetpulse PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'bkildayr',
       contact: '(412) 476-0854',
       email: 'bkildayr@mashable.com',
@@ -466,6 +494,7 @@ const data = {
       birthday: '',
       company: 'Kare PVT LTD',
       role: 'manager',
+      assignRoleDate: 1665216660000,
       username: 'cpinyons',
       contact: '(170) 683-1520',
       email: 'cpinyons@behance.net',
@@ -482,6 +511,7 @@ const data = {
       birthday: '',
       company: 'Voomm PVT LTD',
       role: 'subscriber',
+      assignRoleDate: 1665216660000,
       username: 'imallindinet',
       contact: '(332) 803-1983',
       email: 'imallindinet@shinystat.com',
@@ -534,6 +564,39 @@ mock.onGet('/apps/users/list').reply(config => {
       total: filteredData.length
     }
   ]
+})
+
+// GET: particular user data
+mock.onGet('/apps/user/roles').reply(config => {
+  const adminRole = { avatars: [], totalUsers: 0, title: 'Administrators' }
+  const managerRole = { avatars: [], totalUsers: 0, title: 'Managers' }
+  const subscriberRole = { avatars: [], totalUsers: 0, title: 'Subscribers' }
+
+  data.users.forEach(user => {
+    if (user.role === 'admin') {
+      adminRole.avatars.push(user.avatar)
+      adminRole.totalUsers = adminRole.totalUsers + 1
+    } else if (user.role === 'manager') {
+      managerRole.avatars.push(user.avatar)
+      managerRole.totalUsers = adminRole.totalUsers + 1
+    } else if (user.role === 'subscriber') {
+      subscriberRole.avatars.push(user.avatar)
+      subscriberRole.totalUsers = adminRole.totalUsers + 1
+    }
+  })
+
+  const returnData = [adminRole, managerRole, subscriberRole]
+
+  if (returnData.length) {
+    return [
+      200,
+      {
+        data: returnData
+      }
+    ]
+  } else {
+    return [404, { message: 'Unable to find the requested user!' }]
+  }
 })
 
 // GET: particular user data

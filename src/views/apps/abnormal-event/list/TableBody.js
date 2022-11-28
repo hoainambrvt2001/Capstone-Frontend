@@ -17,6 +17,7 @@ import EyeOutline from 'mdi-material-ui/EyeOutline'
 import DotsVertical from 'mdi-material-ui/DotsVertical'
 import PencilOutline from 'mdi-material-ui/PencilOutline'
 import DeleteOutline from 'mdi-material-ui/DeleteOutline'
+import PlayCircle from 'mdi-material-ui/PlayCircle'
 
 // ** Store Imports
 import { useDispatch } from 'react-redux'
@@ -99,7 +100,7 @@ const RowOptions = ({ id }) => {
   )
 }
 
-const TableBody = ({ rowsData, pageSize, setPageSize }) => {
+const TableBody = ({ rowsData, pageSize, setPageSize, handleOpenModel }) => {
   const columns = [
     {
       flex: 0.1,
@@ -111,6 +112,19 @@ const TableBody = ({ rowsData, pageSize, setPageSize }) => {
           <Typography noWrap variant='body2'>
             {capitalizeFirstLetter(row.type)}
           </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 50,
+      field: 'images',
+      headerName: 'Camera',
+      renderCell: ({ row }) => {
+        return (
+          <IconButton size='small' onClick={() => handleOpenModel(row.images[0].url)}>
+            <PlayCircle sx={{ color: 'primary.main', fontSize: '2.5rem' }} />
+          </IconButton>
         )
       }
     },
@@ -130,7 +144,7 @@ const TableBody = ({ rowsData, pageSize, setPageSize }) => {
       flex: 0.2,
       minWidth: 100,
       field: 'occurTime',
-      headerName: 'Occured Time',
+      headerName: 'Occurred Time',
       renderCell: ({ row }) => {
         return (
           <Typography noWrap variant='body2'>

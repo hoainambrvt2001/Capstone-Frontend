@@ -1,8 +1,21 @@
 // ** Demo Components Imports
-import AddUserView from 'src/views/apps/user/add/AddUserView'
+import UserView from 'src/views/apps/user/utils/UserView'
 
 const AddUser = () => {
-  return <AddUserView />
+  const userData = {
+    username: '',
+    role: 'subscriber',
+    firstName: '',
+    lastName: '',
+    contact: '',
+    email: '',
+    birthdate: new Date().getTime(),
+    company: '',
+    address: '',
+    country: '',
+    gender: 'male'
+  }
+  return <UserView id='' isAdded={true} userData={userData} />
 }
 
 export default AddUser

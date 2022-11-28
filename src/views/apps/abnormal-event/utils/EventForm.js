@@ -15,39 +15,44 @@ import InputLabel from '@mui/material/InputLabel'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import Button from '@mui/material/Button'
+import FileUploaderMultiple from './FileUploaderMultiple'
 
-const renderFormTitile = (isAdded, isEdited) => {
-  if (isAdded) {
-    return 'Add New Event'
-  } else if (isEdited) {
+// ** Styled Component
+import CardSnippet from 'src/@core/components/card-snippet'
+import DropzoneWrapper from 'src/@core/styles/libs/react-dropzone'
+
+// ** Source code imports
+import * as source from 'src/views/forms/form-elements/file-uploader/FileUploaderSourceCode'
+import CustomizeDateTimePickers from './DateTimePickers'
+
+const renderFormTitile = isEdited => {
+  if (isEdited) {
     return 'Edit Event'
   }
   return 'View Event Detail'
 }
 
-const EventForm = ({ id, isAdded, isEdited, eventData }) => {
+const EventForm = ({ id, isEdited, eventData, listBuildings, listRooms }) => {
   // ** Yup Schema
   const ROOM_SCHEMA = Yup.object().shape({
     type: Yup.string().required('It is a required field'),
-    images: Yup.array().required('It is a required field'),
     room: Yup.string().required('It is a required field'),
     building: Yup.string().required('It is a required field'),
     occurTime: Yup.number().required('It is a required field'),
-    occurDate: Yup.string().required('It is a required field'),
-    solveTime: Yup.string().required('It is a required field'),
-    solveDate: Yup.string().required('It is a required field')
+    solveTime: Yup.number().required('It is a required field'),
+    note: Yup.string(),
+    images: Yup.array().required('It is a required field')
   })
 
   // ** Initial Values:
   const initEventData = {
     type: eventData.type,
-    images: eventData.images,
     room: eventData.room,
     building: eventData.building,
     occurTime: eventData.occurTime,
-    occurDate: eventData.occurDate,
     solveTime: eventData.solveTime,
-    solveDate: eventData.solveDate
+    note: eventData.note,
+    images: eventData.images
   }
 
   return (
@@ -65,102 +70,14 @@ const EventForm = ({ id, isAdded, isEdited, eventData }) => {
             <Grid container spacing={6}>
               <Grid item xs={12} sx={{ my: 5 }}>
                 <Typography fullWidth variant='h4' sx={{ mb: 3 }}>
-                  {renderFormTitile(isAdded, isEdited)}
+                  {renderFormTitile(isEdited)}
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  InputProps={{
-                    readOnly: !isEdited
-                  }}
-                  required
-                  fullWidth
-                  name='code'
-                  label='Event code'
-                  placeholder='Enter event code'
-                  value={values.code}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.code && Boolean(errors.code)}
-                  helperText={touched.code && errors.code}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel required>Operation status</InputLabel>
-                  <Select
-                    InputProps={{
-                      readOnly: !isEdited
-                    }}
-                    label='Operation status'
-                    name='status'
-                    value={values.status}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  >
-                    <MenuItem value='available'>Available</MenuItem>
-                    <MenuItem value='maintenance'>Maintenance</MenuItem>
-                    <MenuItem value='unavailale'>Unavailable</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  InputProps={{
-                    readOnly: !isEdited
-                  }}
-                  required
-                  fullWidth
-                  name='name'
-                  label='Event name'
-                  placeholder='Enter event name'
-                  value={values.name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.name && Boolean(errors.name)}
-                  helperText={touched.name && errors.name}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  InputProps={{
-                    readOnly: !isEdited
-                  }}
-                  required
-                  fullWidth
-                  name='building'
-                  label='Building name'
-                  placeholder='Enter building name'
-                  value={values.building}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.building && Boolean(errors.building)}
-                  helperText={touched.building && errors.building}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  InputProps={{
-                    readOnly: !isEdited
-                  }}
-                  required
-                  type='number'
-                  fullWidth
-                  name='capacity'
-                  label='Event capacity'
-                  placeholder='Enter event capacity'
-                  value={values.capacity}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.capacity && Boolean(errors.capacity)}
-                  helperText={touched.capacity && errors.capacity}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel required>Type</InputLabel>
                   <Select
-                    InputProps={{
+                    inputProps={{
                       readOnly: !isEdited
                     }}
                     label='Type'
@@ -169,35 +86,111 @@ const EventForm = ({ id, isAdded, isEdited, eventData }) => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                   >
-                    <MenuItem value='public'>Public</MenuItem>
-                    <MenuItem value='private'>Private</MenuItem>
+                    <MenuItem value='stranger'>Stranger</MenuItem>
+                    <MenuItem value='overload'>Overloaded</MenuItem>
+                    <MenuItem value='fire'>Fire</MenuItem>
+                    <MenuItem value='other'>Other</MenuItem>
                   </Select>
                 </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel required>Occurred Building</InputLabel>
+                  <Select
+                    inputProps={{
+                      readOnly: !isEdited
+                    }}
+                    label='Occurred Building'
+                    name='building'
+                    value={values.building}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    {listBuildings.map((building, idx) => (
+                      <MenuItem value={building} key={idx}>
+                        {building}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel required>Occurred Room</InputLabel>
+                  <Select
+                    inputProps={{
+                      readOnly: !isEdited
+                    }}
+                    label='Occurred Room'
+                    name='room'
+                    value={values.room}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    {listRooms
+                      .filter(room => room.building === values.building)
+                      .map(room => (
+                        <MenuItem value={room.name} key={room.id}>
+                          {room.name}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <CustomizeDateTimePickers
+                  isEdited={isEdited}
+                  fieldLabel={'Occurred Time'}
+                  fieldName={'occurTime'}
+                  fieldValue={values.occurTime}
+                  setFieldValue={setFieldValue}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <CustomizeDateTimePickers
+                  isEdited={isEdited}
+                  fieldLabel={'Solved Time'}
+                  fieldName={'solveTime'}
+                  fieldValue={values.solveTime}
+                  setFieldValue={setFieldValue}
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   InputProps={{
                     readOnly: !isEdited
                   }}
-                  required
+                  multiline={true}
+                  minRows={6}
                   fullWidth
-                  multiline
-                  maxRows={10}
-                  name='desc'
-                  label='Description'
-                  placeholder='Enter description'
-                  value={values.desc}
+                  name='note'
+                  label='Note'
+                  placeholder='Enter note'
+                  value={values.note}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={touched.desc && Boolean(errors.desc)}
-                  helperText={touched.desc && errors.desc}
                 />
               </Grid>
+
+              <Grid item xs={12}>
+                <DropzoneWrapper>
+                  <CardSnippet
+                    title='Upload Multiple Files'
+                    code={{
+                      tsx: null,
+                      jsx: source.FileUploaderMultipleJSXCode
+                    }}
+                  >
+                    <FileUploaderMultiple isEdited={isEdited} images={values.images ? values.images : []} />
+                  </CardSnippet>
+                </DropzoneWrapper>
+              </Grid>
+
               <Grid item xs={12}>
                 {isEdited ? (
                   <>
                     <Button type='submit' variant='contained' sx={{ mr: 4 }}>
-                      Save
+                      Save changes
                     </Button>
                     <Link passHref href={`/apps/event/edit/${id}`}>
                       <Button type='reset' variant='outlined' color='secondary' onClick={resetForm}>
@@ -206,9 +199,11 @@ const EventForm = ({ id, isAdded, isEdited, eventData }) => {
                     </Link>
                   </>
                 ) : (
-                  <Button variant='contained' sx={{ mr: 4 }}>
-                    Edit This Event
-                  </Button>
+                  <Link passHref href={`/apps/abnormal-event/edit/${id}`}>
+                    <Button variant='contained' sx={{ mr: 4 }}>
+                      Edit This Event
+                    </Button>
+                  </Link>
                 )}
               </Grid>
             </Grid>

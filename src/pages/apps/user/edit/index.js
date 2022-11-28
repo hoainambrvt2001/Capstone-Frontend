@@ -2,10 +2,10 @@
 import axios from 'axios'
 
 // ** Demo Components Imports
-import EditUserView from 'src/views/apps/user/edit/EditUserView'
+import UserView from 'src/views/apps/user/utils/UserView'
 
 const EditUser = ({ id, userData }) => {
-  return <EditUserView id={id} userData={userData} />
+  return <UserView id={id} isAdded={false} userData={userData} />
 }
 
 export const getStaticProps = async () => {

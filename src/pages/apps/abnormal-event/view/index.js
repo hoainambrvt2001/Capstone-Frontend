@@ -4,8 +4,10 @@ import axios from 'axios'
 // ** Demo Components Imports
 import EventView from 'src/views/apps/abnormal-event/utils/EventView'
 
-const EditEvent = ({ id, eventData, listBuildings, listRooms }) => {
-  return <EventView id={id} isEdited={true} eventData={eventData} listBuildings={listBuildings} listRooms={listRooms} />
+const ViewEvent = ({ id, eventData, listBuildings, listRooms }) => {
+  return (
+    <EventView id={id} isEdited={false} eventData={eventData} listBuildings={listBuildings} listRooms={listRooms} />
+  )
 }
 
 export const getStaticProps = async () => {
@@ -23,4 +25,4 @@ export const getStaticProps = async () => {
   }
 }
 
-export default EditEvent
+export default ViewEvent

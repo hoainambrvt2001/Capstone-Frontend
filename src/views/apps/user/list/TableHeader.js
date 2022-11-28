@@ -7,10 +7,11 @@ import { Magnify } from 'mdi-material-ui'
 
 // ** Icons Imports
 import ExportVariant from 'mdi-material-ui/ExportVariant'
+import Link from 'next/link'
 
 const TableHeader = props => {
   // ** Props
-  const { handleFilter, toggle, value } = props
+  const { handleFilter, value } = props
 
   return (
     <Box sx={{ p: 5, pb: 3, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -33,9 +34,11 @@ const TableHeader = props => {
           }}
         />
 
-        <Button sx={{ mb: 2 }} onClick={toggle} variant='contained'>
-          Add User
-        </Button>
+        <Link passHref href='/apps/user/add'>
+          <Button sx={{ mb: 2 }} variant='contained'>
+            Add User
+          </Button>
+        </Link>
       </Box>
     </Box>
   )

@@ -13,7 +13,7 @@ import MuiTab from '@mui/material/Tab'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 
 // ** Demo Components Imports
-import UserViewOverview from 'src/views/apps/user/view/UserViewOverview'
+import UsersRoomAccessTable from './UsersRoomAccessTable'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -46,7 +46,7 @@ const UserViewRight = ({ accessData, handleOpenModel }) => {
       </TabList>
       <Box sx={{ mt: 3 }}>
         <TabPanel sx={{ p: 0 }} value='overview'>
-          <UserViewOverview accessData={accessData} handleOpenModel={handleOpenModel} />
+          <UsersRoomAccessTable accessData={accessData} handleOpenModel={handleOpenModel} />
         </TabPanel>
       </Box>
     </TabContext>

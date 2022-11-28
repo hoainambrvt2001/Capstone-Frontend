@@ -112,8 +112,8 @@ const navigation = () => {
     },
     {
       icon: VectorArrangeBelow,
-      title: 'Dialog Examples',
-      path: '/pages/dialog-examples'
+      title: 'Alert Notification',
+      path: '/alert-examples'
     },
     {
       sectionTitle: 'User Interface'
