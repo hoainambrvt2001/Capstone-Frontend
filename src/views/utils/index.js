@@ -59,8 +59,8 @@ export const CameraModel = ({ handleCloseModel, cameraModel, isAccessEvent }) =>
   )
 }
 
-export const AlertWithImages = ({ eventType = 'stranger', room, building }) => {
-  const [show, setShow] = useState(false)
+export const AlertWithImages = ({ eventType = 'stranger', room, building, show, setShow }) => {
+  // const [show, setShow] = useState(false)
 
   // ** Hooks
   const bgClasses = UseBgColor()
@@ -140,8 +140,16 @@ export const AlertWithImages = ({ eventType = 'stranger', room, building }) => {
   )
 }
 
-export const AlertWithoutImages = ({ eventType = 'overload', room, building, nowRoomSize = 0, maxRoomSize = 0 }) => {
-  const [show, setShow] = useState(false)
+export const AlertWithoutImages = ({
+  eventType = 'overload',
+  room,
+  building,
+  nowRoomSize = 0,
+  maxRoomSize = 0,
+  show,
+  setShow
+}) => {
+  // const [show, setShow] = useState(false)
 
   // ** Hooks
   const bgClasses = UseBgColor()

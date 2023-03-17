@@ -101,9 +101,13 @@ const RowOptions = ({ id }) => {
             </MenuItemLink>
           </Link>
         </MenuItem>
-        <MenuItem onClick={handleRowOptionsClose}>
-          <PencilOutline fontSize='small' sx={{ mr: 2 }} />
-          Edit
+        <MenuItem sx={{ p: 0 }}>
+          <Link href={`/apps/room/edit/${id}`} passHref>
+            <MenuItemLink>
+              <PencilOutline fontSize='small' sx={{ mr: 2 }} />
+              Edit
+            </MenuItemLink>
+          </Link>
         </MenuItem>
         <MenuItem onClick={handleDelete}>
           <DeleteOutline fontSize='small' sx={{ mr: 2 }} />
