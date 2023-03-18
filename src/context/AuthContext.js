@@ -39,14 +39,15 @@ const AuthProvider = ({ children }) => {
       if (storedToken) {
         setLoading(true)
         await axios
-          .get(authConfig.meEndpoint, {
+          .get('http://localhost:3333/auth/me', {
             headers: {
-              Authorization: storedToken
+              Authorization: `Bearer ${storedToken}`
             }
           })
-          .then(async response => {
+          .then(res => res.data)
+          .then(res => {
             setLoading(false)
-            setUser({ ...response.data.userData })
+            setUser({ ...res.data.user, role: 'admin' })
           })
           .catch(() => {
             localStorage.removeItem('userData')
@@ -64,24 +65,18 @@ const AuthProvider = ({ children }) => {
 
   const handleLogin = (params, errorCallback) => {
     axios
-      .post(authConfig.loginEndpoint, params)
-      .then(async res => {
-        window.localStorage.setItem(authConfig.storageTokenKeyName, res.data.accessToken)
+      .post('http://localhost:3333/auth/login', {
+        email: params.email,
+        password: params.password
       })
-      .then(() => {
-        axios
-          .get(authConfig.meEndpoint, {
-            headers: {
-              Authorization: window.localStorage.getItem(authConfig.storageTokenKeyName)
-            }
-          })
-          .then(async response => {
-            const returnUrl = router.query.returnUrl
-            setUser({ ...response.data.userData })
-            await window.localStorage.setItem('userData', JSON.stringify(response.data.userData))
-            const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
-            router.replace(redirectURL)
-          })
+      .then(res => res.data)
+      .then(res => {
+        const returnUrl = router.query.returnUrl
+        window.localStorage.setItem(authConfig.storageTokenKeyName, res.data.token)
+        setUser({ ...res.data.user, role: 'admin' })
+        window.localStorage.setItem('userData', JSON.stringify({ ...res.data.user, role: 'admin' }))
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+        router.replace(redirectURL)
       })
       .catch(err => {
         if (errorCallback) errorCallback(err)
@@ -98,13 +93,15 @@ const AuthProvider = ({ children }) => {
 
   const handleRegister = (params, errorCallback) => {
     axios
-      .post(authConfig.registerEndpoint, params)
+      .post('http://localhost:3333/auth/signup', params)
+      .then(res => res.data)
       .then(res => {
-        if (res.data.error) {
-          if (errorCallback) errorCallback(res.data.error)
-        } else {
-          handleLogin({ email: params.email, password: params.password })
-        }
+        const returnUrl = router.query.returnUrl
+        window.localStorage.setItem(authConfig.storageTokenKeyName, res.data.token)
+        setUser({ ...res.data.user, role: 'admin' })
+        window.localStorage.setItem('userData', JSON.stringify({ ...res.data.user, role: 'admin' }))
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+        router.replace(redirectURL)
       })
       .catch(err => (errorCallback ? errorCallback(err) : null))
   }

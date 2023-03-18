@@ -82,7 +82,6 @@ mock.onPost('/jwt/register').reply(request => {
       const user = { ...userData }
       delete user.password
       const response = { accessToken }
-
       return [200, response]
     }
 

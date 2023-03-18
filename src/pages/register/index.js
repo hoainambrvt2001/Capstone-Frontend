@@ -130,18 +130,12 @@ const RegisterPage = () => {
   })
 
   const onSubmit = data => {
-    const { email, username, password } = data
-    register({ email, username, password }, err => {
-      if (err.email) {
+    const { email, username: name, contact: phone_number, password } = data
+    register({ email, name, phone_number, password }, err => {
+      if (err) {
         setError('email', {
           type: 'manual',
-          message: err.email
-        })
-      }
-      if (err.username) {
-        setError('username', {
-          type: 'manual',
-          message: err.username
+          message: 'This email has been registered before!'
         })
       }
     })
@@ -245,7 +239,7 @@ const RegisterPage = () => {
                     onBlur={onBlur}
                     label='Username'
                     onChange={onChange}
-                    placeholder='johndoe'
+                    placeholder='Nam Vo'
                     error={Boolean(errors.username)}
                   />
                 )}
