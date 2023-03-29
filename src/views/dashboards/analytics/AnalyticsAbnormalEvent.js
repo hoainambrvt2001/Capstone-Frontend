@@ -91,6 +91,34 @@ const data = [
     RoomOverloaded: 60,
     Fires: 70,
     Others: 110
+  },
+  {
+    name: '15/10',
+    Strangers: 30,
+    RoomOverloaded: 60,
+    Fires: 70,
+    Others: 110
+  },
+  {
+    name: '15/10',
+    Strangers: 30,
+    RoomOverloaded: 60,
+    Fires: 70,
+    Others: 110
+  },
+  {
+    name: '15/10',
+    Strangers: 30,
+    RoomOverloaded: 60,
+    Fires: 70,
+    Others: 110
+  },
+  {
+    name: '15/10',
+    Strangers: 30,
+    RoomOverloaded: 60,
+    Fires: 70,
+    Others: 110
   }
 ]
 
