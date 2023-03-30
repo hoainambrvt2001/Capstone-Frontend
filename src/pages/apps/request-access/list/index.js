@@ -9,61 +9,61 @@ import Grid from '@mui/material/Grid'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Actions Imports
-import { fetchUsers } from 'src/store/apps/user'
+import { fetchRequestAccess } from 'src/store/apps/request-access'
 
 // ** Custom Components Imports
-import TableHeader from 'src/views/apps/user/list/TableHeader'
-import FilterHeader from 'src/views/apps/user/list/FilterHeader'
-import TableBody from 'src/views/apps/user/list/TableBody'
+import TableHeader from 'src/views/apps/request-access/list/TableHeader'
+import TableBody from 'src/views/apps/request-access/list/TableBody'
+import FilterHeader from 'src/views/apps/request-access/list/FilterHeader'
+
+// ** Config
 import { useAuth } from 'src/hooks/useAuth'
 
-const UserList = () => {
+const RequestAccessListPage = () => {
   const auth = useAuth()
 
   // ** State
-  const [role, setRole] = useState('')
-  const [value, setValue] = useState('')
+  const [status, setStatus] = useState('')
   const [pageSize, setPageSize] = useState(10)
   const [pageNumber, setPageNumber] = useState(0)
+  const [value, setValue] = useState('')
 
   // ** Hooks
   const dispatch = useDispatch()
-  const store = useSelector(state => state.user)
+  const store = useSelector(state => state.request_access)
+
   useEffect(() => {
     const params = {
-      role,
+      page: pageNumber,
+      limit: pageSize,
+      status: status,
       q: value
     }
-    dispatch(
-      fetchUsers({
-        token: auth.accessToken,
-        params
-      })
-    )
-  }, [dispatch, role, value])
+    dispatch(fetchRequestAccess({ token: auth.accessToken, params }))
+  }, [dispatch, pageNumber, pageSize, status, value])
+
+  const handleStatusChange = useCallback(e => {
+    setStatus(e.target.value)
+  }, [])
 
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
 
-  const handleRoleChange = useCallback(e => {
-    setRole(e.target.value)
-  }, [])
-
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <FilterHeader role={role} handleRoleChange={handleRoleChange} />
+        <FilterHeader handleStatusChange={handleStatusChange} status={status} />
       </Grid>
       <Grid item xs={12}>
         <Card>
           <TableHeader value={value} handleFilter={handleFilter} />
           <TableBody
             rowsData={store.data}
-            pageSize={pageSize}
-            setPageSize={setPageSize}
             pageNumber={pageNumber}
             setPageNumber={setPageNumber}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
           />
         </Card>
       </Grid>
@@ -71,4 +71,4 @@ const UserList = () => {
   )
 }
 
-export default UserList
+export default RequestAccessListPage

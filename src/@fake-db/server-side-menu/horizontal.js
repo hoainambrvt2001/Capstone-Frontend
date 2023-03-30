@@ -38,11 +38,6 @@ const navigation = [
         path: '/apps/chat'
       },
       {
-        title: 'Calendar',
-        icon: 'CalendarBlankOutline',
-        path: '/apps/calendar'
-      },
-      {
         title: 'Invoice',
         icon: 'FileDocumentOutline',
         children: [
@@ -217,7 +212,7 @@ const navigation = [
           {
             title: 'More',
             path: '/components/more'
-          },
+          }
         ]
       }
     ]
@@ -410,7 +405,7 @@ const navigation = [
           {
             title: 'Input Mask',
             path: '/forms/form-elements/input-mask'
-          },
+          }
         ]
       },
       {

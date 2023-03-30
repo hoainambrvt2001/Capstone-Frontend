@@ -6,11 +6,12 @@ import chat from 'src/store/apps/chat'
 import user from 'src/store/apps/user'
 import email from 'src/store/apps/email'
 import invoice from 'src/store/apps/invoice'
-import calendar from 'src/store/apps/calendar'
 import permissions from 'src/store/apps/permissions'
 import access_event from 'src/store/apps/access-event'
 import room from 'src/store/apps/room'
 import abnormal_event from 'src/store/apps/abnormal-event'
+import request_access from 'src/store/apps/request-access'
+import image_dialog from 'src/store/apps/image-dialog'
 
 export const store = configureStore({
   reducer: {
@@ -18,11 +19,12 @@ export const store = configureStore({
     chat,
     email,
     invoice,
-    calendar,
     permissions,
     access_event,
     room,
-    abnormal_event
+    abnormal_event,
+    request_access,
+    image_dialog
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

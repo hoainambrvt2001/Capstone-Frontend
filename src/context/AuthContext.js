@@ -13,6 +13,7 @@ import authConfig from 'src/configs/auth'
 // ** Defaults
 const defaultProvider = {
   user: null,
+  accessToken: null,
   loading: true,
   setUser: () => null,
   setLoading: () => Boolean,
@@ -26,6 +27,7 @@ const AuthContext = createContext(defaultProvider)
 
 const AuthProvider = ({ children }) => {
   // ** States
+  const [accessToken, setAccessToken] = useState(defaultProvider.accessToken)
   const [user, setUser] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
   const [isInitialized, setIsInitialized] = useState(defaultProvider.isInitialized)
@@ -48,6 +50,7 @@ const AuthProvider = ({ children }) => {
           .then(res => {
             setLoading(false)
             setUser({ ...res.data.user, role: 'admin' })
+            setAccessToken(storedToken)
           })
           .catch(() => {
             localStorage.removeItem('userData')
@@ -55,6 +58,7 @@ const AuthProvider = ({ children }) => {
             localStorage.removeItem('accessToken')
             setUser(null)
             setLoading(false)
+            setAccessToken(null)
           })
       } else {
         setLoading(false)
@@ -71,10 +75,11 @@ const AuthProvider = ({ children }) => {
       })
       .then(res => res.data)
       .then(res => {
-        const returnUrl = router.query.returnUrl
         window.localStorage.setItem(authConfig.storageTokenKeyName, res.data.token)
-        setUser({ ...res.data.user, role: 'admin' })
         window.localStorage.setItem('userData', JSON.stringify({ ...res.data.user, role: 'admin' }))
+        setUser({ ...res.data.user, role: 'admin' })
+        setAccessToken(res.data.token)
+        const returnUrl = router.query.returnUrl
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
         router.replace(redirectURL)
       })
@@ -96,10 +101,11 @@ const AuthProvider = ({ children }) => {
       .post('http://localhost:3333/auth/signup', params)
       .then(res => res.data)
       .then(res => {
-        const returnUrl = router.query.returnUrl
         window.localStorage.setItem(authConfig.storageTokenKeyName, res.data.token)
-        setUser({ ...res.data.user, role: 'admin' })
         window.localStorage.setItem('userData', JSON.stringify({ ...res.data.user, role: 'admin' }))
+        setUser({ ...res.data.user, role: 'admin' })
+        setAccessToken(res.data.token)
+        const returnUrl = router.query.returnUrl
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
         router.replace(redirectURL)
       })
@@ -108,6 +114,7 @@ const AuthProvider = ({ children }) => {
 
   const values = {
     user,
+    accessToken,
     loading,
     setUser,
     setLoading,

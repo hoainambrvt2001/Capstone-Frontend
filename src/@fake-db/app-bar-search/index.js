@@ -38,13 +38,6 @@ const searchData = [
     category: 'appsPages'
   },
   {
-    id: 6,
-    url: '/apps/calendar',
-    icon: 'CalendarBlankOutline',
-    title: 'Calendar',
-    category: 'appsPages'
-  },
-  {
     id: 7,
     url: '/apps/invoice/list',
     icon: 'FormatListNumbered',

@@ -36,11 +36,6 @@ const navigation = [
     path: '/apps/chat'
   },
   {
-    title: 'Calendar',
-    icon: 'CalendarBlankOutline',
-    path: '/apps/calendar'
-  },
-  {
     title: 'Invoice',
     icon: 'FileDocumentOutline',
     children: [

@@ -17,7 +17,7 @@ import PlayCircle from 'mdi-material-ui/PlayCircle'
 import ChevronDown from 'mdi-material-ui/ChevronDown'
 
 // ** Actions Imports
-import { customizeRenderDateTime } from 'src/functions'
+import { capitalizeFirstLetter, customizeRenderDateTime } from 'src/functions'
 
 const UsersRoomAccessTable = ({ accessData, handleOpenModel }) => {
   // ** State
@@ -39,83 +39,70 @@ const UsersRoomAccessTable = ({ accessData, handleOpenModel }) => {
   const columns = [
     {
       flex: 0.2,
-      minWidth: 90,
-      field: 'building',
-      headerName: 'Building',
-      renderCell: ({ row }) => {
-        return (
-          <Typography noWrap variant='body2'>
-            {row.building}
-          </Typography>
-        )
-      }
-    },
-    {
-      flex: 0.2,
-      minWidth: 70,
+      minWidth: 100,
       field: 'room',
       headerName: 'Room',
       renderCell: ({ row }) => {
         return (
           <Typography noWrap variant='body2'>
-            {row.room}
+            {row.room.name}
           </Typography>
         )
       }
     },
-    {
-      flex: 0.2,
-      minWidth: 90,
-      field: 'accessImg',
-      headerName: 'Camera',
-      renderCell: ({ row }) => {
-        return (
-          <IconButton size='small' onClick={() => handleOpenModel(row.accessImg, row.fullName)}>
-            <PlayCircle sx={{ color: 'primary.main', fontSize: '2.5rem' }} />
-          </IconButton>
-        )
-      }
-    },
+    // {
+    //   flex: 0.2,
+    //   minWidth: 90,
+    //   field: 'images',
+    //   headerName: 'Camera',
+    //   renderCell: ({ row }) => {
+    //     return (
+    //       <IconButton size='small' onClick={() => handleOpenModel(row.accessImg, row.fullName)}>
+    //         <PlayCircle sx={{ color: 'primary.main', fontSize: '2.5rem' }} />
+    //       </IconButton>
+    //     )
+    //   }
+    // },
     {
       flex: 0.2,
       minWidth: 160,
-      field: 'credential',
-      headerName: 'Credential',
+      field: 'is_guest',
+      headerName: 'Guest',
       renderCell: ({ row }) => {
         return (
           <Typography noWrap variant='body2'>
-            {row.credential}
+            {capitalizeFirstLetter(row.is_guest.toString())}
           </Typography>
         )
       }
     },
-    {
-      flex: 0.2,
-      minWidth: 110,
-      field: 'result',
-      headerName: 'Result',
-      renderCell: ({ row }) => {
-        return (
-          <Typography
-            noWrap
-            variant='body2'
-            fontWeight={600}
-            sx={{ color: row.result === 'Granted' ? 'success.main' : 'error.main' }}
-          >
-            {row.result}
-          </Typography>
-        )
-      }
-    },
+    // {
+    //   flex: 0.2,
+    //   minWidth: 110,
+    //   field: 'result',
+    //   headerName: 'Result',
+    //   renderCell: ({ row }) => {
+    //     return (
+    //       <Typography
+    //         noWrap
+    //         variant='body2'
+    //         fontWeight={600}
+    //         sx={{ color: row.result === 'Granted' ? 'success.main' : 'error.main' }}
+    //       >
+    //         {row.result}
+    //       </Typography>
+    //     )
+    //   }
+    // },
     {
       flex: 0.2,
       minWidth: 200,
-      field: 'time',
-      headerName: 'Time',
+      field: 'accessed_time',
+      headerName: 'Accessed Time',
       renderCell: ({ row }) => {
         return (
           <Typography noWrap variant='body2'>
-            {customizeRenderDateTime(row.time)}
+            {customizeRenderDateTime(row.accessed_time)}
           </Typography>
         )
       }
@@ -153,7 +140,7 @@ const UsersRoomAccessTable = ({ accessData, handleOpenModel }) => {
       />
       <DataGrid
         autoHeight
-        rows={accessData.data}
+        rows={accessData}
         columns={columns}
         pageSize={pageSize}
         disableSelectionOnClick

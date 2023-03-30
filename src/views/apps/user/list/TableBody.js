@@ -1,38 +1,19 @@
-// ** React Imports
-import { useState } from 'react'
-
 // ** Next Import
 import Link from 'next/link'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Menu from '@mui/material/Menu'
 import { DataGrid } from '@mui/x-data-grid'
-import MenuItem from '@mui/material/MenuItem'
-import { styled } from '@mui/material/styles'
-import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 
 // ** Icons Imports
 import Laptop from 'mdi-material-ui/Laptop'
 import CogOutline from 'mdi-material-ui/CogOutline'
-import EyeOutline from 'mdi-material-ui/EyeOutline'
-import DotsVertical from 'mdi-material-ui/DotsVertical'
-import PencilOutline from 'mdi-material-ui/PencilOutline'
-import DeleteOutline from 'mdi-material-ui/DeleteOutline'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
 
-// ** Store Imports
-import { useDispatch } from 'react-redux'
-
-// ** Custom Components Imports
-import CustomAvatar from 'src/@core/components/mui/avatar'
-
-// ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
-
-// ** Actions Imports
-import { deleteUser } from 'src/store/apps/user'
+// ** Components Imports
+import RenderClientColumn from '../utils/RenderClientColumn'
+import RowOptions from '../utils/RowOptions'
 
 // ** Vars
 const userRoleObj = {
@@ -41,124 +22,17 @@ const userRoleObj = {
   subscriber: <AccountOutline sx={{ mr: 2, color: 'primary.main' }} />
 }
 
-// ** Styled component for the link for the avatar with image
-const AvatarWithImageLink = styled(Link)(({ theme }) => ({
-  marginRight: theme.spacing(3)
-}))
-
-// ** Styled component for the link for the avatar without image
-const AvatarWithoutImageLink = styled(Link)(({ theme }) => ({
-  textDecoration: 'none',
-  marginRight: theme.spacing(3)
-}))
-
-// ** Customize Renders Client Column
-const renderClient = row => {
-  if (row.avatar.length) {
-    return (
-      <AvatarWithImageLink href={`/apps/user/view/${row.id}`}>
-        <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />
-      </AvatarWithImageLink>
-    )
-  } else {
-    return (
-      <AvatarWithoutImageLink href={`/apps/user/view/${row.id}`}>
-        <CustomAvatar
-          skin='light'
-          color={row.avatarColor || 'primary'}
-          sx={{ mr: 3, width: 34, height: 34, fontSize: '1rem' }}
-        >
-          {getInitials(row.fullName ? row.fullName : 'John Doe')}
-        </CustomAvatar>
-      </AvatarWithoutImageLink>
-    )
-  }
-}
-
-// ** Styled component for the link inside menu
-const MenuItemLink = styled('a')(({ theme }) => ({
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  textDecoration: 'none',
-  padding: theme.spacing(1.5, 4),
-  color: theme.palette.text.primary
-}))
-
-const RowOptions = ({ id }) => {
-  // ** Hooks
-  const dispatch = useDispatch()
-
-  // ** State
-  const [anchorEl, setAnchorEl] = useState(null)
-  const rowOptionsOpen = Boolean(anchorEl)
-
-  const handleRowOptionsClick = event => {
-    setAnchorEl(event.currentTarget)
-  }
-
-  const handleRowOptionsClose = () => {
-    setAnchorEl(null)
-  }
-
-  const handleDelete = () => {
-    dispatch(deleteUser(id))
-    handleRowOptionsClose()
-  }
-
-  return (
-    <>
-      <IconButton size='small' onClick={handleRowOptionsClick}>
-        <DotsVertical />
-      </IconButton>
-      <Menu
-        keepMounted
-        anchorEl={anchorEl}
-        open={rowOptionsOpen}
-        onClose={handleRowOptionsClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right'
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-        PaperProps={{ style: { minWidth: '8rem' } }}
-      >
-        <MenuItem sx={{ p: 0 }}>
-          <Link href={`/apps/user/view/${id}`} passHref>
-            <MenuItemLink>
-              <EyeOutline fontSize='small' sx={{ mr: 2 }} />
-              View
-            </MenuItemLink>
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleRowOptionsClose}>
-          <PencilOutline fontSize='small' sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-        <MenuItem onClick={handleDelete}>
-          <DeleteOutline fontSize='small' sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Menu>
-    </>
-  )
-}
-
 const columns = [
   {
     flex: 0.2,
     minWidth: 230,
-    field: 'fullName',
+    field: 'name',
     headerName: 'User',
     renderCell: ({ row }) => {
-      const { id, fullName, username } = row
-
+      const { id, name, email } = row
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
+          {RenderClientColumn(row)}
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
             <Link href={`/apps/user/view/${id}`} passHref>
               <Typography
@@ -167,12 +41,12 @@ const columns = [
                 variant='subtitle2'
                 sx={{ color: 'text.primary', textDecoration: 'none' }}
               >
-                {fullName}
+                {name}
               </Typography>
             </Link>
             <Link href={`/apps/user/view/${id}`} passHref>
               <Typography noWrap component='a' variant='caption' sx={{ textDecoration: 'none' }}>
-                @{username}
+                @{email.split('@')[0]}
               </Typography>
             </Link>
           </Box>
@@ -196,25 +70,12 @@ const columns = [
   {
     flex: 0.2,
     minWidth: 150,
-    field: 'contact',
-    headerName: 'Mobile',
+    field: 'phone_number',
+    headerName: 'Phone number',
     renderCell: ({ row }) => {
       return (
         <Typography noWrap variant='body2'>
-          {row.contact}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.2,
-    minWidth: 250,
-    field: 'address',
-    headerName: 'Address',
-    renderCell: ({ row }) => {
-      return (
-        <Typography noWrap variant='body2'>
-          {row.address}
+          {row.phone_number ? row.phone_number : 'NaN'}
         </Typography>
       )
     }
@@ -227,9 +88,9 @@ const columns = [
     renderCell: ({ row }) => {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {userRoleObj[row.role]}
+          {userRoleObj[row.role.name]}
           <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-            {row.role}
+            {row.role.name}
           </Typography>
         </Box>
       )
@@ -245,7 +106,7 @@ const columns = [
   }
 ]
 
-const TableBody = ({ rowsData, pageSize, setPageSize }) => {
+const TableBody = ({ rowsData, pageSize, setPageSize, pageNumber, setPageNumber }) => {
   return (
     <DataGrid
       autoHeight
@@ -253,10 +114,12 @@ const TableBody = ({ rowsData, pageSize, setPageSize }) => {
       columns={columns}
       checkboxSelection
       pageSize={pageSize}
+      page={pageNumber}
       disableSelectionOnClick
       rowsPerPageOptions={[10, 25, 50]}
       sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
       onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+      onPageChange={newPageNumber => setPageNumber(newPageNumber)}
     />
   )
 }

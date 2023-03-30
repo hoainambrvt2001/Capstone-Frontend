@@ -101,14 +101,14 @@ const navigation = () => {
       ]
     },
     {
+      title: 'Request Accesses',
+      icon: FileDocumentOutline,
+      path: '/apps/request-access/list'
+    },
+    {
       title: 'Roles',
       icon: LockOutline,
       path: '/apps/roles'
-    },
-    {
-      title: 'Calendar',
-      icon: CalendarBlankOutline,
-      path: '/apps/calendar'
     },
     {
       icon: VectorArrangeBelow,

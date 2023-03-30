@@ -55,6 +55,8 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 
 // ** Global css styles
 import '../../styles/globals.css'
+import { AlertWithoutImages } from 'src/views/utils'
+import ImageDialogComponent from 'src/views/utils/ImageDialogComponent'
 
 const clientSideEmotionCache = createEmotionCache()
 
@@ -115,6 +117,8 @@ const App = props => {
                       <Guard authGuard={authGuard} guestGuard={guestGuard}>
                         <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard}>
                           {getLayout(<Component {...pageProps} />)}
+                          {/* <AlertWithoutImages show={true} /> */}
+                          <ImageDialogComponent />
                         </AclGuard>
                       </Guard>
                     </WindowWrapper>

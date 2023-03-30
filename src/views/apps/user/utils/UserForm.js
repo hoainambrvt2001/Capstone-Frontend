@@ -51,56 +51,47 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 }))
 
 const UserForm = ({ userData, isAdded }) => {
-  // ** State
-  const [avatarSrc, setAvatarSrc] = useState(userData.avatar)
-  const [avatarColor, setAvatarColor] = useState(userData.avatarColor)
-
   // ** Yup Schema
   const USER_SCHEMA = Yup.object().shape({
     username: Yup.string().required('It is a required field'),
-    role: Yup.string().required('It is a required field'),
-    firstName: Yup.string().required('It is a required field'),
-    lastName: Yup.string().required('It is a required field'),
-    contact: Yup.string().required('It is a required field'),
     email: Yup.string().required('It is a required field'),
-    birthdate: Yup.string().required('It is a required field'),
-    company: Yup.string(),
-    address: Yup.string().required('It is a required field'),
-    country: Yup.string().required('It is a required field'),
-    gender: Yup.string().required('It is a required field')
+    role: Yup.string().required('It is a required field'),
+    name: Yup.string().required('It is a required field'),
+    phone_number: Yup.string(),
+    photo_url: Yup.string()
   })
 
   // ** Vars
-  const renderUserAvatar = () => {
-    if (avatarSrc) {
+  const renderUserAvatar = (photoUrl, userName) => {
+    if (photoUrl) {
       return (
         <CustomAvatar
           alt='User Image'
-          src={avatarSrc}
+          src={photoUrl}
           variant='rounded'
           sx={{ width: 120, height: 120, mb: 4, mr: 5 }}
         />
       )
-    } else if (avatarColor) {
+    } else {
       return (
         <CustomAvatar
           skin='light'
           variant='rounded'
-          color={avatarColor}
+          color={'primary'}
           sx={{ width: 120, height: 120, fontWeight: 600, mb: 4, mr: 5, fontSize: '3rem' }}
         >
-          {getInitials(userData.firstName)}
+          {getInitials(userName)}
         </CustomAvatar>
       )
     }
   }
 
-  const onChange = file => {
+  const onChangePhoto = (file, setFieldValue) => {
     // TODO: UPDATE IMAGE TO FIREBASE
     const reader = new FileReader()
     const { files } = file.target
     if (files && files.length !== 0) {
-      reader.onload = () => setAvatarSrc(reader.result)
+      reader.onload = () => setFieldValue('photo_url', reader.result)
       reader.readAsDataURL(files[0])
     }
   }
@@ -110,17 +101,12 @@ const UserForm = ({ userData, isAdded }) => {
       <Formik
         validationSchema={USER_SCHEMA}
         initialValues={{
-          username: userData.username,
-          role: userData.role,
-          firstName: userData.firstName,
-          lastName: userData.lastName,
-          contact: userData.contact,
+          username: userData.email ? `@${userData.email.split('@')[0]}` : '',
           email: userData.email,
-          birthdate: userData.birthdate ? userData.birthdate : new Date().getTime(),
-          company: userData.company,
-          address: userData.address,
-          country: userData.country,
-          gender: userData.gender.toLowerCase()
+          role: userData.role_id,
+          name: userData.name,
+          phone_number: userData.phone_number,
+          photo_url: userData.photo_url
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           console.log(values)
@@ -132,19 +118,23 @@ const UserForm = ({ userData, isAdded }) => {
             <Grid container spacing={6}>
               <Grid item xs={12} sx={{ my: 5 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  {renderUserAvatar()}
+                  {renderUserAvatar(values.photo_url, userData.name)}
                   <Box>
                     <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
                       Upload New Photo
                       <input
                         hidden
                         type='file'
-                        onChange={onChange}
+                        onChange={file => onChangePhoto(file, setFieldValue)}
                         accept='image/png, image/jpeg'
                         id='account-settings-upload-image'
                       />
                     </ButtonStyled>
-                    <ResetButtonStyled color='error' variant='outlined' onClick={() => setAvatarSrc(userData.avatar)}>
+                    <ResetButtonStyled
+                      color='error'
+                      variant='outlined'
+                      onClick={() => setFieldValue('photo_url', userData.photo_url)}
+                    >
                       Reset
                     </ResetButtonStyled>
                     <Typography sx={{ mt: 4 }} component='p' variant='caption'>
@@ -153,73 +143,24 @@ const UserForm = ({ userData, isAdded }) => {
                   </Box>
                 </Box>
               </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name='username'
-                  label='Username'
-                  placeholder='Enter user name'
-                  value={values.username}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.username && Boolean(errors.username)}
-                  helperText={touched.username && errors.username}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel required>Role</InputLabel>
-                  <Select label='Role' name='role' value={values.role} onChange={handleChange} onBlur={handleBlur}>
-                    <MenuItem value='admin'>Admin</MenuItem>
-                    <MenuItem value='manager'>Manager</MenuItem>
-                    <MenuItem value='subscriber'>Subscriber</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name='firstName'
-                  label='First name'
-                  placeholder='Enter first name'
-                  value={values.firstName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.firstName && Boolean(errors.firstName)}
-                  helperText={touched.firstName && errors.firstName}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name='lastName'
-                  label='Last name'
-                  placeholder='Enter last name'
-                  value={values.lastName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.lastName && Boolean(errors.lastName)}
-                  helperText={touched.lastName && errors.lastName}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name='contact'
-                  label='Mobile'
-                  placeholder='Enter phone number'
-                  value={values.contact}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.contact && Boolean(errors.contact)}
-                  helperText={touched.contact && errors.contact}
-                />
-              </Grid>
+              {!isAdded ? (
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    fullWidth
+                    name='username'
+                    label='Username'
+                    value={values.username}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.username && Boolean(errors.username)}
+                    helperText={touched.username && errors.username}
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Grid>
+              ) : null}
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
@@ -233,74 +174,47 @@ const UserForm = ({ userData, isAdded }) => {
                   onBlur={handleBlur}
                   error={touched.email && Boolean(errors.email)}
                   helperText={touched.email && errors.email}
+                  InputProps={{
+                    readOnly: !isAdded
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <MobileDatePicker
-                      fullWidth
-                      disableFuture
-                      name='birthdate'
-                      label='Birthdate'
-                      value={values.birthdate}
-                      onChange={newValue => setFieldValue('birthdate', new Date(newValue).getTime())}
-                      onBlur={handleBlur}
-                      renderInput={params => <TextField {...params} />}
-                    />
-                  </LocalizationProvider>
+                  <InputLabel required>Role</InputLabel>
+                  <Select label='Role' name='role' value={values.role} onChange={handleChange} onBlur={handleBlur}>
+                    <MenuItem value='638c5f1c700c4c50a7ffc01d'>Admin</MenuItem>
+                    <MenuItem value='638c5f6a700c4c50a7ffc027'>Manager</MenuItem>
+                    <MenuItem value='638c5f71700c4c50a7ffc028'>Subscriber</MenuItem>
+                  </Select>
                 </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  name='company'
-                  label='Company'
-                  placeholder='Enter company'
-                  value={values.company}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.company && Boolean(errors.company)}
-                  helperText={touched.company && errors.company}
-                />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
-                  name='address'
-                  label='Address'
-                  placeholder='Enter address'
-                  value={values.address}
+                  name='name'
+                  label='Name'
+                  placeholder='Enter name'
+                  value={values.name}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={touched.address && Boolean(errors.address)}
-                  helperText={touched.address && errors.address}
+                  error={touched.name && Boolean(errors.name)}
+                  helperText={touched.name && errors.name}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   fullWidth
-                  name='country'
-                  label='Country'
-                  placeholder='Enter country'
-                  value={values.country}
+                  name='phone_number'
+                  label='Phone number'
+                  placeholder='Enter phone number'
+                  value={values.phone_number}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={touched.country && Boolean(errors.country)}
-                  helperText={touched.country && errors.country}
+                  error={touched.phone_number && Boolean(errors.phone_number)}
+                  helperText={touched.phone_number && errors.phone_number}
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <FormLabel required>Gender</FormLabel>
-                  <RadioGroup row name='gender' value={values.gender} onChange={handleChange} onBlur={handleBlur}>
-                    <FormControlLabel value='male' control={<Radio />} label='Male' />
-                    <FormControlLabel value='female' control={<Radio />} label='Female' />
-                    <FormControlLabel value='other' control={<Radio />} label='Other' />
-                  </RadioGroup>
-                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <Button type='submit' variant='contained' sx={{ mr: 4 }}>

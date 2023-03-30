@@ -142,8 +142,8 @@ export const AlertWithImages = ({ eventType = 'stranger', room, building, show, 
 
 export const AlertWithoutImages = ({
   eventType = 'overload',
-  room,
-  building,
+  room = '',
+  building = '',
   nowRoomSize = 0,
   maxRoomSize = 0,
   show,

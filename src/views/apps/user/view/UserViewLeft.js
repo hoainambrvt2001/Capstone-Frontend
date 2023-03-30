@@ -22,7 +22,7 @@ const roleColors = {
   subscriber: 'primary'
 }
 
-const UserViewLeft = ({ id, data }) => {
+const UserViewLeft = ({ id, userData }) => {
   // * Next router
   const router = useRouter()
 
@@ -32,20 +32,25 @@ const UserViewLeft = ({ id, data }) => {
   }
 
   const renderUserAvatar = () => {
-    if (data) {
-      if (data.avatar.length) {
+    if (userData) {
+      if (userData.photo_url) {
         return (
-          <CustomAvatar alt='User Image' src={data.avatar} variant='rounded' sx={{ width: 120, height: 120, mb: 4 }} />
+          <CustomAvatar
+            alt='User Image'
+            src={userData.photo_url}
+            variant='rounded'
+            sx={{ width: 120, height: 120, mb: 4 }}
+          />
         )
       } else {
         return (
           <CustomAvatar
             skin='light'
             variant='rounded'
-            color={data.avatarColor}
+            color={'primary'}
             sx={{ width: 120, height: 120, fontWeight: 600, mb: 4, fontSize: '3rem' }}
           >
-            {getInitials(data.fullName)}
+            {getInitials(userData.name)}
           </CustomAvatar>
         )
       }
@@ -53,7 +58,8 @@ const UserViewLeft = ({ id, data }) => {
       return null
     }
   }
-  if (data) {
+
+  if (userData) {
     return (
       <Grid container spacing={6}>
         <Grid item xs={12}>
@@ -61,13 +67,13 @@ const UserViewLeft = ({ id, data }) => {
             <CardContent sx={{ pt: 15, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
               {renderUserAvatar()}
               <Typography variant='h6' sx={{ mb: 4 }}>
-                {data.fullName}
+                {userData.name}
               </Typography>
               <CustomChip
                 skin='light'
                 size='small'
-                label={data.role}
-                color={roleColors[data.role]}
+                label={userData.role.name}
+                color={roleColors[userData.role.name]}
                 sx={{
                   borderRadius: '4px',
                   fontSize: '0.875rem',
@@ -85,23 +91,23 @@ const UserViewLeft = ({ id, data }) => {
                   <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
                     Username:
                   </Typography>
-                  <Typography variant='body2'>@{data.username}</Typography>
+                  <Typography variant='body2'>@{userData.email.split('@')[0]}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography variant='subtitle2' sx={{ mr: 2, color: 'text.primary' }}>
                     Email:
                   </Typography>
-                  <Typography variant='body2'>{data.email}</Typography>
+                  <Typography variant='body2'>{userData.email}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Contact:</Typography>
-                  <Typography variant='body2'>+1 {data.contact}</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Phone number:</Typography>
+                  <Typography variant='body2'>{userData.phone_number ? userData.phone_number : 'NaN'}</Typography>
                 </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                {/* <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Company:</Typography>
                   <Typography variant='body2'>{data.company}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                </Box> */}
+                {/* <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Country:</Typography>
                   <Typography variant='body2' sx={{ textTransform: 'capitalize' }}>
                     {data.country}
@@ -112,21 +118,21 @@ const UserViewLeft = ({ id, data }) => {
                   <Typography variant='body2' sx={{ textTransform: 'capitalize' }}>
                     {data.address}
                   </Typography>
-                </Box>
+                </Box> */}
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Role:</Typography>
                   <Typography variant='body2' sx={{ textTransform: 'capitalize' }}>
-                    {data.role}
+                    {userData.role.name}
                   </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                {/* <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Birthday:</Typography>
                   <Typography variant='body2'>{data.birthday}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex' }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Gender:</Typography>
                   <Typography variant='body2'>{data.gender}</Typography>
-                </Box>
+                </Box> */}
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>Language:</Typography>
                   <Typography variant='body2'>English</Typography>
