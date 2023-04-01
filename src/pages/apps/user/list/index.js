@@ -28,7 +28,8 @@ const UserList = () => {
 
   // ** Hooks
   const dispatch = useDispatch()
-  const store = useSelector(state => state.user)
+  const userSlice = useSelector(state => state.user)
+
   useEffect(() => {
     const params = {
       role,
@@ -59,7 +60,7 @@ const UserList = () => {
         <Card>
           <TableHeader value={value} handleFilter={handleFilter} />
           <TableBody
-            rowsData={store.data}
+            rowsData={userSlice.data}
             pageSize={pageSize}
             setPageSize={setPageSize}
             pageNumber={pageNumber}

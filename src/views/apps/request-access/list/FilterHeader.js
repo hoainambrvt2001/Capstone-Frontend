@@ -8,13 +8,10 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 
+// ** Constant Imports
+import { REQUEST_ACCESS_STATUS } from 'src/constants'
+
 const FilterHeader = ({ handleStatusChange, status }) => {
-  const REQUEST_ACCESS_STATUS = {
-    PENDING: 'pending',
-    ACCEPTED: 'accepted',
-    DECLINED: 'declined',
-    CANCELED: 'canceled'
-  }
   return (
     <Card>
       <CardHeader title='Search Filters' sx={{ pb: 4, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />

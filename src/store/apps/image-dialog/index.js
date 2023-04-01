@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 export const ImageDialogSlice = createSlice({
-  name: 'notification',
+  name: 'image_dialog',
   initialState: {
     isShow: false,
     title: '',

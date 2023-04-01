@@ -14,14 +14,19 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Box from '@mui/material/Box'
 
 // ** Customize Access Image Model
-const ImageDialogComponent = () => {
+const ImageDialog = () => {
   const dispatch = useDispatch()
   const dialogSlice = useSelector(state => state.image_dialog)
+
+  // ** Handle functions:
+  const onCloseDialog = () => {
+    dispatch(closeImageDialog())
+  }
 
   return (
     <Dialog
       open={dialogSlice.isShow}
-      onClose={() => dispatch(closeImageDialog())}
+      onClose={onCloseDialog}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
@@ -38,8 +43,8 @@ const ImageDialogComponent = () => {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => dispatch(closeImageDialog())}>Close</Button>
-        <Button onClick={() => dispatch(closeImageDialog())} variant='contained'>
+        <Button onClick={onCloseDialog}>Close</Button>
+        <Button onClick={onCloseDialog} variant='contained'>
           Confirm
         </Button>
       </DialogActions>
@@ -47,4 +52,4 @@ const ImageDialogComponent = () => {
   )
 }
 
-export default ImageDialogComponent
+export default ImageDialog

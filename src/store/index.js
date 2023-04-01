@@ -12,6 +12,8 @@ import room from 'src/store/apps/room'
 import abnormal_event from 'src/store/apps/abnormal-event'
 import request_access from 'src/store/apps/request-access'
 import image_dialog from 'src/store/apps/image-dialog'
+import alert_with_image from 'src/store/apps/alert-with-image'
+import alert_without_image from 'src/store/apps/alert-without-image'
 
 export const store = configureStore({
   reducer: {
@@ -24,7 +26,9 @@ export const store = configureStore({
     room,
     abnormal_event,
     request_access,
-    image_dialog
+    image_dialog,
+    alert_with_image,
+    alert_without_image
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

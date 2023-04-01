@@ -1,36 +1,47 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Axios Imports
-import axios from 'axios'
+import { getListAbnormalEvent, updateAbnormalEvent } from 'src/api'
 
 // ** Fetch Abnormal Events
-export const fetchData = createAsyncThunk('appAbnormalEvents/fetchData', async params => {
-  const response = await axios.get('/apps/abnormal-event/list', {
-    params
-  })
-
-  console.log(response)
-
-  return response.data
+export const fetchAbnormalEvents = createAsyncThunk('abnormalEvent/fetchAbnormalEvents', async ({ token, params }) => {
+  const response = await getListAbnormalEvent(token, params)
+  return response
 })
 
-export const appAbnormalEventsSlice = createSlice({
-  name: 'appAbnormalEvents',
+// ** Modify Abnormal Events
+export const modifyAbnormalEvent = createAsyncThunk(
+  'abnormalEvent/modifyAbnormalEvent',
+  async ({ token, eventId, updateInfo }) => {
+    await updateAbnormalEvent(token, eventId, updateInfo)
+    return { id: eventId, updateInfo }
+  }
+)
+
+export const AbnormalEventsSlice = createSlice({
+  name: 'abnormalEvent',
   initialState: {
     data: [],
-    total: 1,
-    params: {},
-    allData: []
+    total: 0,
+    page: 0,
+    last_page: 0
   },
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.data = action.payload.abnormalEvents
-      state.total = action.payload.total
-      state.params = action.payload.params
-      state.allData = action.payload.allData
-    })
+    builder
+      .addCase(fetchAbnormalEvents.fulfilled, (state, action) => {
+        const { data = [], total = 0, page = 0, last_page = 0 } = action.payload
+        state.data = data
+        state.total = total
+        state.page = page
+        state.last_page = last_page
+      })
+      .addCase(modifyAbnormalEvent.fulfilled, (state, action) => {
+        const { id, updateInfo } = action.payload
+        const changedIdx = state.data.findIndex(item => item.id == id)
+        state.data[changedIdx] = { ...state.data[changedIdx], ...updateInfo }
+      })
   }
 })
 
-export default appAbnormalEventsSlice.reducer
+export default AbnormalEventsSlice.reducer

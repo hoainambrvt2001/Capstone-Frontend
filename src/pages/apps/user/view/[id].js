@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 
 // ** Demo Components Imports
 import UserViewPage from 'src/views/apps/user/view/UserViewPage'
-import { axiosClient } from 'src/api'
+import { getAccessEventsByUID, getUserDetail } from 'src/api'
 import { useAuth } from 'src/hooks/useAuth'
 
 const UserView = ({ id }) => {
@@ -13,15 +13,10 @@ const UserView = ({ id }) => {
   const [accessData, setAccessData] = useState(null)
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth.accessToken}`
-      }
-    }
     const fetchData = async () => {
-      const userRes = await axiosClient.get(`/user/${id}`, config).then(res => res.data)
+      const userRes = await getUserDetail(auth.accessToken, id)
       setUserData(userRes.data)
-      const accessRes = await axiosClient.get(`/access-event?uid=${userRes.data.id}`, config).then(res => res.data)
+      const accessRes = await getAccessEventsByUID(auth.accessToken, id)
       setAccessData(accessRes.data)
     }
     fetchData()

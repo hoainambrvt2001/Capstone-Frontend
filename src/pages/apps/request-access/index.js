@@ -30,7 +30,7 @@ const RequestAccessListPage = () => {
 
   // ** Hooks
   const dispatch = useDispatch()
-  const store = useSelector(state => state.request_access)
+  const requestAccessSlice = useSelector(state => state.request_access)
 
   useEffect(() => {
     const params = {
@@ -59,7 +59,7 @@ const RequestAccessListPage = () => {
         <Card>
           <TableHeader value={value} handleFilter={handleFilter} />
           <TableBody
-            rowsData={store.data}
+            rowsData={requestAccessSlice.data}
             pageNumber={pageNumber}
             setPageNumber={setPageNumber}
             pageSize={pageSize}

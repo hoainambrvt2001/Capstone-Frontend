@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 import { AlertWithImages, AlertWithoutImages } from 'src/views/utils'
 import mqtt from 'mqtt'
-import { ALERT_TYPE } from 'src/utils/constants'
+import { ALERT_TYPE } from 'src/constants'
 
 const Page = () => {
   const building = 'B4'

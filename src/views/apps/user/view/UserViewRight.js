@@ -25,7 +25,7 @@ const Tab = styled(MuiTab)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ accessData, handleOpenModel }) => {
+const UserViewRight = ({ accessData }) => {
   // ** State
   const [value, setValue] = useState('overview')
 
@@ -46,7 +46,7 @@ const UserViewRight = ({ accessData, handleOpenModel }) => {
       </TabList>
       <Box sx={{ mt: 3 }}>
         <TabPanel sx={{ p: 0 }} value='overview'>
-          <UsersRoomAccessTable accessData={accessData} handleOpenModel={handleOpenModel} />
+          <UsersRoomAccessTable accessData={accessData} />
         </TabPanel>
       </Box>
     </TabContext>

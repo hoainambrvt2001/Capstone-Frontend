@@ -1,130 +1,62 @@
-// ** React Imports
-import { useState } from 'react'
-
-// ** Next Import
-import Link from 'next/link'
+// ** Component Imports:
+import RowOptions from '../utils/RowOptions'
 
 // ** MUI Imports
-import Menu from '@mui/material/Menu'
 import { DataGrid } from '@mui/x-data-grid'
-import { styled } from '@mui/material/styles'
-import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 
 // ** Icons Imports
-import EyeOutline from 'mdi-material-ui/EyeOutline'
-import DotsVertical from 'mdi-material-ui/DotsVertical'
-import PencilOutline from 'mdi-material-ui/PencilOutline'
-import DeleteOutline from 'mdi-material-ui/DeleteOutline'
-import PlayCircle from 'mdi-material-ui/PlayCircle'
-
-// ** Store Imports
-import { useDispatch } from 'react-redux'
-
-// ** Actions Imports
-import { deleteRoom } from 'src/store/apps/room'
+import Image from 'mdi-material-ui/Image'
 
 // ** Function Imports
 import { capitalizeFirstLetter, customizeRenderDateTime } from 'src/functions'
 
-// ** Styled component for the link inside menu
-const MenuItemLink = styled('a')(({ theme }) => ({
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  textDecoration: 'none',
-  padding: theme.spacing(1.5, 4),
-  color: theme.palette.text.primary
-}))
+// ** Redux Imports
+import { useDispatch } from 'react-redux'
+import { openImageDialog } from 'src/store/apps/image-dialog'
 
-const RowOptions = ({ id }) => {
-  // ** Hooks
+const TableBody = ({ rowsData, pageSize, setPageSize, pageNumber, setPageNumber }) => {
   const dispatch = useDispatch()
 
-  // ** State
-  const [anchorEl, setAnchorEl] = useState(null)
-  const rowOptionsOpen = Boolean(anchorEl)
-
-  const handleRowOptionsClick = event => {
-    setAnchorEl(event.currentTarget)
+  const handleViewAbnormalImages = eventInfo => {
+    const renderDate = customizeRenderDateTime(eventInfo.occurred_time)
+    dispatch(
+      openImageDialog({
+        title: `Captured images on ${renderDate} at ${eventInfo.room.name} room`,
+        images: eventInfo.images
+      })
+    )
   }
 
-  const handleRowOptionsClose = () => {
-    setAnchorEl(null)
-  }
-
-  const handleDelete = () => {
-    dispatch(deleteRoom(id))
-    handleRowOptionsClose()
-  }
-
-  return (
-    <>
-      <IconButton size='small' onClick={handleRowOptionsClick}>
-        <DotsVertical />
-      </IconButton>
-      <Menu
-        keepMounted
-        anchorEl={anchorEl}
-        open={rowOptionsOpen}
-        onClose={handleRowOptionsClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right'
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-        PaperProps={{ style: { minWidth: '8rem' } }}
-      >
-        <MenuItem sx={{ p: 0 }}>
-          <Link href={`/apps/room/view/${id}`} passHref>
-            <MenuItemLink>
-              <EyeOutline fontSize='small' sx={{ mr: 2 }} />
-              View
-            </MenuItemLink>
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleRowOptionsClose}>
-          <PencilOutline fontSize='small' sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-        <MenuItem onClick={handleDelete}>
-          <DeleteOutline fontSize='small' sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Menu>
-    </>
-  )
-}
-
-const TableBody = ({ rowsData, pageSize, setPageSize, handleOpenModel }) => {
   const columns = [
     {
       flex: 0.1,
       minWidth: 100,
-      field: 'type',
+      field: 'abnormal_type',
       headerName: 'Type',
       renderCell: ({ row }) => {
+        const { name } = row.abnormal_type
         return (
           <Typography noWrap variant='body2'>
-            {capitalizeFirstLetter(row.type)}
+            {capitalizeFirstLetter(name)}
           </Typography>
         )
       }
     },
     {
-      flex: 0.1,
+      flex: 0.06,
       minWidth: 50,
       field: 'images',
-      headerName: 'Camera',
+      headerName: 'Image',
       renderCell: ({ row }) => {
         return (
-          <IconButton size='small' onClick={() => handleOpenModel(row.images[0].url)}>
-            <PlayCircle sx={{ color: 'primary.main', fontSize: '2.5rem' }} />
-          </IconButton>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+            <IconButton size='small' onClick={() => handleViewAbnormalImages(row)}>
+              <Image sx={{ color: 'primary.main', fontSize: '2.5rem' }} />
+            </IconButton>
+          </Box>
         )
       }
     },
@@ -132,36 +64,25 @@ const TableBody = ({ rowsData, pageSize, setPageSize, handleOpenModel }) => {
       flex: 0.1,
       minWidth: 100,
       field: 'room',
-      headerName: 'Room'
-    },
-    {
-      flex: 0.1,
-      minWidth: 100,
-      field: 'building',
-      headerName: 'Building'
-    },
-    {
-      flex: 0.2,
-      minWidth: 100,
-      field: 'occurTime',
-      headerName: 'Occurred Time',
+      headerName: 'Room',
       renderCell: ({ row }) => {
+        const { name } = row.room
         return (
           <Typography noWrap variant='body2'>
-            {customizeRenderDateTime(row.occurTime)}
+            {name}
           </Typography>
         )
       }
     },
     {
       flex: 0.2,
-      minWidth: 140,
-      field: 'solveTime',
-      headerName: 'Solved Time',
+      minWidth: 100,
+      field: 'occurred_time',
+      headerName: 'Occurred Time',
       renderCell: ({ row }) => {
         return (
           <Typography noWrap variant='body2'>
-            {customizeRenderDateTime(row.solveTime)}
+            {customizeRenderDateTime(row.occurred_time)}
           </Typography>
         )
       }
@@ -187,6 +108,8 @@ const TableBody = ({ rowsData, pageSize, setPageSize, handleOpenModel }) => {
       rowsPerPageOptions={[10, 20, 40]}
       sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
       onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+      page={pageNumber}
+      onPageChange={newPageNumber => setPageNumber(newPageNumber)}
     />
   )
 }

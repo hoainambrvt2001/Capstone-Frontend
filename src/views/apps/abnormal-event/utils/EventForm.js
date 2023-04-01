@@ -21,9 +21,12 @@ import FileUploaderMultiple from './FileUploaderMultiple'
 import CardSnippet from 'src/@core/components/card-snippet'
 import DropzoneWrapper from 'src/@core/styles/libs/react-dropzone'
 
-// ** Source code imports
+// ** Source code Imports
 import * as source from 'src/views/forms/form-elements/file-uploader/FileUploaderSourceCode'
 import CustomizeDateTimePickers from './DateTimePickers'
+
+// ** Constant Imports
+import { ABNORMAL_EVENT_TYPE } from 'src/constants'
 
 const renderFormTitile = isEdited => {
   if (isEdited) {
@@ -32,25 +35,21 @@ const renderFormTitile = isEdited => {
   return 'View Event Detail'
 }
 
-const EventForm = ({ id, isEdited, eventData, listBuildings, listRooms }) => {
+const EventForm = ({ id, isEdited, eventData, listRooms }) => {
   // ** Yup Schema
-  const ROOM_SCHEMA = Yup.object().shape({
-    type: Yup.string().required('It is a required field'),
-    room: Yup.string().required('It is a required field'),
-    building: Yup.string().required('It is a required field'),
-    occurTime: Yup.number().required('It is a required field'),
-    solveTime: Yup.number().required('It is a required field'),
+  const EVENT_SCHEMA = Yup.object().shape({
+    abnormal_type_id: Yup.string().required('It is a required field'),
+    room_id: Yup.string().required('It is a required field'),
+    occurred_time: Yup.number().required('It is a required field'),
     note: Yup.string(),
     images: Yup.array().required('It is a required field')
   })
 
   // ** Initial Values:
   const initEventData = {
-    type: eventData.type,
-    room: eventData.room,
-    building: eventData.building,
-    occurTime: eventData.occurTime,
-    solveTime: eventData.solveTime,
+    abnormal_type_id: eventData.abnormal_type_id,
+    room_id: eventData.room_id,
+    occurred_time: eventData.occurred_time,
     note: eventData.note,
     images: eventData.images
   }
@@ -58,7 +57,7 @@ const EventForm = ({ id, isEdited, eventData, listBuildings, listRooms }) => {
   return (
     <CardContent>
       <Formik
-        validationSchema={ROOM_SCHEMA}
+        validationSchema={EVENT_SCHEMA}
         initialValues={initEventData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           console.log({ ...values, eventId: id })
@@ -81,59 +80,36 @@ const EventForm = ({ id, isEdited, eventData, listBuildings, listRooms }) => {
                       readOnly: !isEdited
                     }}
                     label='Type'
-                    name='type'
-                    value={values.type}
+                    name='abnormal_type_id'
+                    value={values.abnormal_type_id}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   >
-                    <MenuItem value='stranger'>Stranger</MenuItem>
-                    <MenuItem value='overload'>Overloaded</MenuItem>
-                    <MenuItem value='fire'>Fire</MenuItem>
-                    <MenuItem value='other'>Other</MenuItem>
+                    <MenuItem value={ABNORMAL_EVENT_TYPE.STRANGER}>Stranger</MenuItem>
+                    <MenuItem value={ABNORMAL_EVENT_TYPE.OVERCROWD}>Overcrowd</MenuItem>
+                    <MenuItem value={ABNORMAL_EVENT_TYPE.FIRE}>Fire</MenuItem>
+                    <MenuItem value={ABNORMAL_EVENT_TYPE.OTHER}>Other</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel required>Occurred Building</InputLabel>
+                  <InputLabel required>Room</InputLabel>
                   <Select
                     inputProps={{
                       readOnly: !isEdited
                     }}
-                    label='Occurred Building'
-                    name='building'
-                    value={values.building}
+                    label='Room'
+                    name='room_id'
+                    value={values.room_id}
                     onChange={handleChange}
                     onBlur={handleBlur}
                   >
-                    {listBuildings.map((building, idx) => (
-                      <MenuItem value={building} key={idx}>
-                        {building}
+                    {listRooms.map(room => (
+                      <MenuItem value={room.id} key={room.id}>
+                        {room.name}
                       </MenuItem>
                     ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel required>Occurred Room</InputLabel>
-                  <Select
-                    inputProps={{
-                      readOnly: !isEdited
-                    }}
-                    label='Occurred Room'
-                    name='room'
-                    value={values.room}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  >
-                    {listRooms
-                      .filter(room => room.building === values.building)
-                      .map(room => (
-                        <MenuItem value={room.name} key={room.id}>
-                          {room.name}
-                        </MenuItem>
-                      ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -141,17 +117,8 @@ const EventForm = ({ id, isEdited, eventData, listBuildings, listRooms }) => {
                 <CustomizeDateTimePickers
                   isEdited={isEdited}
                   fieldLabel={'Occurred Time'}
-                  fieldName={'occurTime'}
-                  fieldValue={values.occurTime}
-                  setFieldValue={setFieldValue}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <CustomizeDateTimePickers
-                  isEdited={isEdited}
-                  fieldLabel={'Solved Time'}
-                  fieldName={'solveTime'}
-                  fieldValue={values.solveTime}
+                  fieldName={'occurred_time'}
+                  fieldValue={values.occurred_time}
                   setFieldValue={setFieldValue}
                 />
               </Grid>

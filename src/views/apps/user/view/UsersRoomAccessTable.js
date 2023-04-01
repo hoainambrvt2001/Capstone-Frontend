@@ -19,7 +19,7 @@ import ChevronDown from 'mdi-material-ui/ChevronDown'
 // ** Actions Imports
 import { capitalizeFirstLetter, customizeRenderDateTime } from 'src/functions'
 
-const UsersRoomAccessTable = ({ accessData, handleOpenModel }) => {
+const UsersRoomAccessTable = ({ accessData }) => {
   // ** State
   const [pageSize, setPageSize] = useState(10)
   const [anchorEl, setAnchorEl] = useState(null)

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 
 // ** Demo Components Imports
-import { axiosClient } from 'src/api'
+import { getUserDetail } from 'src/api'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Demo Components Imports
@@ -14,13 +14,8 @@ const EditUser = ({ id }) => {
   const [userData, setUserData] = useState(null)
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${auth.accessToken}`
-      }
-    }
     const fetchData = async () => {
-      const userRes = await axiosClient.get(`/user/${id}`, config).then(res => res.data)
+      const userRes = await getUserDetail(auth.accessToken, id)
       setUserData(userRes.data)
     }
     fetchData()

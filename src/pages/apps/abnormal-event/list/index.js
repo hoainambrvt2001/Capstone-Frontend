@@ -9,56 +9,52 @@ import Grid from '@mui/material/Grid'
 import { useDispatch, useSelector } from 'react-redux'
 
 // ** Actions Imports
-import { fetchData as fetchEventData } from 'src/store/apps/abnormal-event'
-import { fetchData as fetchRoomData } from 'src/store/apps/room'
+import { fetchAbnormalEvents } from 'src/store/apps/abnormal-event'
 
 // ** Custom Components Imports
 import TableHeader from 'src/views/apps/abnormal-event/list/TableHeaders'
 import TableBody from 'src/views/apps/abnormal-event/list/TableBody'
 import FilterHeader from 'src/views/apps/abnormal-event/list/FilterHeader'
-import { CameraModel } from 'src/views/utils'
+import { useAuth } from 'src/hooks/useAuth'
+import { getAllRooms } from 'src/api'
 
 const PageList = () => {
+  // ** Auth
+  const auth = useAuth()
+
   // ** State
-  const [cameraModel, setCameraModel] = useState({
-    imgUrl: '',
-    showModel: false
-  })
-  const [building, setBuilding] = useState('')
+  const [allRooms, setAllRooms] = useState([])
   const [room, setRoom] = useState('')
   const [type, setType] = useState('')
-  const [value, setValue] = useState('')
   const [pageSize, setPageSize] = useState(10)
+  const [pageNumber, setPageNumber] = useState(0)
 
   // ** Hooks
   const dispatch = useDispatch()
   const eventSlice = useSelector(state => state.abnormal_event)
-  const roomSlice = useSelector(state => state.room)
 
   useEffect(() => {
-    dispatch(
-      fetchEventData({
-        building,
-        room,
-        type,
-        q: value
-      })
-    )
-
-    dispatch(
-      fetchRoomData({
-        building
-      })
-    )
-  }, [dispatch, building, room, type, value])
-
-  const handleFilter = useCallback(val => {
-    setValue(val)
+    const fetchAllRooms = async () => {
+      const rooms = await getAllRooms(auth.accessToken)
+      setAllRooms(rooms.data)
+    }
+    fetchAllRooms()
   }, [])
 
-  const handleBuildingChange = useCallback(e => {
-    setBuilding(e.target.value)
-  }, [])
+  useEffect(() => {
+    const params = {
+      page: pageNumber,
+      limit: pageSize,
+      room: room,
+      type: type
+    }
+    dispatch(
+      fetchAbnormalEvents({
+        token: auth.accessToken,
+        params
+      })
+    )
+  }, [dispatch, pageNumber, pageSize, room, type])
 
   const handleTypeChange = useCallback(e => {
     setType(e.target.value)
@@ -68,50 +64,30 @@ const PageList = () => {
     setRoom(e.target.value)
   }, [])
 
-  // ** Handle interact with model
-  const handleOpenModel = imgUrl => {
-    setCameraModel({
-      imgUrl,
-      showModel: true
-    })
-  }
-
-  const handleCloseModel = () => {
-    setCameraModel({
-      imgUrl: '',
-      showModel: false
-    })
-  }
-
   return (
-    <>
-      <Grid container spacing={6}>
-        <Grid item xs={12}>
-          <FilterHeader
-            handleBuildingChange={handleBuildingChange}
-            handleTypeChange={handleTypeChange}
-            handleRoomChange={handleRoomChange}
-            building={building}
-            type={type}
-            room={room}
-            allBuildings={roomSlice.allBuildings}
-            allRooms={roomSlice.data}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Card>
-            <TableHeader value={value} handleFilter={handleFilter} />
-            <TableBody
-              rowsData={eventSlice.data}
-              pageSize={pageSize}
-              setPageSize={setPageSize}
-              handleOpenModel={handleOpenModel}
-            />
-          </Card>
-        </Grid>
+    <Grid container spacing={6}>
+      <Grid item xs={12}>
+        <FilterHeader
+          handleTypeChange={handleTypeChange}
+          handleRoomChange={handleRoomChange}
+          type={type}
+          room={room}
+          allRooms={allRooms}
+        />
       </Grid>
-      <CameraModel handleCloseModel={handleCloseModel} cameraModel={cameraModel} isAccessEvent={false} />
-    </>
+      <Grid item xs={12}>
+        <Card>
+          <TableHeader />
+          <TableBody
+            rowsData={eventSlice.data}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+            pageNumber={pageNumber}
+            setPageNumber={setPageNumber}
+          />
+        </Card>
+      </Grid>
+    </Grid>
   )
 }
 

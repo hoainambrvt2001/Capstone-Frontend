@@ -8,44 +8,15 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 
-const FilterHeader = ({
-  handleBuildingChange,
-  handleTypeChange,
-  handleRoomChange,
-  building,
-  type,
-  room,
-  allBuildings,
-  allRooms
-}) => {
+// ** Constant Imports:
+import { ABNORMAL_EVENT_TYPE } from 'src/constants'
+
+const FilterHeader = ({ handleTypeChange, handleRoomChange, type, room, allRooms }) => {
   return (
     <Card>
       <CardHeader title='Search Filters' sx={{ pb: 4, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
       <CardContent>
         <Grid container spacing={6}>
-          <Grid item sm={4} xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id='building-select'>Select Building</InputLabel>
-              <Select
-                fullWidth
-                value={building}
-                id='select-building'
-                label='Select Building'
-                labelId='building-select'
-                onChange={handleBuildingChange}
-                inputProps={{ placeholder: 'Select Building' }}
-              >
-                <MenuItem value=''>Select Building</MenuItem>
-                {allBuildings.map((building, idx) => {
-                  return (
-                    <MenuItem value={building} key={idx}>
-                      {building}
-                    </MenuItem>
-                  )
-                })}
-              </Select>
-            </FormControl>
-          </Grid>
           <Grid item sm={4} xs={12}>
             <FormControl fullWidth>
               <InputLabel id='room-select'>Select Room</InputLabel>
@@ -59,9 +30,9 @@ const FilterHeader = ({
                 inputProps={{ placeholder: 'Select Room' }}
               >
                 <MenuItem value=''>Select Room</MenuItem>
-                {allRooms.map((room, idx) => {
+                {allRooms.map(room => {
                   return (
-                    <MenuItem value={room.name} key={room.id}>
+                    <MenuItem value={room.id} key={room.id}>
                       {room.name}
                     </MenuItem>
                   )
@@ -82,9 +53,10 @@ const FilterHeader = ({
                 inputProps={{ placeholder: 'Select Type' }}
               >
                 <MenuItem value=''>Select Type</MenuItem>
-                <MenuItem value='stranger'>Stranger</MenuItem>
-                <MenuItem value='overload'>Overload</MenuItem>
-                <MenuItem value='fire'>Fire</MenuItem>
+                <MenuItem value={ABNORMAL_EVENT_TYPE.STRANGER}>Stranger</MenuItem>
+                <MenuItem value={ABNORMAL_EVENT_TYPE.OVERCROWD}>Overcrowd</MenuItem>
+                <MenuItem value={ABNORMAL_EVENT_TYPE.FIRE}>Fire</MenuItem>
+                <MenuItem value={ABNORMAL_EVENT_TYPE.OTHER}>Other</MenuItem>
               </Select>
             </FormControl>
           </Grid>
