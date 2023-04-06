@@ -35,7 +35,16 @@ const ImageDialog = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {dialogSlice.images.length !== 0 ? (
             dialogSlice.images.map((image, index) => {
-              return <Image key={index} alt={image.name} src={image.url} width={1280} height={720} />
+              return (
+                <Image
+                  key={index}
+                  alt={image.name}
+                  src={image.url}
+                  width={500}
+                  height={375}
+                  style={{ margin: '20px' }}
+                />
+              )
             })
           ) : (
             <Image alt='sample image' src={'/images/stickers/access-event.png'} width={1280} height={720} />

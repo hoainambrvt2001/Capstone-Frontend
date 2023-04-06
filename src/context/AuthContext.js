@@ -41,7 +41,7 @@ const AuthProvider = ({ children }) => {
       if (storedToken) {
         setLoading(true)
         await axios
-          .get('http://localhost:3333/auth/me', {
+          .get('https://dacn-backend.vercel.app/auth/me', {
             headers: {
               Authorization: `Bearer ${storedToken}`
             }
@@ -69,7 +69,7 @@ const AuthProvider = ({ children }) => {
 
   const handleLogin = (params, errorCallback) => {
     axios
-      .post('http://localhost:3333/auth/login', {
+      .post('https://dacn-backend.vercel.app/auth/login', {
         email: params.email,
         password: params.password
       })
@@ -98,7 +98,7 @@ const AuthProvider = ({ children }) => {
 
   const handleRegister = (params, errorCallback) => {
     axios
-      .post('http://localhost:3333/auth/signup', params)
+      .post('https://dacn-backend.vercel.app/auth/signup', params)
       .then(res => res.data)
       .then(res => {
         window.localStorage.setItem(authConfig.storageTokenKeyName, res.data.token)

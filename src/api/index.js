@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const axiosClient = axios.create({
-  baseURL: 'http://localhost:3333'
+  baseURL: 'https://dacn-backend.vercel.app'
 })
 
 export const getListUser = async (token, params) => {
