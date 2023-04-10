@@ -30,6 +30,7 @@ import ThemeComponent from 'src/@core/theme/ThemeComponent'
 import AuthGuard from 'src/@core/components/auth/AuthGuard'
 import GuestGuard from 'src/@core/components/auth/GuestGuard'
 import WindowWrapper from 'src/@core/components/window-wrapper'
+import AlertHandler from 'src/views/alert-handle'
 
 // ** Spinner Import
 import Spinner from 'src/@core/components/spinner'
@@ -55,11 +56,6 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 
 // ** Global css styles
 import '../../styles/globals.css'
-
-// ** Dialog Imports
-import ImageDialog from 'src/views/dialogs/ImageDialogComponent'
-import AlertWithImages from 'src/views/dialogs/AlertWithImagesComponent'
-import AlertWithoutImages from 'src/views/dialogs/AlertWithoutImagesComponent'
 
 const clientSideEmotionCache = createEmotionCache()
 
@@ -120,9 +116,7 @@ const App = props => {
                       <Guard authGuard={authGuard} guestGuard={guestGuard}>
                         <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard}>
                           {getLayout(<Component {...pageProps} />)}
-                          <AlertWithImages />
-                          <AlertWithoutImages />
-                          <ImageDialog />
+                          <AlertHandler />
                         </AclGuard>
                       </Guard>
                     </WindowWrapper>

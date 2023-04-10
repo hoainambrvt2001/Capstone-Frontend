@@ -49,7 +49,7 @@ const AlertWithoutImages = () => {
   if (alertSlice.data.abnormal_type_id === ABNORMAL_EVENT_TYPE.OVERCROWD) {
     dialogTitle = 'WARNING'
     dialogSubTitle = 'Overcrowded room'
-    dialogDesc = `The ${alertSlice.data.room.name} room is overcrowded. There are ${alertSlice.data.current_capacity} people in this room while the maximum capcity of the room is ${alertSlice.data.room.max_capacity}. You should check it out!`
+    dialogDesc = `The ${alertSlice.data.room.name} room is overcrowded. The number of people has exceeded the maximum occupancy  of the room: ${alertSlice.data.room.max_occupancy} persons. You should check it out!`
     alertColor = 'warning'
     bgColor = bgClasses.warningLight.backgroundColor
     txtColor = 'warning.dark'
@@ -63,7 +63,14 @@ const AlertWithoutImages = () => {
   }
 
   return (
-    <Dialog fullWidth open={show} maxWidth='md' scroll='body' onClose={onCloseAlert} TransitionComponent={Transition}>
+    <Dialog
+      fullWidth
+      open={alertSlice.isShow}
+      maxWidth='md'
+      scroll='body'
+      onClose={onCloseAlert}
+      TransitionComponent={Transition}
+    >
       <DialogTitle sx={{ position: 'relative', backgroundColor: bgColor }}>
         <Typography variant='h5' color={txtColor} fontWeight={600}>
           {dialogTitle}
