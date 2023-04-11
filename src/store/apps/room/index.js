@@ -1,61 +1,70 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-// ** Axios Imports
-import axios from 'axios'
+// ** Api Imports
+import { addNewRoom, getListRoom, updateRoom } from 'src/api'
 
 // ** Fetch Rooms
-export const fetchData = createAsyncThunk('appRooms/fetchData', async params => {
-  const roomData = await axios
-    .get('/apps/rooms/list', {
-      params
-    })
-    .then(res => res.data)
-  const buildingData = await axios.get('apps/rooms/list-building').then(res => res.data)
-  return {
-    roomData,
-    buildingData
-  }
+export const fetchRooms = createAsyncThunk('room/fetchRooms', async ({ token, params }) => {
+  const response = await getListRoom(token, params)
+  return response
 })
 
 // ** Add Room
-export const addRoom = createAsyncThunk('appRooms/addRoom', async (data, { getState, dispatch }) => {
-  const response = await axios.post('/apps/rooms/add-room', {
-    data
-  })
-  dispatch(fetchData(getState().room.params))
-
+export const addRoom = createAsyncThunk('room/addRoom', async ({ token, roomInfo }) => {
+  const response = await addNewRoom(token, roomInfo)
   return response.data
+})
+
+// ** Modify Room
+export const modifyRoom = createAsyncThunk('room/modifyRoom', async ({ token, roomId, updateInfo }) => {
+  const response = await updateRoom(token, roomId, updateInfo)
+  return { id: roomId, updateInfo }
 })
 
 // ** Delete Room
-export const deleteRoom = createAsyncThunk('appRooms/deleteRoom', async (id, { getState, dispatch }) => {
-  const response = await axios.delete('/apps/rooms/delete', {
-    data: id
-  })
-  dispatch(fetchData(getState().room.params))
-
-  return response.data
+export const removeRoom = createAsyncThunk('room/removeRoom', async ({ token, roomId }) => {
+  const response = await terminateRoom(token, roomId)
+  return { id: roomId }
 })
 
-export const appRoomsSlice = createSlice({
-  name: 'appRooms',
+export const roomSlice = createSlice({
+  name: 'room',
   initialState: {
     data: [],
-    total: 1,
-    params: {},
-    allData: [],
-    allBuildings: []
+    total: 0,
+    page: 0,
+    last_page: 0
   },
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchData.fulfilled, (state, action) => {
-      state.data = action.payload.roomData.rooms
-      state.total = action.payload.roomData.total
-      state.params = action.payload.roomData.params
-      state.allData = action.payload.roomData.allData
-      state.allBuildings = action.payload.buildingData.all_buildings
-    })
+    builder
+      .addCase(fetchRooms.fulfilled, (state, action) => {
+        if (action.payload) {
+          const { data = [], total = 0, page = 0, last_page = 0 } = action.payload
+          state.data = data
+          state.total = total
+          state.page = page
+          state.last_page = last_page
+        }
+      })
+      .addCase(addRoom.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.data.push(action.payload)
+        }
+      })
+      .addCase(modifyRoom.fulfilled, (state, action) => {
+        if (action.payload) {
+          const { id, updateInfo } = action.payload
+          const changedIdx = state.data.findIndex(item => item.id == id)
+          state.data[changedIdx] = { ...state.data[changedIdx], ...updateInfo }
+        }
+      })
+      .addCase(removeRoom.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.data = state.data.filter(item => item.id !== action.payload.id)
+        }
+      })
   }
 })
 
-export default appRoomsSlice.reducer
+export default roomSlice.reducer

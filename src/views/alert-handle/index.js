@@ -4,16 +4,16 @@ import { useEffect, useState } from 'react'
 // ** Redux Imports
 import { useDispatch } from 'react-redux'
 import { raiseAlertWithImage } from 'src/store/apps/alert-with-image'
-import { raiseAlertWithoutImage } from 'src/store/apps/alert-without-image'
+import { raiseAlertWithText } from 'src/store/apps/alert-with-text'
 
 // ** MQTT Imports
 import mqtt from 'mqtt'
 import { ABNORMAL_EVENT_TYPE } from 'src/constants'
 
 // ** Third Party Components
-import ImageDialog from 'src/views/dialogs/ImageDialogComponent'
-import AlertWithImages from 'src/views/dialogs/AlertWithImagesComponent'
-import AlertWithoutImages from 'src/views/dialogs/AlertWithoutImagesComponent'
+import DialogWithImage from 'src/views/dialogs/DialogWithImage'
+import DialogAlertWithImage from 'src/views/dialogs/DialogAlertWithImage'
+import DialogAlertWithText from 'src/views/dialogs/DialogAlertWithText'
 
 const AlertHandler = () => {
   // ** Redux Component:
@@ -66,9 +66,9 @@ const AlertHandler = () => {
           if (payload.message.abnormal_type_id === ABNORMAL_EVENT_TYPE.STRANGER) {
             dispatch(raiseAlertWithImage({ data: payload.message }))
           } else if (payload.message.abnormal_type_id === ABNORMAL_EVENT_TYPE.OVERCROWD) {
-            dispatch(raiseAlertWithoutImage({ data: payload.message }))
+            dispatch(raiseAlertWithText({ data: payload.message }))
           } else if (payload.message.abnormal_type_id === ABNORMAL_EVENT_TYPE.FIRE) {
-            dispatch(raiseAlertWithoutImage({ data: payload.message }))
+            dispatch(raiseAlertWithText({ data: payload.message }))
           } else if (payload.message.abnormal_type_id === ABNORMAL_EVENT_TYPE.OTHER) {
           }
         }
@@ -85,9 +85,9 @@ const AlertHandler = () => {
 
   return (
     <>
-      <AlertWithImages />
-      <AlertWithoutImages />
-      <ImageDialog />
+      <DialogAlertWithImage />
+      <DialogAlertWithText />
+      <DialogWithImage />
     </>
   )
 }

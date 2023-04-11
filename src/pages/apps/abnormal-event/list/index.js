@@ -80,6 +80,7 @@ const PageList = () => {
           <TableHeader />
           <TableBody
             rowsData={eventSlice.data}
+            rowTotal={eventSlice.total}
             pageSize={pageSize}
             setPageSize={setPageSize}
             pageNumber={pageNumber}

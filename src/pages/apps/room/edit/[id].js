@@ -1,38 +1,37 @@
-// ** Third Party Imports
-import axios from 'axios'
+// ** React Import
+import { useState, useEffect } from 'react'
+
+// ** Demo Components Imports
+import { getRoomDetail } from 'src/api'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Demo Components Imports
 import RoomView from 'src/views/apps/room/utils/RoomView'
 
-const EditRoom = ({ id, roomData }) => {
+const EditRoom = ({ id }) => {
+  const auth = useAuth()
+
+  const [roomData, setRoomData] = useState(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const roomRes = await getRoomDetail(auth.accessToken, id)
+      setRoomData(roomRes.data)
+    }
+    fetchData()
+    return () => {}
+  }, [])
+
+  if (!roomData) {
+    return <div>Loading...</div>
+  }
+
   return <RoomView id={id} isAdded={false} isEdited={true} roomData={roomData} />
 }
 
-export const getStaticPaths = async () => {
-  const res = await axios.get('/apps/rooms/list')
-  const roomData = await res.data.allData
-
-  const paths = roomData.map(room => ({
-    params: { id: `${room.id}` }
-  }))
-
-  return {
-    paths,
-    fallback: false
-  }
-}
-
-export const getStaticProps = async ({ params }) => {
-  const { id } = params
-  const roomData = await axios.get('/apps/room', { params: { id } }).then(response => {
-    return response.data
-  })
-  return {
-    props: {
-      roomData,
-      id: params?.id
-    }
-  }
+export async function getServerSideProps(context) {
+  const { id } = context.query
+  return { props: { id } }
 }
 
 export default EditRoom

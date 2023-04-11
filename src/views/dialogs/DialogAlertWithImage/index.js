@@ -34,7 +34,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />
 })
 
-const AlertWithImages = () => {
+const DialogAlertWithImage = () => {
   // ** Redux
   const dispatch = useDispatch()
   const alertSlice = useSelector(state => state.alert_with_image)
@@ -114,4 +114,4 @@ const AlertWithImages = () => {
   )
 }
 
-export default AlertWithImages
+export default DialogAlertWithImage

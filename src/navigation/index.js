@@ -55,7 +55,7 @@ const navigation = () => {
       path: '/apps/abnormal-event/list'
     },
     {
-      title: 'Request Accesses',
+      title: 'Request Access',
       icon: FileDocumentOutline,
       path: '/apps/request-access'
     }

@@ -1,6 +1,6 @@
 // ** Redux Import
 import { useDispatch } from 'react-redux'
-import { openImageDialog } from 'src/store/apps/image-dialog'
+import { raiseDialogImage } from 'src/store/apps/dialog-image'
 
 // ** Next Import
 import Link from 'next/link'
@@ -26,7 +26,7 @@ const TableBody = ({ rowsData, pageNumber, setPageNumber, pageSize, setPageSize 
 
   const handleViewRegisterFace = user => {
     dispatch(
-      openImageDialog({
+      raiseDialogImage({
         title: `Registered faces of ${user.name}`,
         images: user.registered_faces
       })

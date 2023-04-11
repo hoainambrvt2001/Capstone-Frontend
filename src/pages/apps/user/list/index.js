@@ -15,9 +15,11 @@ import { fetchUsers } from 'src/store/apps/user'
 import TableHeader from 'src/views/apps/user/list/TableHeader'
 import FilterHeader from 'src/views/apps/user/list/FilterHeader'
 import TableBody from 'src/views/apps/user/list/TableBody'
+
+// ** Auth Import
 import { useAuth } from 'src/hooks/useAuth'
 
-const UserList = () => {
+const UserListPage = () => {
   const auth = useAuth()
 
   // ** State
@@ -72,4 +74,4 @@ const UserList = () => {
   )
 }
 
-export default UserList
+export default UserListPage

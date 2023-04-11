@@ -14,11 +14,14 @@ import IconButton from '@mui/material/IconButton'
 import EyeOutline from 'mdi-material-ui/EyeOutline'
 import DotsVertical from 'mdi-material-ui/DotsVertical'
 import PencilOutline from 'mdi-material-ui/PencilOutline'
+import DeleteOutline from 'mdi-material-ui/DeleteOutline'
 
 // ** Store Imports
 import { useDispatch } from 'react-redux'
 
-// ** Styled component for the link inside menu
+// ** Actions Imports
+import { deleteRoom } from 'src/store/apps/room'
+
 const MenuItemLink = styled('a')(({ theme }) => ({
   width: '100%',
   display: 'flex',
@@ -29,6 +32,9 @@ const MenuItemLink = styled('a')(({ theme }) => ({
 }))
 
 const RowOptions = ({ id }) => {
+  // ** Hooks
+  const dispatch = useDispatch()
+
   // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
@@ -39,6 +45,11 @@ const RowOptions = ({ id }) => {
 
   const handleRowOptionsClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleDelete = () => {
+    // dispatch(deleteRoom(id))
+    handleRowOptionsClose()
   }
 
   return (
@@ -62,7 +73,7 @@ const RowOptions = ({ id }) => {
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
         <MenuItem sx={{ p: 0 }}>
-          <Link href={`/apps/abnormal-event/view/${id}`} passHref>
+          <Link href={`/apps/room/view/${id}`} passHref>
             <MenuItemLink>
               <EyeOutline fontSize='small' sx={{ mr: 2 }} />
               View
@@ -70,12 +81,16 @@ const RowOptions = ({ id }) => {
           </Link>
         </MenuItem>
         <MenuItem sx={{ p: 0 }}>
-          <Link href={`/apps/abnormal-event/edit/${id}`} passHref>
+          <Link href={`/apps/room/edit/${id}`} passHref>
             <MenuItemLink>
               <PencilOutline fontSize='small' sx={{ mr: 2 }} />
               Edit
             </MenuItemLink>
           </Link>
+        </MenuItem>
+        <MenuItem onClick={handleDelete}>
+          <DeleteOutline fontSize='small' sx={{ mr: 2 }} />
+          Delete
         </MenuItem>
       </Menu>
     </>

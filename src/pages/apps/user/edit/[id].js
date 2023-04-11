@@ -1,11 +1,11 @@
 // ** React Import
 import { useState, useEffect } from 'react'
 
-// ** Demo Components Imports
+// **  Components Imports
 import { getUserDetail } from 'src/api'
 import { useAuth } from 'src/hooks/useAuth'
 
-// ** Demo Components Imports
+// **  Components Imports
 import UserView from 'src/views/apps/user/utils/UserView'
 
 const EditUser = ({ id }) => {

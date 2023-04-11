@@ -1,26 +1,26 @@
 // ** Redux Imports
 import { useDispatch, useSelector } from 'react-redux'
-import { closeImageDialog } from 'src/store/apps/image-dialog'
+import { closeDialogImage } from 'src/store/apps/dialog-image'
 
 // ** Next Import
 import Image from 'next/image'
 
 // ** MUI Imports
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import Box from '@mui/material/Box'
 
 // ** Customize Access Image Model
-const ImageDialog = () => {
+const DialogWithImage = () => {
   const dispatch = useDispatch()
-  const dialogSlice = useSelector(state => state.image_dialog)
+  const dialogSlice = useSelector(state => state.dialog_image)
 
   // ** Handle functions:
   const onCloseDialog = () => {
-    dispatch(closeImageDialog())
+    dispatch(closeDialogImage())
   }
 
   return (
@@ -29,6 +29,7 @@ const ImageDialog = () => {
       onClose={onCloseDialog}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
+      fullWidth
     >
       <DialogTitle id='alert-dialog-title'>{dialogSlice.title}</DialogTitle>
       <DialogContent>
@@ -36,14 +37,9 @@ const ImageDialog = () => {
           {dialogSlice.images.length !== 0 ? (
             dialogSlice.images.map((image, index) => {
               return (
-                <Image
-                  key={index}
-                  alt={image.name}
-                  src={image.url}
-                  width={500}
-                  height={375}
-                  style={{ margin: '20px' }}
-                />
+                <Box sx={{ margin: '10px' }}>
+                  <Image key={index} alt={image.name} src={image.url} width={500} height={375} />
+                </Box>
               )
             })
           ) : (
@@ -61,4 +57,4 @@ const ImageDialog = () => {
   )
 }
 
-export default ImageDialog
+export default DialogWithImage

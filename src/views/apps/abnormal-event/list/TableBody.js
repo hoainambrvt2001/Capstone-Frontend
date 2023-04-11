@@ -15,15 +15,15 @@ import { capitalizeFirstLetter, customizeRenderDateTime } from 'src/functions'
 
 // ** Redux Imports
 import { useDispatch } from 'react-redux'
-import { openImageDialog } from 'src/store/apps/image-dialog'
+import { raiseDialogImage } from 'src/store/apps/dialog-image'
 
-const TableBody = ({ rowsData, pageSize, setPageSize, pageNumber, setPageNumber }) => {
+const TableBody = ({ rowsData, rowTotal, pageSize, setPageSize, pageNumber, setPageNumber }) => {
   const dispatch = useDispatch()
 
   const handleViewAbnormalImages = eventInfo => {
     const renderDate = customizeRenderDateTime(eventInfo.occurred_time)
     dispatch(
-      openImageDialog({
+      raiseDialogImage({
         title: `Captured images on ${renderDate} at ${eventInfo.room.name} room`,
         images: eventInfo.images
       })
@@ -99,17 +99,20 @@ const TableBody = ({ rowsData, pageSize, setPageSize, pageNumber, setPageNumber 
 
   return (
     <DataGrid
+      sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
       autoHeight
       rows={rowsData}
+      rowCount={rowTotal}
       columns={columns}
       checkboxSelection
-      pageSize={pageSize}
       disableSelectionOnClick
-      rowsPerPageOptions={[10, 20, 40]}
-      sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
-      onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+      pageSize={pageSize}
       page={pageNumber}
+      rowsPerPageOptions={[10, 20, 40]}
+      onPageSizeChange={newPageSize => setPageSize(newPageSize)}
       onPageChange={newPageNumber => setPageNumber(newPageNumber)}
+      paginationMode='server'
+      pagination
     />
   )
 }

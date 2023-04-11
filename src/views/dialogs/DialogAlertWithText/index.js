@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 
 // ** Redux Imports:
 import { useDispatch, useSelector } from 'react-redux'
-import { closeAlertWithoutImage } from 'src/store/apps/alert-without-image'
+import { closeAlertWithoutImage } from 'src/store/apps/alert-with-text'
 
 // ** MUI Imports
 import Button from '@mui/material/Button'
@@ -28,10 +28,10 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />
 })
 
-const AlertWithoutImages = () => {
+const DialogAlertWithText = () => {
   // ** Redux
   const dispatch = useDispatch()
-  const alertSlice = useSelector(state => state.alert_without_image)
+  const alertSlice = useSelector(state => state.alert_with_text)
 
   // ** Handle function:
   const onCloseAlert = () => {
@@ -102,4 +102,4 @@ const AlertWithoutImages = () => {
   )
 }
 
-export default AlertWithoutImages
+export default DialogAlertWithText

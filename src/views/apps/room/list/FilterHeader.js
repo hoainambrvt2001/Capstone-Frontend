@@ -7,44 +7,14 @@ import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
+import { ROOM_TYPE } from 'src/constants'
 
-const FilterHeader = ({
-  handleBuildingChange,
-  handleTypeChange,
-  handleStatusChange,
-  building,
-  type,
-  status,
-  allBuildings
-}) => {
+const FilterHeader = ({ handleTypeChange, handleStatusChange, type, status }) => {
   return (
     <Card>
       <CardHeader title='Search Filters' sx={{ pb: 4, '& .MuiCardHeader-title': { letterSpacing: '.15px' } }} />
       <CardContent>
         <Grid container spacing={6}>
-          <Grid item sm={4} xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id='building-select'>Select Building</InputLabel>
-              <Select
-                fullWidth
-                value={building}
-                id='select-building'
-                label='Select Building'
-                labelId='building-select'
-                onChange={handleBuildingChange}
-                inputProps={{ placeholder: 'Select Building' }}
-              >
-                <MenuItem value=''>Select Building</MenuItem>
-                {allBuildings.map((building, idx) => {
-                  return (
-                    <MenuItem value={building} key={idx}>
-                      {building}
-                    </MenuItem>
-                  )
-                })}
-              </Select>
-            </FormControl>
-          </Grid>
           <Grid item sm={4} xs={12}>
             <FormControl fullWidth>
               <InputLabel id='type-select'>Select Type</InputLabel>
@@ -58,8 +28,8 @@ const FilterHeader = ({
                 inputProps={{ placeholder: 'Select Type' }}
               >
                 <MenuItem value=''>Select Type</MenuItem>
-                <MenuItem value='public'>Public</MenuItem>
-                <MenuItem value='private'>Private</MenuItem>
+                <MenuItem value={ROOM_TYPE.PUBLIC}>Public</MenuItem>
+                <MenuItem value={ROOM_TYPE.PRIVATE}>Private</MenuItem>
               </Select>
             </FormControl>
           </Grid>
