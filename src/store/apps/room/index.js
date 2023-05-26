@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Api Imports
-import { addNewRoom, getListRoom, updateRoom } from 'src/api'
+import { addNewRoom, getListRoom, updateRoom } from 'src/api/room'
 
 // ** Fetch Rooms
 export const fetchRooms = createAsyncThunk('room/fetchRooms', async ({ token, params }) => {

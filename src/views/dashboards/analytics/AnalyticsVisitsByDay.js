@@ -1,3 +1,6 @@
+// ** React Imports:
+import React, { useState, useEffect } from 'react'
+
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -17,8 +20,39 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+import { DAY_OF_WEEK } from 'src/utils/constants'
 
-const AnalyticsVisitsByDay = () => {
+const AnalyticsVisitsByDay = ({ visitorsByDayReport }) => {
+  // ** State:
+  const [reportData, setReportData] = useState([0, 0, 0, 0, 0, 0, 0])
+  const [totalVisits, setTotalVisits] = useState(0)
+  const [mostVisitedDay, setMostVisitedDay] = useState('Monday')
+  const [mostVisitedDayCount, setMostVisitedDayCount] = useState(0)
+
+  useEffect(() => {
+    const processReportData = () => {
+      if (visitorsByDayReport) {
+        let report = []
+        let totalVisits = 0
+        let mostVisitedDay = 'Monday'
+        let mostVisitedDayCount = 0
+        for (const day in visitorsByDayReport) {
+          report.push(visitorsByDayReport[day])
+          totalVisits += visitorsByDayReport[day]
+          if (mostVisitedDayCount < visitorsByDayReport[day]) {
+            mostVisitedDay = DAY_OF_WEEK[day]
+            mostVisitedDayCount = visitorsByDayReport[day]
+          }
+        }
+        setTotalVisits(totalVisits)
+        setMostVisitedDay(mostVisitedDay)
+        setMostVisitedDayCount(mostVisitedDayCount)
+        setReportData(report)
+      }
+    }
+    processReportData()
+  }, [visitorsByDayReport])
+
   // ** Hook
   const theme = useTheme()
 
@@ -58,7 +92,7 @@ const AnalyticsVisitsByDay = () => {
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { show: false },
-      categories: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+      categories: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
     },
     yaxis: { show: false },
     grid: {
@@ -74,8 +108,8 @@ const AnalyticsVisitsByDay = () => {
   return (
     <Card>
       <CardHeader
-        title='Visits by Day'
-        subheader='Total 248.5k Visits'
+        title='Visits in this week'
+        subheader={`Total ${totalVisits} Visits`}
         subheaderTypographyProps={{ sx: { lineHeight: 1.429 } }}
         titleTypographyProps={{ sx: { letterSpacing: '0.15px' } }}
         action={
@@ -90,11 +124,11 @@ const AnalyticsVisitsByDay = () => {
           pt: [`${theme.spacing(6)} !important`, `${theme.spacing(6)} !important`, `${theme.spacing(0)} !important`]
         }}
       >
-        <ReactApexcharts type='bar' height={215} options={options} series={[{ data: [38, 55, 48, 65, 80, 38, 48] }]} />
+        <ReactApexcharts type='bar' height={215} options={options} series={[{ data: reportData }]} />
         <Box sx={{ mt: 5, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography sx={{ mb: 0.75, fontWeight: 600 }}>Most Visited Day</Typography>
-            <Typography variant='body2'>Total 62.4k Visits on Thursday</Typography>
+            <Typography variant='body2'>{`Total ${mostVisitedDayCount} Visits on ${mostVisitedDay}`}</Typography>
           </Box>
           <CustomAvatar skin='light' color='warning' variant='rounded'>
             <ChevronRight />

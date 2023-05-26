@@ -1,8 +1,8 @@
 // ** React Import
 import { useState, useEffect } from 'react'
+import { getRoomDetail } from 'src/api/room'
 
 // ** Demo Components Imports
-import { getRoomDetail } from 'src/api'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Demo Components Imports

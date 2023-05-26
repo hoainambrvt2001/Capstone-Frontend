@@ -59,11 +59,6 @@ const navigation = () => {
       icon: FileDocumentOutline,
       path: '/apps/request-access'
     }
-    // {
-    //   title: 'Roles',
-    //   icon: LockOutline,
-    //   path: '/apps/roles'
-    // }
   ]
 }
 

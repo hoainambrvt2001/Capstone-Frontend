@@ -27,6 +27,6 @@ module.exports = withTM({
     return config
   },
   images: {
-    domains: ['firebasestorage.googleapis.com']
+    domains: ['firebasestorage.googleapis.com', 'storage.googleapis.com']
   }
 })

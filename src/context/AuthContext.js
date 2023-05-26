@@ -5,7 +5,7 @@ import { createContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 // ** Axios
-import axios from 'axios'
+import { getMe, signIn, signUp } from 'src/api/auth'
 
 // ** Config
 import authConfig from 'src/configs/auth'
@@ -40,41 +40,35 @@ const AuthProvider = ({ children }) => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
       if (storedToken) {
         setLoading(true)
-        await axios
-          .get('https://dacn-backend.vercel.app/auth/me', {
-            headers: {
-              Authorization: `Bearer ${storedToken}`
-            }
-          })
-          .then(res => res.data)
-          .then(res => {
-            setLoading(false)
+        await getMe(
+          storedToken,
+          res => {
             setUser({ ...res.data.user, role: 'admin' })
             setAccessToken(storedToken)
-          })
-          .catch(() => {
+          },
+          err => {
+            console.log(err)
             localStorage.removeItem('userData')
             localStorage.removeItem('refreshToken')
             localStorage.removeItem('accessToken')
             setUser(null)
-            setLoading(false)
             setAccessToken(null)
-          })
-      } else {
-        setLoading(false)
+            router.push('/login')
+          }
+        )
       }
+      setLoading(false)
     }
     initAuth()
   }, [])
 
   const handleLogin = (params, errorCallback) => {
-    axios
-      .post('https://dacn-backend.vercel.app/auth/login', {
+    signIn(
+      {
         email: params.email,
         password: params.password
-      })
-      .then(res => res.data)
-      .then(res => {
+      },
+      res => {
         window.localStorage.setItem(authConfig.storageTokenKeyName, res.data.token)
         window.localStorage.setItem('userData', JSON.stringify({ ...res.data.user, role: 'admin' }))
         setUser({ ...res.data.user, role: 'admin' })
@@ -82,10 +76,9 @@ const AuthProvider = ({ children }) => {
         const returnUrl = router.query.returnUrl
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
         router.replace(redirectURL)
-      })
-      .catch(err => {
-        if (errorCallback) errorCallback(err)
-      })
+      },
+      errorCallback
+    )
   }
 
   const handleLogout = () => {
@@ -97,10 +90,9 @@ const AuthProvider = ({ children }) => {
   }
 
   const handleRegister = (params, errorCallback) => {
-    axios
-      .post('https://dacn-backend.vercel.app/auth/signup', params)
-      .then(res => res.data)
-      .then(res => {
+    signUp(
+      params,
+      res => {
         window.localStorage.setItem(authConfig.storageTokenKeyName, res.data.token)
         window.localStorage.setItem('userData', JSON.stringify({ ...res.data.user, role: 'admin' }))
         setUser({ ...res.data.user, role: 'admin' })
@@ -108,8 +100,9 @@ const AuthProvider = ({ children }) => {
         const returnUrl = router.query.returnUrl
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
         router.replace(redirectURL)
-      })
-      .catch(err => (errorCallback ? errorCallback(err) : null))
+      },
+      errorCallback
+    )
   }
 
   const values = {

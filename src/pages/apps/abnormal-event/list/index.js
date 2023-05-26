@@ -16,7 +16,7 @@ import TableHeader from 'src/views/apps/abnormal-event/list/TableHeaders'
 import TableBody from 'src/views/apps/abnormal-event/list/TableBody'
 import FilterHeader from 'src/views/apps/abnormal-event/list/FilterHeader'
 import { useAuth } from 'src/hooks/useAuth'
-import { getAllRooms } from 'src/api'
+import { getAllRooms } from 'src/api/room'
 
 const PageList = () => {
   // ** Auth

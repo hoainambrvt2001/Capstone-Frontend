@@ -19,8 +19,11 @@ import DeleteOutline from 'mdi-material-ui/DeleteOutline'
 // ** Store Imports
 import { useDispatch } from 'react-redux'
 
+// ** Auth Imports:
+import { useAuth } from 'src/hooks/useAuth'
+
 // ** Actions Imports
-import { deleteUser } from 'src/store/apps/user'
+import { removeUser } from 'src/store/apps/user'
 
 // ** Styled component for the link inside menu
 const MenuItemLink = styled('a')(({ theme }) => ({
@@ -33,6 +36,9 @@ const MenuItemLink = styled('a')(({ theme }) => ({
 }))
 
 const RowOptions = ({ id }) => {
+  // ** Auth:
+  const auth = useAuth()
+
   // ** Hooks
   const dispatch = useDispatch()
 
@@ -49,7 +55,7 @@ const RowOptions = ({ id }) => {
   }
 
   const handleDelete = () => {
-    dispatch(deleteUser(id))
+    dispatch(removeUser({ token: auth.accessToken, userId: id }))
     handleRowOptionsClose()
   }
 
@@ -91,7 +97,7 @@ const RowOptions = ({ id }) => {
         </MenuItem>
         <MenuItem onClick={handleDelete}>
           <DeleteOutline fontSize='small' sx={{ mr: 2 }} />
-          Delete
+          Suspend
         </MenuItem>
       </Menu>
     </>

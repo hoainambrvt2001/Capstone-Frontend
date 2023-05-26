@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react'
 
 // ** Demo Components Imports
 import UserViewPage from 'src/views/apps/user/view/UserViewPage'
-import { getAccessEventsByUID, getUserDetail } from 'src/api'
 import { useAuth } from 'src/hooks/useAuth'
+import { getUserDetail } from 'src/api/user'
+import { getAccessEventsByUID } from 'src/api/access-event'
 
 const UserView = ({ id }) => {
   const auth = useAuth()

@@ -9,7 +9,7 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 
 // ** Constant Imports
-import { REQUEST_ACCESS_STATUS } from 'src/constants'
+import { REQUEST_ACCESS_STATUS } from 'src/utils/constants'
 
 const FilterHeader = ({ handleStatusChange, status }) => {
   return (

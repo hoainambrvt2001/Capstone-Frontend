@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Axios Imports
-import { deleteRequestAccess, getListRequestAccess, updateRequestAccess } from 'src/api'
+import { deleteRequestAccess, getListRequestAccess, updateRequestAccess } from 'src/api/request-access'
 
 // ** Fetch Access Events
 export const fetchRequestAccess = createAsyncThunk('requestAccess/fetchRequestAccess', async ({ token, params }) => {

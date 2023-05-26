@@ -53,7 +53,7 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 const UserForm = ({ userData, isAdded }) => {
   // ** Yup Schema
   const USER_SCHEMA = Yup.object().shape({
-    username: Yup.string().required('It is a required field'),
+    username: Yup.string(),
     email: Yup.string().required('It is a required field'),
     role: Yup.string().required('It is a required field'),
     name: Yup.string().required('It is a required field'),
@@ -87,12 +87,12 @@ const UserForm = ({ userData, isAdded }) => {
   }
 
   const onChangePhoto = (file, setFieldValue) => {
-    // TODO: UPDATE IMAGE TO FIREBASE
     const reader = new FileReader()
     const { files } = file.target
     if (files && files.length !== 0) {
       reader.onload = () => setFieldValue('photo_url', reader.result)
       reader.readAsDataURL(files[0])
+      setFieldValue('avatar_image', files[0])
     }
   }
 
@@ -106,9 +106,22 @@ const UserForm = ({ userData, isAdded }) => {
           role: userData.role_id,
           name: userData.name,
           phone_number: userData.phone_number,
-          photo_url: userData.photo_url
+          photo_url: userData.photo_url,
+          avatar_image: null
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
+          if (isAdded) {
+            if (values.avatar_image) {
+              const bodyData = new FormData()
+              bodyData.append('email', values.email)
+              bodyData.append('role', values.role)
+              bodyData.append('name', values.name)
+              bodyData.append('phone_number', values.phone_number)
+              bodyData.append('avatar_image', values.avatar_image)
+            }
+          } else {
+          }
+
           console.log(values)
           setSubmitting(false)
         }}
@@ -133,7 +146,10 @@ const UserForm = ({ userData, isAdded }) => {
                     <ResetButtonStyled
                       color='error'
                       variant='outlined'
-                      onClick={() => setFieldValue('photo_url', userData.photo_url)}
+                      onClick={() => {
+                        setFieldValue('photo_url', userData.photo_url)
+                        setFieldValue('avatar_image', null)
+                      }}
                     >
                       Reset
                     </ResetButtonStyled>
@@ -217,7 +233,7 @@ const UserForm = ({ userData, isAdded }) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button type='submit' variant='contained' sx={{ mr: 4 }}>
+                <Button type='submit' variant='contained' sx={{ mr: 4 }} onSubmit={handleSubmit}>
                   {isAdded ? 'Add User' : 'Update User'}
                 </Button>
                 <Button type='reset' variant='outlined' color='secondary' onClick={resetForm}>

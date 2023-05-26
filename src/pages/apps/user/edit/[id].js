@@ -1,8 +1,8 @@
 // ** React Import
 import { useState, useEffect } from 'react'
+import { getUserDetail } from 'src/api/user'
 
 // **  Components Imports
-import { getUserDetail } from 'src/api'
 import { useAuth } from 'src/hooks/useAuth'
 
 // **  Components Imports

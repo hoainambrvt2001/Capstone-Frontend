@@ -22,7 +22,7 @@ import Close from 'mdi-material-ui/Close'
 import UseBgColor from 'src/@core/hooks/useBgColor'
 
 // ** Constants
-import { ABNORMAL_EVENT_TYPE } from 'src/constants'
+import { ABNORMAL_EVENT_TYPE } from 'src/utils/constants'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />

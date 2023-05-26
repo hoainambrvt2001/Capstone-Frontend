@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
-import { ROOM_TYPE } from 'src/constants'
+import { ROOM_TYPE } from 'src/utils/constants'
 
 const FilterHeader = ({ handleTypeChange, handleStatusChange, type, status }) => {
   return (

@@ -8,7 +8,7 @@ import { raiseAlertWithText } from 'src/store/apps/alert-with-text'
 
 // ** MQTT Imports
 import mqtt from 'mqtt'
-import { ABNORMAL_EVENT_TYPE } from 'src/constants'
+import { ABNORMAL_EVENT_TYPE } from 'src/utils/constants'
 
 // ** Third Party Components
 import DialogWithImage from 'src/views/dialogs/DialogWithImage'
@@ -30,10 +30,14 @@ const AlertHandler = () => {
     const mqttConnect = () => {
       const host = process.env.NEXT_PUBLIC_ADAFRUIT_HOST
       const mqttOptions = {
+        clean: true,
+        connectTimeout: 4000,
+
+        clientId: 'emqx_test',
         username: process.env.NEXT_PUBLIC_ADAFRUIT_USERNAME,
         password: process.env.NEXT_PUBLIC_ADAFRUIT_KEY
       }
-      setConnectStatus('Connecting')
+      setConnectStatus(`Connecting to: ${process.env.NEXT_PUBLIC_ADAFRUIT_HOST}`)
       setClient(mqtt.connect(host, mqttOptions))
     }
 
@@ -51,7 +55,7 @@ const AlertHandler = () => {
     if (client) {
       client.on('connect', () => {
         mqttSub(process.env.NEXT_PUBLIC_ADAFRUIT_TOPIC)
-        setConnectStatus('Connected')
+        setConnectStatus(`Connected to: ${process.env.NEXT_PUBLIC_ADAFRUIT_TOPIC} topic`)
       })
       client.on('error', err => {
         console.error('Connection error: ', err)
@@ -61,22 +65,32 @@ const AlertHandler = () => {
         setConnectStatus('Reconnecting')
       })
       client.on('message', (topic, message) => {
-        const payload = { topic, message: JSON.parse(message) }
-        if (payload.topic == subTopic) {
-          if (payload.message.abnormal_type_id === ABNORMAL_EVENT_TYPE.STRANGER) {
-            dispatch(raiseAlertWithImage({ data: payload.message }))
-          } else if (payload.message.abnormal_type_id === ABNORMAL_EVENT_TYPE.OVERCROWD) {
-            dispatch(raiseAlertWithText({ data: payload.message }))
-          } else if (payload.message.abnormal_type_id === ABNORMAL_EVENT_TYPE.FIRE) {
-            dispatch(raiseAlertWithText({ data: payload.message }))
-          } else if (payload.message.abnormal_type_id === ABNORMAL_EVENT_TYPE.OTHER) {
+        console.log(topic, process.env.NEXT_PUBLIC_ADAFRUIT_TOPIC)
+        if (topic === process.env.NEXT_PUBLIC_ADAFRUIT_TOPIC) {
+          const payload = { topic, message: JSON.parse(message) }
+          console.log(payload)
+          if (payload.message.data.abnormal_type_id === ABNORMAL_EVENT_TYPE.STRANGER) {
+            dispatch(raiseAlertWithImage({ data: payload.message.data }))
+            console.log('Run 1')
+          } else if (payload.message.data.abnormal_type_id === ABNORMAL_EVENT_TYPE.OVERCROWD) {
+            dispatch(raiseAlertWithText({ data: payload.message.data }))
+            console.log('Run 2')
+          } else if (payload.message.data.abnormal_type_id === ABNORMAL_EVENT_TYPE.FIRE) {
+            dispatch(raiseAlertWithText({ data: payload.message.data }))
+            console.log('Run 3')
+          } else if (payload.message.data.abnormal_type_id === ABNORMAL_EVENT_TYPE.OTHER) {
+            console.log('Run 4')
           }
+          setPayload(payload)
         }
-        setPayload(payload)
       })
     } else {
       mqttConnect()
     }
+
+    // return () => {
+    //   if (client) client.end()
+    // }
   }, [client])
 
   useEffect(() => {

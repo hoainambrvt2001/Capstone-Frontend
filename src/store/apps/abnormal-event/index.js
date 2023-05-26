@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { getListAbnormalEvent, updateAbnormalEvent } from 'src/api/abnormal-event'
 
 // ** Axios Imports
-import { getListAbnormalEvent, updateAbnormalEvent } from 'src/api'
 
 // ** Fetch Abnormal Events
 export const fetchAbnormalEvents = createAsyncThunk('abnormalEvent/fetchAbnormalEvents', async ({ token, params }) => {

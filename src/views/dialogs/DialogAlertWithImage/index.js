@@ -28,7 +28,7 @@ import Close from 'mdi-material-ui/Close'
 import UseBgColor from 'src/@core/hooks/useBgColor'
 
 // ** Constants
-import { ABNORMAL_EVENT_TYPE } from 'src/constants'
+import { ABNORMAL_EVENT_TYPE } from 'src/utils/constants'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />
@@ -53,13 +53,13 @@ const DialogAlertWithImage = () => {
 
   if (alertSlice.data.abnormal_type_id === ABNORMAL_EVENT_TYPE.STRANGER) {
     dialogTitle = 'Warning!'
-    dialogDesc = `A stranger has accessed the ${alertSlice.data.room.name} room`
+    dialogDesc = `A stranger has accessed the ${alertSlice.data.room_name} room`
     alertColor = 'warning'
     bgColor = bgClasses.warningLight.color
     alertIcon = <AlertOutline sx={{ fontSize: '4.5rem', mr: 5 }} />
   } else {
     dialogTitle = 'Ask for permission'
-    dialogDesc = `A stranger wants to access the ${alertSlice.data.room.name} room`
+    dialogDesc = `A stranger wants to access the ${alertSlice.data.room_name} room`
     alertColor = 'info'
     bgColor = bgClasses.infoLight.color
     alertIcon = <InformationOutline sx={{ fontSize: '4.5rem', mr: 5 }} />

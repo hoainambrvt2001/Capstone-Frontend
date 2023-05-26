@@ -26,7 +26,7 @@ import * as source from 'src/views/forms/form-elements/file-uploader/FileUploade
 import CustomizeDateTimePickers from './DateTimePickers'
 
 // ** Constant Imports
-import { ABNORMAL_EVENT_TYPE } from 'src/constants'
+import { ABNORMAL_EVENT_TYPE } from 'src/utils/constants'
 
 const renderFormTitile = isEdited => {
   if (isEdited) {

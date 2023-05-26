@@ -15,7 +15,7 @@ import InputLabel from '@mui/material/InputLabel'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import Button from '@mui/material/Button'
-import { ROOM_TYPE } from 'src/constants'
+import { ROOM_TYPE } from 'src/utils/constants'
 
 const renderFormTitile = (isAdded, isEdited) => {
   if (isAdded) {

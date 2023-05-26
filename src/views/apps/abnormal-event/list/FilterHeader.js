@@ -9,7 +9,7 @@ import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 
 // ** Constant Imports:
-import { ABNORMAL_EVENT_TYPE } from 'src/constants'
+import { ABNORMAL_EVENT_TYPE } from 'src/utils/constants'
 
 const FilterHeader = ({ handleTypeChange, handleRoomChange, type, room, allRooms }) => {
   return (

@@ -1,8 +1,9 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
+import { getAbnormalEventDetail } from 'src/api/abnormal-event'
+import { getAllRooms } from 'src/api/room'
 
 // ** Third Party Imports
-import { getAbnormalEventDetail, getAllRooms } from 'src/api'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Demo Components Imports

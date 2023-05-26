@@ -1,10 +1,11 @@
 // ** Demo Components Imports
+import { ROLE } from 'src/utils/constants'
 import UserView from 'src/views/apps/user/utils/UserView'
 
 const AddUser = () => {
   const userData = {
     email: '',
-    role_id: '638c5f71700c4c50a7ffc028',
+    role_id: ROLE.SUBSCRIBER_ID,
     name: '',
     phone_number: '',
     photo_url: ''
