@@ -1,4 +1,5 @@
 // ** React Imports
+import { Nuke } from 'mdi-material-ui'
 import { useState, useEffect } from 'react'
 import { getAbnormalEventDetail } from 'src/api/abnormal-event'
 import { getAllRooms } from 'src/api/room'
@@ -23,8 +24,9 @@ const EditEvent = ({ id }) => {
       setAllRooms(roomRes.data)
     }
     fetchData()
+
     return () => {}
-  }, [])
+  }, [auth.accessToken, id])
 
   if (!eventData || !allRooms) {
     return <div>Loading...</div>
@@ -35,6 +37,7 @@ const EditEvent = ({ id }) => {
 
 export async function getServerSideProps(context) {
   const { id } = context.query
+
   return { props: { id } }
 }
 

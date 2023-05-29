@@ -10,6 +10,7 @@ const AddUser = () => {
     phone_number: '',
     photo_url: ''
   }
+
   return <UserView id='' isAdded={true} userData={userData} />
 }
 

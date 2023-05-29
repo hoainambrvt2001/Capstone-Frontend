@@ -39,7 +39,9 @@ const PageList = () => {
       setAllRooms(rooms.data)
     }
     fetchAllRooms()
-  }, [])
+
+    return () => {}
+  }, [auth.accessToken])
 
   useEffect(() => {
     const params = {
@@ -54,7 +56,7 @@ const PageList = () => {
         params
       })
     )
-  }, [dispatch, pageNumber, pageSize, room, type])
+  }, [dispatch, pageNumber, pageSize, room, type, auth.accessToken])
 
   const handleTypeChange = useCallback(e => {
     setType(e.target.value)

@@ -3,6 +3,7 @@ import RoomView from 'src/views/apps/room/utils/RoomView'
 
 const AddRoom = () => {
   const id = ''
+
   const roomData = {
     code: '',
     status: '',
@@ -12,6 +13,7 @@ const AddRoom = () => {
     capacity: '',
     desc: ''
   }
+
   return <RoomView id={id} isAdded={true} isEdited={true} roomData={roomData} />
 }
 

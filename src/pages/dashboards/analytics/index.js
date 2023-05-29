@@ -80,9 +80,9 @@ const AnalyticsDashboard = () => {
         </Grid>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
-        {/* <RechartsWrapper>
+        <RechartsWrapper>
           <AnalyticsAbnormalEvents abnormalEventsReport={abnormalEventsReport} />
-        </RechartsWrapper> */}
+        </RechartsWrapper>
       </Grid>
       <Grid item xs={12} sm={12} md={12}>
         <AnalyticsAccessEvent accessRoomReport={accessRoomReport} />

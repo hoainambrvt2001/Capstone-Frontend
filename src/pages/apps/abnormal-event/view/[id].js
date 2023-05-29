@@ -23,8 +23,9 @@ const ViewEvent = ({ id }) => {
       setAllRooms(roomRes.data)
     }
     fetchData()
+
     return () => {}
-  }, [])
+  }, [auth.accessToken, id])
 
   if (!eventData || !allRooms) {
     return <div>Loading...</div>
@@ -35,6 +36,7 @@ const ViewEvent = ({ id }) => {
 
 export async function getServerSideProps(context) {
   const { id } = context.query
+
   return { props: { id } }
 }
 

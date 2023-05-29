@@ -45,7 +45,7 @@ const RoomListPage = () => {
         params
       })
     )
-  }, [dispatch, type, status, searchValue])
+  }, [dispatch, type, status, searchValue, auth.accessToken])
 
   const handleFilter = useCallback(val => {
     setSearchValue(val)

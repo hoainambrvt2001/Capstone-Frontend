@@ -19,8 +19,9 @@ const EditRoom = ({ id }) => {
       setRoomData(roomRes.data)
     }
     fetchData()
+
     return () => {}
-  }, [])
+  }, [auth.accessToken, id])
 
   if (!roomData) {
     return <div>Loading...</div>
@@ -31,6 +32,7 @@ const EditRoom = ({ id }) => {
 
 export async function getServerSideProps(context) {
   const { id } = context.query
+
   return { props: { id } }
 }
 

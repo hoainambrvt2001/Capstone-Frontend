@@ -43,7 +43,7 @@ const UserListPage = () => {
         params
       })
     )
-  }, [dispatch, role, value])
+  }, [dispatch, role, value, auth.accessToken])
 
   const handleFilter = useCallback(val => {
     setValue(val)

@@ -40,7 +40,7 @@ const RequestAccessListPage = () => {
       q: value
     }
     dispatch(fetchRequestAccess({ token: auth.accessToken, params }))
-  }, [dispatch, pageNumber, pageSize, status, value])
+  }, [dispatch, pageNumber, pageSize, status, value, auth.accessToken])
 
   const handleStatusChange = useCallback(e => {
     setStatus(e.target.value)
