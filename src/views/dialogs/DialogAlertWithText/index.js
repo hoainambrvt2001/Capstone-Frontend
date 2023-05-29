@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 
 // ** Redux Imports:
 import { useDispatch, useSelector } from 'react-redux'
-import { closeAlertWithoutImage } from 'src/store/apps/alert-with-text'
+import { closeAlertWithText } from 'src/store/apps/alert-with-text'
 
 // ** MUI Imports
 import Button from '@mui/material/Button'
@@ -35,7 +35,7 @@ const DialogAlertWithText = () => {
 
   // ** Handle function:
   const onCloseAlert = () => {
-    dispatch(closeAlertWithoutImage())
+    dispatch(closeAlertWithText())
   }
 
   // ** Hooks

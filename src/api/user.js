@@ -38,7 +38,7 @@ export const addNewUser = async (token, userInfo) => {
     .catch(e => console.error(e))
 }
 
-export const modifyUser = async (token, userId, updateInfo) => {
+export const updateUser = async (token, userId, updateInfo) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`
