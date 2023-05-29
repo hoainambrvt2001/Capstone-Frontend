@@ -121,8 +121,6 @@ const UserForm = ({ userData, isAdded }) => {
             }
           } else {
           }
-
-          console.log(values)
           setSubmitting(false)
         }}
       >

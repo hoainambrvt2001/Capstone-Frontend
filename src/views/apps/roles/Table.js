@@ -57,7 +57,6 @@ const UserList = () => {
   const handleSave = role => {
     setShowEdit(false)
     setEditData({ id: '', role: 'subscriber' })
-    console.log(`New role: ${role} of with user's id: ${editData.id}`)
   }
 
   return (

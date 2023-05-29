@@ -65,21 +65,15 @@ const AlertHandler = () => {
         setConnectStatus('Reconnecting')
       })
       client.on('message', (topic, message) => {
-        console.log(topic, process.env.NEXT_PUBLIC_ADAFRUIT_TOPIC)
         if (topic === process.env.NEXT_PUBLIC_ADAFRUIT_TOPIC) {
           const payload = { topic, message: JSON.parse(message) }
-          console.log(payload)
           if (payload.message.data.abnormal_type_id === ABNORMAL_EVENT_TYPE.STRANGER) {
             dispatch(raiseAlertWithImage({ data: payload.message.data }))
-            console.log('Run 1')
           } else if (payload.message.data.abnormal_type_id === ABNORMAL_EVENT_TYPE.OVERCROWD) {
             dispatch(raiseAlertWithText({ data: payload.message.data }))
-            console.log('Run 2')
           } else if (payload.message.data.abnormal_type_id === ABNORMAL_EVENT_TYPE.FIRE) {
             dispatch(raiseAlertWithText({ data: payload.message.data }))
-            console.log('Run 3')
           } else if (payload.message.data.abnormal_type_id === ABNORMAL_EVENT_TYPE.OTHER) {
-            console.log('Run 4')
           }
           setPayload(payload)
         }
@@ -88,9 +82,9 @@ const AlertHandler = () => {
       mqttConnect()
     }
 
-    // return () => {
-    //   if (client) client.end()
-    // }
+    return () => {
+      if (client) client.end()
+    }
   }, [client])
 
   useEffect(() => {

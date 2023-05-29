@@ -8,7 +8,6 @@ export const AlertWithImageSlice = createSlice({
   },
   reducers: {
     setAlertWithImage: (state, action) => {
-      console.log(action.payload)
       const { data = null } = action.payload
       state.data = data
       state.isShow = true

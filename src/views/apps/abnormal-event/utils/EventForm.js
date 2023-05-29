@@ -60,7 +60,6 @@ const EventForm = ({ id, isEdited, eventData, listRooms }) => {
         validationSchema={EVENT_SCHEMA}
         initialValues={initEventData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          console.log({ ...values, eventId: id })
           setSubmitting(false)
         }}
       >

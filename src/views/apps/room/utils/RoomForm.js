@@ -58,7 +58,6 @@ const RoomForm = ({ id, isAdded, isEdited, roomData }) => {
         validationSchema={ROOM_SCHEMA}
         initialValues={initRoomData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          console.log({ ...values, roomId: id })
           setSubmitting(false)
         }}
       >
