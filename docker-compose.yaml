@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  dacn-admin-website-v1:
+    build:
+      context: ./
+    image: dacn-admin-website-v1
+    ports:
+      - '3000:3000'

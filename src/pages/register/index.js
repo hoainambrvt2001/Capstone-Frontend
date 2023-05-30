@@ -49,6 +49,7 @@ const defaultValues = {
   email: '',
   username: '',
   password: '',
+  contact: '',
   terms: false
 }
 
@@ -113,6 +114,7 @@ const RegisterPage = () => {
     password: yup.string().min(5).required(),
     username: yup.string().min(3).required(),
     email: yup.string().email().required(),
+    contact: yup.string().min(8).required(),
     terms: yup.bool().oneOf([true], 'You must accept the privacy policy & terms')
   })
 
@@ -128,18 +130,12 @@ const RegisterPage = () => {
   })
 
   const onSubmit = data => {
-    const { email, username, password } = data
-    register({ email, username, password }, err => {
-      if (err.email) {
+    const { email, username: name, contact: phone_number, password } = data
+    register({ email, name, phone_number, password }, err => {
+      if (err) {
         setError('email', {
           type: 'manual',
-          message: err.email
-        })
-      }
-      if (err.username) {
-        setError('username', {
-          type: 'manual',
-          message: err.username
+          message: 'This email has been registered before!'
         })
       }
     })
@@ -243,7 +239,7 @@ const RegisterPage = () => {
                     onBlur={onBlur}
                     label='Username'
                     onChange={onChange}
-                    placeholder='johndoe'
+                    placeholder='Nam Vo'
                     error={Boolean(errors.username)}
                   />
                 )}
@@ -269,6 +265,24 @@ const RegisterPage = () => {
                 )}
               />
               {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+            </FormControl>
+            <FormControl fullWidth sx={{ mb: 4 }}>
+              <Controller
+                name='contact'
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { value, onChange, onBlur } }) => (
+                  <TextField
+                    value={value}
+                    label='Mobile'
+                    onBlur={onBlur}
+                    onChange={onChange}
+                    error={Boolean(errors.contact)}
+                    placeholder='84+ 38585790'
+                  />
+                )}
+              />
+              {errors.contact && <FormHelperText sx={{ color: 'error.main' }}>{errors.contact.message}</FormHelperText>}
             </FormControl>
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password' error={Boolean(errors.password)}>

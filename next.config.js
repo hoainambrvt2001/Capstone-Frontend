@@ -16,7 +16,8 @@ module.exports = withTM({
   reactStrictMode: false,
   experimental: {
     esmExternals: false,
-    jsconfigPaths: true // enables it for both jsconfig.json and tsconfig.json
+    jsconfigPaths: true, // enables it for both jsconfig.json and tsconfig.json
+    outputStandalone: true
   },
   webpack: config => {
     config.resolve.alias = {
@@ -25,5 +26,8 @@ module.exports = withTM({
     }
 
     return config
+  },
+  images: {
+    domains: ['firebasestorage.googleapis.com', 'storage.googleapis.com']
   }
 })

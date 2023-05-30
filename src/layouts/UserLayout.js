@@ -5,14 +5,9 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import Layout from 'src/@core/layouts/Layout'
 
 // ** Navigation Imports
-import VerticalNavItems from 'src/navigation/vertical'
-import HorizontalNavItems from 'src/navigation/horizontal'
+import VerticalNavItems from 'src/navigation'
 
 // ** Component Import
-// Uncomment the below line (according to the layout type) when using server-side menu
-// import ServerSideVerticalNavItems from './components/vertical/ServerSideNavItems'
-// import ServerSideHorizontalNavItems from './components/horizontal/ServerSideNavItems'
-
 import VerticalAppBarContent from './components/vertical/AppBarContent'
 import HorizontalAppBarContent from './components/horizontal/AppBarContent'
 
@@ -68,7 +63,6 @@ const UserLayout = ({ children }) => {
           })}
     >
       {children}
-      
     </Layout>
   )
 }

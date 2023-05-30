@@ -22,6 +22,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import MuiCard from '@mui/material/Card'
 import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
+import FormHelperText from '@mui/material/FormHelperText'
 
 // ** Icons Imports
 import EyeOutline from 'mdi-material-ui/EyeOutline'
@@ -98,7 +99,7 @@ const schema = yup.object().shape({
 
 const defaultValues = {
   password: 'admin',
-  email: 'admin@materialize.com'
+  email: 'admin@example.com'
 }
 
 const LoginPage = () => {
@@ -230,7 +231,7 @@ const LoginPage = () => {
                     onBlur={onBlur}
                     onChange={onChange}
                     error={Boolean(errors.email)}
-                    placeholder='admin@materialize.com'
+                    placeholder='admin@example.com'
                   />
                 )}
               />

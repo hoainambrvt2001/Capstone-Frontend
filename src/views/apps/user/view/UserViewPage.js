@@ -7,40 +7,32 @@ import Link from 'next/link'
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import Alert from '@mui/material/Alert'
-
-// ** Third Party Components
-import axios from 'axios'
+import Box from '@mui/material/Box'
 
 // ** Demo Components Imports
 import UserViewLeft from 'src/views/apps/user/view/UserViewLeft'
 import UserViewRight from 'src/views/apps/user/view/UserViewRight'
 
-const UserView = ({ id, invoiceData }) => {
+const UserView = ({ id, userData = null, accessData = null }) => {
   // ** State
   const [error, setError] = useState(false)
-  const [data, setData] = useState(null)
+
   useEffect(() => {
-    axios
-      .get('/apps/user', { params: { id } })
-      .then(response => {
-        setData(response.data)
-        setError(false)
-      })
-      .catch(() => {
-        setData(null)
-        setError(true)
-      })
-  }, [id])
-  if (data) {
+    if (!userData) setError(true)
+  }, [])
+
+  if (userData) {
     return (
-      <Grid container spacing={6}>
-        <Grid item xs={12} md={5} lg={4}>
-          <UserViewLeft data={data} />
+      <Box>
+        <Grid container spacing={6}>
+          <Grid item xs={12} md={5} lg={4}>
+            <UserViewLeft userData={userData} id={id} />
+          </Grid>
+          <Grid item xs={12} md={7} lg={8}>
+            <UserViewRight accessData={accessData} />
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={7} lg={8}>
-          <UserViewRight invoiceData={invoiceData} />
-        </Grid>
-      </Grid>
+      </Box>
     )
   } else if (error) {
     return (

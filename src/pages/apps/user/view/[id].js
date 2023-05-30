@@ -1,37 +1,41 @@
-// ** Third Party Imports
-import axios from 'axios'
+// ** React Import
+import { useState, useEffect } from 'react'
 
 // ** Demo Components Imports
 import UserViewPage from 'src/views/apps/user/view/UserViewPage'
+import { useAuth } from 'src/hooks/useAuth'
+import { getUserDetail } from 'src/api/user'
+import { getAccessEventsByUID } from 'src/api/access-event'
 
-const UserView = ({ id, invoiceData }) => {
-  return <UserViewPage id={id} invoiceData={invoiceData} />
-}
+const UserView = ({ id }) => {
+  const auth = useAuth()
 
-export const getStaticPaths = async () => {
-  const res = await axios.get('/apps/users/list')
-  const userDate = await res.data.allData
+  const [userData, setUserData] = useState(null)
+  const [accessData, setAccessData] = useState(null)
 
-  const paths = userDate.map(item => ({
-    params: { id: `${item.id}` }
-  }))
-
-  return {
-    paths,
-    fallback: false
-  }
-}
-
-export const getStaticProps = async ({ params }) => {
-  const res = await axios.get('/apps/invoice/invoices')
-  const invoiceData = res.data.allData
-
-  return {
-    props: {
-      invoiceData,
-      id: params?.id
+  useEffect(() => {
+    const fetchData = async () => {
+      const userRes = await getUserDetail(auth.accessToken, id)
+      setUserData(userRes.data)
+      const accessRes = await getAccessEventsByUID(auth.accessToken, id)
+      setAccessData(accessRes.data)
     }
+    fetchData()
+
+    return () => {}
+  }, [auth.accessToken, id])
+
+  if (!userData || !accessData) {
+    return <div>Loading...</div>
   }
+
+  return <UserViewPage id={id} userData={userData} accessData={accessData} />
+}
+
+export async function getServerSideProps(context) {
+  const { id } = context.query
+
+  return { props: { id } }
 }
 
 export default UserView

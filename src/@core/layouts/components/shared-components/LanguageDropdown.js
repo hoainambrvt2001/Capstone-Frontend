@@ -68,7 +68,7 @@ const LanguageDropdown = ({ settings, saveSettings }) => {
         >
           English
         </MenuItem>
-        <MenuItem
+        {/* <MenuItem
           sx={{ py: 2 }}
           selected={i18n.language === 'fr'}
           onClick={() => {
@@ -87,7 +87,7 @@ const LanguageDropdown = ({ settings, saveSettings }) => {
           }}
         >
           Arabic
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </Fragment>
   )

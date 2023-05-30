@@ -4,7 +4,7 @@ import Card from '@mui/material/Card'
 import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
-import { Circle } from 'mdi-material-ui'
+import Circle from 'mdi-material-ui/Circle'
 
 // ** Custom Components Imports
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
@@ -12,7 +12,7 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 
-const AnalyticsOverview = () => {
+const AnalyticsOverview = ({ roomReport }) => {
   // ** Hook
   const theme = useTheme()
 
@@ -53,10 +53,15 @@ const AnalyticsOverview = () => {
       <CardContent sx={{ '& .apexcharts-canvas .apexcharts-text': { fontWeight: 600, fontSize: '1.5rem' } }}>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
           <Typography variant='h6' sx={{ mr: 1.5 }}>
-            Room Available
+            Room available status
           </Typography>
         </Box>
-        <ReactApexcharts type='radialBar' height={300} series={[70]} options={options} />
+        <ReactApexcharts
+          type='radialBar'
+          height={300}
+          series={[((roomReport.current_occupancy / roomReport.max_occupancy) * 100).toFixed(0)]}
+          options={options}
+        />
         <Box sx={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', justifyContent: 'center' }}>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
@@ -67,7 +72,7 @@ const AnalyticsOverview = () => {
             </Box>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
               <Typography variant='subtitle1' sx={{ color: 'text.primary' }}>
-                80 people
+                {`${roomReport.current_occupancy} people`}
               </Typography>
             </Box>
           </Box>
@@ -80,7 +85,11 @@ const AnalyticsOverview = () => {
             </Box>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
               <Typography variant='subtitle1' sx={{ color: 'text.primary' }}>
-                40 people
+                {`${
+                  roomReport.max_occupancy - roomReport.current_occupancy > 0
+                    ? roomReport.max_occupancy - roomReport.current_occupancy
+                    : 0
+                } people`}
               </Typography>
             </Box>
           </Box>

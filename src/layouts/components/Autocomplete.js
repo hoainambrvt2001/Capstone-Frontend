@@ -17,7 +17,7 @@ import IconButton from '@mui/material/IconButton'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
 import ListItemButton from '@mui/material/ListItemButton'
-import InputAdornment from  '@mui/material/InputAdornment'
+import InputAdornment from '@mui/material/InputAdornment'
 import MuiAutocomplete from '@mui/material/Autocomplete'
 
 // ** Icons Imports
@@ -42,9 +42,6 @@ import ChartTimelineVariant from 'mdi-material-ui/ChartTimelineVariant'
 import SubdirectoryArrowLeft from 'mdi-material-ui/SubdirectoryArrowLeft'
 import FormatTextVariantOutline from 'mdi-material-ui/FormatTextVariantOutline'
 import CardBulletedSettingsOutline from 'mdi-material-ui/CardBulletedSettingsOutline'
-
-// ** Third Party Imports
-import axios from 'axios'
 
 // ** Configs Imports
 import themeConfig from 'src/configs/themeConfig'
@@ -369,26 +366,6 @@ const AutocompleteComponent = ({ hidden, settings }) => {
   const { layout } = settings
   const wrapper = useRef(null)
   const fullScreenDialog = useMediaQuery(theme.breakpoints.down('sm'))
-
-  // Get all data using API
-  useEffect(() => {
-    axios
-      .get('/app-bar/search', {
-        params: { q: searchValue }
-      })
-      .then(response => {
-        if (response.data && response.data.length) {
-          setOptions(response.data)
-        } else {
-          setOptions([])
-        }
-      })
-  }, [searchValue])
-  useEffect(() => {
-    setIsMounted(true)
-
-    return () => setIsMounted(false)
-  }, [])
 
   // Handle click event on a list item in search result
   const handleOptionClick = obj => {

@@ -17,26 +17,17 @@ const FooterContent = () => {
         </Box>
         {` by `}
         <Link target='_blank' href='https://pixinvent.com/'>
-          Pixinvent
+          BKACCESS
         </Link>
       </Typography>
       {hidden ? null : (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', '& :not(:last-child)': { mr: 4 } }}>
-          <Link target='_blank' href='https://themeforest.net/licenses/standard'>
-            License
-          </Link>
-          <Link target='_blank' href='https://1.envato.market/pixinvent_portfolio'>
+          <Link href='#'>License</Link>
+          {/* <Link target='_blank' href='https://1.envato.market/pixinvent_portfolio'>
             More Themes
-          </Link>
-          <Link
-            target='_blank'
-            href='https://pixinvent.com/demo/materialize-mui-react-nextjs-admin-template/documentation'
-          >
-            Documentation
-          </Link>
-          <Link target='_blank' href='https://pixinvent.ticksy.com/'>
-            Support
-          </Link>
+          </Link> */}
+          <Link href='#'>Documentation</Link>
+          <Link href='#'>Support</Link>
         </Box>
       )}
     </Box>

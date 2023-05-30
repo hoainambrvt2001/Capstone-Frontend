@@ -1,6 +1,12 @@
+// ** React Imports:
+import { useEffect, useState } from 'react'
+
 // ** Next Imports
 import Head from 'next/head'
 import { Router } from 'next/router'
+
+// ** MQTT Imports
+import mqtt from 'mqtt'
 
 // ** Store Imports
 import { store } from 'src/store'
@@ -17,9 +23,6 @@ import 'src/configs/i18n'
 import { defaultACLObj } from 'src/configs/acl'
 import themeConfig from 'src/configs/themeConfig'
 
-// ** Fake-DB Import
-import 'src/@fake-db'
-
 // ** Third Party Import
 import { Toaster } from 'react-hot-toast'
 
@@ -30,6 +33,7 @@ import ThemeComponent from 'src/@core/theme/ThemeComponent'
 import AuthGuard from 'src/@core/components/auth/AuthGuard'
 import GuestGuard from 'src/@core/components/auth/GuestGuard'
 import WindowWrapper from 'src/@core/components/window-wrapper'
+import AlertHandler from 'src/views/alert-handle'
 
 // ** Spinner Import
 import Spinner from 'src/@core/components/spinner'
@@ -82,6 +86,7 @@ const Guard = ({ children, authGuard, guestGuard }) => {
 }
 
 // ** Configure JSS & ClassName
+
 const App = props => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
@@ -127,6 +132,8 @@ const App = props => {
             </SettingsConsumer>
           </SettingsProvider>
         </AuthProvider>
+
+        <AlertHandler />
       </CacheProvider>
     </Provider>
   )

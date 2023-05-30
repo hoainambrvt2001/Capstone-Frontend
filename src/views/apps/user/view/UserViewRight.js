@@ -10,18 +10,10 @@ import { styled } from '@mui/material/styles'
 import MuiTab from '@mui/material/Tab'
 
 // ** Icons Imports
-import LockOutline from 'mdi-material-ui/LockOutline'
-import BellOutline from 'mdi-material-ui/BellOutline'
-import LinkVariant from 'mdi-material-ui/LinkVariant'
 import AccountOutline from 'mdi-material-ui/AccountOutline'
-import BookmarkOutline from 'mdi-material-ui/BookmarkOutline'
 
 // ** Demo Components Imports
-import UserViewBilling from 'src/views/apps/user/view/UserViewBilling'
-import UserViewOverview from 'src/views/apps/user/view/UserViewOverview'
-import UserViewSecurity from 'src/views/apps/user/view/UserViewSecurity'
-import UserViewConnection from 'src/views/apps/user/view/UserViewConnection'
-import UserViewNotification from 'src/views/apps/user/view/UserViewNotification'
+import UsersRoomAccessTable from './UsersRoomAccessTable'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -33,7 +25,7 @@ const Tab = styled(MuiTab)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ invoiceData }) => {
+const UserViewRight = ({ accessData }) => {
   // ** State
   const [value, setValue] = useState('overview')
 
@@ -51,26 +43,10 @@ const UserViewRight = ({ invoiceData }) => {
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         <Tab value='overview' label='Overview' icon={<AccountOutline sx={{ fontSize: '18px' }} />} />
-        <Tab value='security' label='Security' icon={<LockOutline sx={{ fontSize: '18px' }} />} />
-        <Tab value='billing-plan' label='Billing & Plan' icon={<BookmarkOutline sx={{ fontSize: '18px' }} />} />
-        <Tab value='notification' label='Notification' icon={<BellOutline sx={{ fontSize: '18px' }} />} />
-        <Tab value='connection' label='Connection' icon={<LinkVariant sx={{ fontSize: '18px' }} />} />
       </TabList>
       <Box sx={{ mt: 3 }}>
         <TabPanel sx={{ p: 0 }} value='overview'>
-          <UserViewOverview invoiceData={invoiceData} />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='security'>
-          <UserViewSecurity />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='billing-plan'>
-          <UserViewBilling />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='notification'>
-          <UserViewNotification />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='connection'>
-          <UserViewConnection />
+          <UsersRoomAccessTable accessData={accessData} />
         </TabPanel>
       </Box>
     </TabContext>

@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, Fragment } from 'react'
+import { useState, useContext, Fragment } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -36,6 +36,9 @@ const BadgeContentSpan = styled('span')(({ theme }) => ({
 }))
 
 const UserDropdown = props => {
+  // ** Context:
+  const globalUser = useAuth().user
+
   // ** Props
   const { settings } = props
 
@@ -116,10 +119,14 @@ const UserDropdown = props => {
                 horizontal: 'right'
               }}
             >
-              <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar
+                alt={globalUser.name}
+                src={globalUser.photo_url ? globalUser.photo_url : '/images/avatars/1.png'}
+                sx={{ width: '2.5rem', height: '2.5rem' }}
+              />
             </Badge>
             <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>John Doe</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{globalUser.name}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
                 Admin
               </Typography>
@@ -133,7 +140,7 @@ const UserDropdown = props => {
             Profile
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/apps/email')}>
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/apps/email')}>
           <Box sx={styles}>
             <EmailOutline sx={{ mr: 2 }} />
             Inbox
@@ -144,7 +151,7 @@ const UserDropdown = props => {
             <MessageOutline sx={{ mr: 2 }} />
             Chat
           </Box>
-        </MenuItem>
+        </MenuItem> */}
         <Divider />
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/account-settings')}>
           <Box sx={styles}>
@@ -152,12 +159,12 @@ const UserDropdown = props => {
             Settings
           </Box>
         </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/pricing')}>
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/pricing')}>
           <Box sx={styles}>
             <CurrencyUsd sx={{ mr: 2 }} />
             Pricing
           </Box>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/pages/faq')}>
           <Box sx={styles}>
             <HelpCircleOutline sx={{ mr: 2 }} />
