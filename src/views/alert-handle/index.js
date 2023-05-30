@@ -31,8 +31,6 @@ const AlertHandler = () => {
       const mqttOptions = {
         clean: true,
         connectTimeout: 4000,
-
-        clientId: 'emqx_test',
         username: process.env.NEXT_PUBLIC_ADAFRUIT_USERNAME,
         password: process.env.NEXT_PUBLIC_ADAFRUIT_KEY
       }
